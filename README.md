@@ -16,10 +16,11 @@ Diese App richtet sich an alle Käseliebhaber in der Schweiz um Affoltern am Alb
 </p>
 
 
-## Features
+## Features ✅
 
-- [ ] Suche nach Kategorien, zb Käse aus Ziegen- oder Kuhmilch
-- [ ] Integration von Google Maps zur Wegfindung
+- [ ] Informationsfindung über das Käsesortiment.
+- [ ] Suche per Kategorien(zb Käse aus Ziegen- oder Kuhmilch) oder Name.
+- [ ] Integration von Google Maps zur Wegfindung.
 - [ ] Veranstaltungen und deren Eintragung in lokale Kalenderapps
 - [ ] Favorisierung von Käsesorten
 - [ ] Pushbenachrichtigung bei neuen Events oder einem aktuallisiertem Angebot
