@@ -12,7 +12,20 @@
           "package_name": "com.cheas_stoeckli.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "2825973092-7bvanthb4tatf3odksbnhn1ek6a80umh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cheas_stoeckli.app",
+            "certificate_hash": "288b22d78011125d16d028f7c91b3e6ebcb2ed87"
+          }
+        },
+        {
+          "client_id": "2825973092-cb1tkmov5onffa7jdl1iifgof1n1knpq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD94NJ91h1Pyet-XZb4ieoxCBxr4y5ZyX4"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2825973092-cb1tkmov5onffa7jdl1iifgof1n1knpq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
