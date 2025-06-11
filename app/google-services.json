@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "2825973092",
+    "project_id": "chaesstoeckli-b07e7",
+    "storage_bucket": "chaesstoeckli-b07e7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2825973092:android:3e66cf886058619c589e71",
+        "android_client_info": {
+          "package_name": "com.cheas_stoeckli.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD94NJ91h1Pyet-XZb4ieoxCBxr4y5ZyX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
