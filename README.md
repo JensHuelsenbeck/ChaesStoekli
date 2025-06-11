@@ -1,4 +1,5 @@
-# Chäs Stöckli
+# Chäs Stöckli 🧀
+
 
 Chäs Stöckli bietet eine Plattform in der sich Kunden über das vorhandene Käseangebot informieren können **bevor**
 Sie den Laden betreten. 
@@ -7,7 +8,6 @@ Diese App richtet sich an alle Käseliebhaber in der Schweiz um Affoltern am Alb
 
 
 ## Design 🎨
-Füge hier am Ende die Screenshots deiner App ein.
 
 <p>
   <img src="./img/screen1.png" width="200">
@@ -37,8 +37,8 @@ Füge hier am Ende die Screenshots deiner App ein.
 
 #### Datenspeicherung
 
-- 🔄 **Firebase Firestore** für alle persistente Event- und Nutzerdaten (offline-fähig, automatische Synchronisation)
-- 🔐 **Firebase Authentication** für Veranstalter-Login und geschützte Bereiche
+- 🔄 **Firebase Firestore** für alle persistenten Event- ,Nutzer- und Käsedaten (offline-fähig, automatische Synchronisation)
+- 🔐 **Firebase Authentication** für individuelle Nutzer- und Adminaccounts 
 - 🖼️ **Firebase Cloud Storage** für Bilder und Medieninhalte von Events
 
 
