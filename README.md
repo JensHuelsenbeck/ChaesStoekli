@@ -44,7 +44,7 @@ Füge hier am Ende die Screenshots deiner App ein.
 
 #### API Calls
 
-- 📍 **Google Maps API** für die Routenberechnung zum Laden
+- 📍 **Google Maps  / Google Directions API** für die Routenberechnung zum Laden
 
 
 #### 3rd-Party Frameworks
