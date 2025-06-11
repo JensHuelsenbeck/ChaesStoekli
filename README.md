@@ -1,14 +1,12 @@
-# Name der App
+# Chäs Stöckli
 
-**Füge hier einen kurzen, knackigen Slogan ein, um deine App zu bewerben.**
-
-Beschreibe hier in ein paar Sätzen, was deine App bietet.
-
-Für wen ist sie geeignet? Welches Problem löst sie? Was macht deine App anders/besser als andere Apps?
-Vermeide es, hier allzusehr in technische Details zu gehen.
+Chäs Stöckli bietet eine Plattform in der sich Kunden über das vorhandene Käseangebot informieren können **bevor**
+Sie den Laden betreten. 
+ 
+Diese App richtet sich an alle Käseliebhaber in der Schweiz um Affoltern am Albis und darüber hinaus!
 
 
-## Design
+## Design 🎨
 Füge hier am Ende die Screenshots deiner App ein.
 
 <p>
@@ -19,33 +17,40 @@ Füge hier am Ende die Screenshots deiner App ein.
 
 
 ## Features
-Hier kommen alle Features rein, welche deine App bietet.
 
-**Tipp: Du kannst diese Punkte mit der Zeit abhaken, sodass am Ende eine vollständige Liste entsteht.**
+- [ ] Suche nach Kategorien, zb Käse aus Ziegen- oder Kuhmilch
+- [ ] Integration von Google Maps zur Wegfindung
+- [ ] Veranstaltungen und deren Eintragung in lokale Kalenderapps
+- [ ] Favorisierung von Käsesorten
+- [ ] Pushbenachrichtigung bei neuen Events oder einem aktuallisiertem Angebot
 
-- [x] Feature 1
-- [x] Feature 2
-- [ ] ...
+## Technischer Aufbau 🔧
 
+- **MVVM-Architektur**
+  - `ui/` enthält Composables und Screens
+  - `viewmodel/` für ViewModel-Klassen
+  - `data/` mit Repositories, RemoteDataSource (API) und LocalDataSource (Firebase)
+  - `di/` für die  **Dependency Injection** mit Koin 
 
-## Technischer Aufbau
 
 #### Projektaufbau
-Eine kurze Beschreibung deiner Ordnerstruktur und Architektur (MVVM, Repositories) um Außenstehenden zu helfen, sich in deinem Projekt zurecht zu finden.
 
 #### Datenspeicherung
-Welche Daten speicherst du? Wo und wie (Firebase, Core Data)? Erkläre hier auch, warum du den jeweiligen Dienst nutzt (offline-first, Sync usw.).
+
+- 🔄 **Firebase Firestore** für alle persistente Event- und Nutzerdaten (offline-fähig, automatische Synchronisation)
+- 🔐 **Firebase Authentication** für Veranstalter-Login und geschützte Bereiche
+- 🖼️ **Firebase Cloud Storage** für Bilder und Medieninhalte von Events
+
 
 #### API Calls
-Welche APIs verwendest du?
+
+- 📍 **Google Maps API** für die Routenberechnung zum Laden
+
 
 #### 3rd-Party Frameworks
-Verwendest du Frameworks/Libraries, die nicht von dir stammen?
 
+- 💎 **Jetpack Compose** für UI
+- ✳️ **Koin** für Dependency Injection
+- 🌐 **Retrofit & OkHttp** für Netzwerk-Anfragen
+- 🖼️ **Coil** zum asynchronen Laden von Bildern
 
-## Ausblick
-Beschreibe hier, wo die Reise nach deinem Praxisprojekt hin geht. Was möchtest du in Zukunft noch ergänzen?
-
-- [ ] Geplantes Feature 1
-- [ ] Geplantes Feature 2
-- [ ] ...
