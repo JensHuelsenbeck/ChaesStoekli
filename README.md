@@ -1,4 +1,4 @@
-# Chäs Stöckli 🧀
+# Chäs Stöckli - Wenn Käse der Himmel wäre 🧀
 
 
 Chäs Stöckli bietet eine Plattform in der sich Kunden über das vorhandene Käseangebot informieren können **bevor**
