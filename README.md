@@ -1,4 +1,4 @@
-# Chäs Stöckli 🧀
+# Chäs Stöckli - Wenn Käse der Himmel wäre 🧀
 
 
 Chäs Stöckli bietet eine Plattform in der sich Kunden über das vorhandene Käseangebot informieren können **bevor**
@@ -19,7 +19,7 @@ Diese App richtet sich an alle Käseliebhaber in der Schweiz um Affoltern am Alb
 
 ## Features ✅
 
-- [ ] Informationsfindung über das Käsesortiment.
+- [ ] Informationsfindung über das Käse- und sonstige Sortiment.
 - [ ] Suche per Kategorien(zb Käse aus Ziegen- oder Kuhmilch) oder Name.
 - [ ] Integration von Google Maps zur Wegfindung.
 - [ ] Veranstaltungen und deren Eintragung in lokale Kalenderapps
