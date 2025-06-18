@@ -19,12 +19,15 @@ import com.example.cheas_stoeckli.ui.components.News.NewsList
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
 
+
 @Composable
 fun NewsScreen(
     viewModel: NewsViewModel = viewModel()
 ) {
 
     val news = viewModel.news.collectAsState()
+
+
     Box(
         modifier = Modifier
             .background(screenBackgroundPrimary)

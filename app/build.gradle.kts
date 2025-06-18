@@ -96,7 +96,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
-    // UI Controller um Statusbar mit zu färben
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
+
+
 
 }
