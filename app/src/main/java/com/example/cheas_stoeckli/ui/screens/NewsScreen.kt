@@ -24,21 +24,16 @@ import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
 fun NewsScreen(
     viewModel: NewsViewModel = viewModel()
 ) {
-
     val news = viewModel.news.collectAsState()
-
 
     Box(
         modifier = Modifier
             .background(screenBackgroundPrimary)
-
     ) {
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

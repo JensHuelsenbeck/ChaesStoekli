@@ -42,8 +42,8 @@ fun NewsCard(
     news: News,
 ) {
     Card(
-
-        Modifier
+        colors = CardDefaults.cardColors(cardBackgroundPrimary),
+        modifier = Modifier
             .fillMaxWidth(0.9f)
             .height(200.dp)
             .combinedClickable(
@@ -109,6 +109,7 @@ fun NewsCard(
                         text = news.text,
                         fontSize = 13.sp,
                         lineHeight = 18.sp,
+                        color = Color.Black,
                         maxLines = 5,
                         overflow = TextOverflow.Ellipsis
 
