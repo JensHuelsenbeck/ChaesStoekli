@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cheas_Stoeckli"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:name="com.example.cheas_stoeckli.di.App">
         <activity
             android:name="com.example.cheas_stoeckli.MainActivity"
             android:exported="true"

@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.example.cheas_stoeckli.data.Fake.newsList
-import com.example.cheas_stoeckli.ui.components.News.NewsList
+import com.example.cheas_stoeckli.ui.screens.NewsScreen
 import com.example.cheas_stoeckli.ui.theme.Cheas_StoeckliTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +20,7 @@ class MainActivity : ComponentActivity() {
             Cheas_StoeckliTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding),) {
-                        NewsList(news = newsList)
+                        NewsScreen()
                     }
                 }
             }
