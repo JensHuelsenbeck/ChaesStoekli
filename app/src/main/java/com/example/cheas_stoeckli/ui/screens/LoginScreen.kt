@@ -1,5 +1,7 @@
 package com.example.cheas_stoeckli.ui.screens
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,12 +18,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,14 +33,37 @@ import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.ui.components.LoginButtons.GuestLoginButton
 import com.example.cheas_stoeckli.ui.components.LoginButtons.LoginButton
+import com.example.cheas_stoeckli.ui.viewModel.AuthenticationViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
+    modifier: Modifier = Modifier,
+    viewModel: AuthenticationViewModel = koinViewModel(),
 
 ) {
 
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val logoSize = screenHeight * 0.15f
+    val context = LocalContext.current
+
+    val googleSignInIntent = remember {
+        viewModel.getGoogleSignInIntent(context)
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            account.idToken?.let {
+                viewModel.onGoogleSignInTokenReceive(it)
+            }
+        } catch (e: Exception) {
+            println("AuthScreen: sign-in failed: $e")
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -112,14 +138,16 @@ fun LoginScreen(
                         .align(Alignment.BottomCenter)
                 ) {
                     LoginButton(
-                        onClick = {},
+                        onClick = {
+                            launcher.launch(googleSignInIntent)
+                        },
                     )
                 }
             }
             Spacer(Modifier.height(8.dp))
 
                 GuestLoginButton(
-                    onClick = {}
+                    onClick = viewModel::signInAnonymously
                 )
 
         }

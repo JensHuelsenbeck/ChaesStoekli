@@ -13,16 +13,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cheas_stoeckli.ui.components.Header
 import com.example.cheas_stoeckli.ui.components.News.NewsList
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun NewsScreen(
-    viewModel: NewsViewModel = viewModel()
+    viewModel: NewsViewModel = koinViewModel()
 ) {
     val news = viewModel.news.collectAsState()
 
@@ -45,7 +45,8 @@ fun NewsScreen(
                 Header(text = "Grüezi Wohl")
                 Spacer(Modifier.weight(1f))
                 Button(
-                    onClick = { /*TODO*/ }) {
+                    onClick = viewModel::onSignOutClick
+                ) {
                 }
             }
             NewsList(news = news.value)

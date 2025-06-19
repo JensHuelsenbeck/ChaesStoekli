@@ -14,6 +14,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -25,69 +26,76 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.cheas_stoeckli.data.services.AuthenticationService
 import com.example.cheas_stoeckli.ui.enums.TabItem
+import com.example.cheas_stoeckli.ui.screens.LoginScreen
 import com.example.cheas_stoeckli.ui.screens.NewsScreen
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 
 @Composable
-fun AppStart() {
+fun AppStart(
+    modifier: Modifier = Modifier,
+    authenticationService: AuthenticationService = AuthenticationService()
+) {
+
     val navController = rememberNavController()
     var selectedTab by rememberSaveable { mutableStateOf(TabItem.NEWS) }
 
+    val isSignedIn by authenticationService.isSignedIn.collectAsState(false)
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(screenBackgroundPrimary)
-            .navigationBarsPadding()
-            .systemBarsPadding()
-                ,
-        bottomBar = {
-            NavigationBar(
-                containerColor = screenBackgroundPrimary,
-                modifier = Modifier
-                    .fillMaxWidth()
+    if (!isSignedIn) {
+        LoginScreen()
+    } else {
+        Scaffold(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(screenBackgroundPrimary)
+                .navigationBarsPadding()
+                .systemBarsPadding(),
+            bottomBar = {
+                NavigationBar(
+                    containerColor = screenBackgroundPrimary,
+                    modifier = Modifier
+                        .fillMaxWidth()
 
-            ) {
-                TabItem.entries.forEach { tabItem ->
-                    NavigationBarItem(
-                        selected = selectedTab == tabItem,
-                        onClick = { selectedTab = tabItem },
-                        icon = {
-                            Image(
-                                painter = painterResource(tabItem.tabIcon),
-                                contentDescription = "TabItem",
-                                colorFilter = if (selectedTab == tabItem)
-                                    ColorFilter.tint(Color.Black)
-                                else
-                                    ColorFilter.tint(Color(0xFFC49F72)
-                                    ),
-
-                            )
-                        },
-                        label = {
-                            Text(tabItem.title)
-                        }
-                    )
-
-
+                ) {
+                    TabItem.entries.forEach { tabItem ->
+                        NavigationBarItem(
+                            selected = selectedTab == tabItem,
+                            onClick = { selectedTab = tabItem },
+                            icon = {
+                                Image(
+                                    painter = painterResource(tabItem.tabIcon),
+                                    contentDescription = "TabItem",
+                                    colorFilter = if (selectedTab == tabItem)
+                                        ColorFilter.tint(Color.Black)
+                                    else
+                                        ColorFilter.tint(
+                                            Color(0xFFC49F72)
+                                        ),
+                                )
+                            },
+                            label = {
+                                Text(tabItem.title)
+                            }
+                        )
+                    }
                 }
             }
-        }
-    )
+        )
 
-    { innerPadding ->
-        Column(modifier = Modifier
-            .padding(innerPadding)
-          //  .navigationBarsPadding()
-          //  .statusBarsPadding()
-        ) {
-            NavHost(
-                navController = navController,
-                startDestination = TabItem.NEWS.route,
+        { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
             ) {
-                composable<NewsRoute> {
-                    NewsScreen()
+                NavHost(
+                    navController = navController,
+                    startDestination = TabItem.NEWS.route,
+                ) {
+                    composable<NewsRoute> {
+                        NewsScreen()
+                    }
                 }
             }
         }

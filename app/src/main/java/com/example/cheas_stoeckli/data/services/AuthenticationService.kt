@@ -1,12 +1,14 @@
-package de.syntax_institut.sharify.data.services
+package com.example.cheas_stoeckli.data.services
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.tasks.await
 
 class AuthenticationService {
 
@@ -22,12 +24,18 @@ class AuthenticationService {
 
     val isSignedIn: Flow<Boolean> = userId.map { it != null }.distinctUntilChanged()
 
-    fun signInWithGoogle(token: String) {
+    suspend fun signInWithGoogle(token: String): FirebaseUser? {
         val credential = GoogleAuthProvider.getCredential(token, null)
-        auth.signInWithCredential(credential)
+        val authResult = auth.signInWithCredential(credential).await()
+        return authResult.user
     }
 
     fun signOut() {
         auth.signOut()
     }
+
+    fun createAnonymousAccount() {
+        auth.signInAnonymously()
+    }
+
 }
