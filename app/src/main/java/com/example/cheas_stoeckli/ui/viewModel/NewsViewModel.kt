@@ -18,14 +18,18 @@ class NewsViewModel(
     private val _news = MutableStateFlow(newsList)
     val news = _news.asStateFlow()
 
-    val currentUser = observeCurrentUserUseCase().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = null
-    )
 
     fun onSignOutClick() {
         signOutUseCase()
     }
 
 }
+
+/*
+val currentUser = observeCurrentUserUseCase().stateIn(
+    scope = viewModelScope,
+    started = SharingStarted.WhileSubscribed(5000),
+    initialValue = null
+)
+
+ */

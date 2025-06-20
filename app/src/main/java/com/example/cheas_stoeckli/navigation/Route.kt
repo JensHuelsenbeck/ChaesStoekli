@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli
+package com.example.cheas_stoeckli.navigation
 
 import kotlinx.serialization.Serializable
 
