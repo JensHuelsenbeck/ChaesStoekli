@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,25 +22,29 @@ import com.example.cheas_stoeckli.ui.enums.NewsKind
 fun EnumItem(
     enum: NewsKind,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier) {
+    isSelected: Boolean,
+    modifier: Modifier = Modifier
+) {
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .height(40.dp)
 
-            .padding(horizontal = 4.dp )
-            .background(Color.Transparent, RoundedCornerShape(12.dp))
-            .border(2.dp, Color.Black, shape = RoundedCornerShape(12.dp))
-            .clickable(
-                onClick = { onClick }
+            .padding(horizontal = 4.dp)
+            .background(
+                if (isSelected) Color.Gray else Color.Transparent,
+                RoundedCornerShape(12.dp)
             )
+            .border(1.dp, Color.Black, shape = RoundedCornerShape(12.dp))
+            .clickable( onClick = { onClick() })
     ) {
         Text(
             text = enum.rawValue,
             textAlign = TextAlign.Center,
             color = Color.Black,
             fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(horizontal = 6.dp)
         )
