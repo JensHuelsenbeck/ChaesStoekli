@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.cheas_stoeckli.ui.enums.NewsEnum
+import com.example.cheas_stoeckli.ui.enums.NewsKind
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.NewsAddViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -37,7 +37,7 @@ fun NewsAddDialog(
     var destination by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
     var time by remember { mutableStateOf("") }
-    var type by remember { mutableStateOf(NewsEnum.NEWS) }
+    var type by remember { mutableStateOf(NewsKind.NEWS) }
 
 
     Dialog(
@@ -48,7 +48,7 @@ fun NewsAddDialog(
             modifier = Modifier
                 .background(cardBackgroundPrimary, RoundedCornerShape(12.dp))
                 .fillMaxWidth()
-                .fillMaxHeight(0.95f)
+                .fillMaxHeight()
         ) {
             Column(
                 modifier = Modifier
@@ -58,7 +58,7 @@ fun NewsAddDialog(
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    items(NewsEnum.entries) { entry ->
+                    items(NewsKind.entries) { entry ->
 
                         EnumItem(
                             enum = entry,

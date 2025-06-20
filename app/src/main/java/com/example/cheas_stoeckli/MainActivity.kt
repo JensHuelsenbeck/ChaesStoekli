@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Cheas_StoeckliTheme {
                 NewsAddDialog(
+
                     onDissmiss = { TODO() },
 
                 )

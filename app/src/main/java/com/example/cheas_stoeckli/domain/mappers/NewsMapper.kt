@@ -2,7 +2,7 @@ package com.example.cheas_stoeckli.domain.mappers
 
 import com.example.cheas_stoeckli.domain.models.FirestoreNews
 import com.example.cheas_stoeckli.domain.models.News
-import com.example.cheas_stoeckli.ui.enums.NewsEnum
+import com.example.cheas_stoeckli.ui.enums.NewsKind
 
 object NewsMapper {
 
@@ -15,7 +15,8 @@ object NewsMapper {
             destination = dto.destination,
             date = dto.date,
             time = dto.time,
-            type = NewsEnum.convertRawValue(dto.type) ?: NewsEnum.NEWS
+            type = NewsKind.convertRawValue(dto.type) ?: NewsKind.NEWS,
+            createdAt = dto.createdAt
         )
     }
 
@@ -28,7 +29,9 @@ object NewsMapper {
             destination = news.destination,
             date = news.date,
             time = news.time,
-            type = news.type.rawValue
+            type = news.type.rawValue,
+            createdAt = news.createdAt
+
         )
     }
 

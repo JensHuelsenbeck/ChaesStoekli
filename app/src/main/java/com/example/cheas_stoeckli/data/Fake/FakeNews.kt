@@ -1,7 +1,7 @@
 package com.example.cheas_stoeckli.data.Fake
 
 import com.example.cheas_stoeckli.domain.models.News
-import com.example.cheas_stoeckli.ui.enums.NewsEnum
+import com.example.cheas_stoeckli.ui.enums.NewsKind
 
 val newsList = listOf(
     News(
@@ -11,7 +11,7 @@ val newsList = listOf(
         destination = "",
         date = "",
         time = "",
-        type = NewsEnum.NEWS
+        type = NewsKind.NEWS
     ),
     News(
         title = "Käseabend am See",
@@ -20,7 +20,7 @@ val newsList = listOf(
         destination = "Seepromenade 12, 34567 Käsetal",
         date = "20.07.2025",
         time = "19:30",
-        type = NewsEnum.EVENTS
+        type = NewsKind.EVENTS
     ),
     News(
         title = "Letzte Chance auf Rabatt!",
@@ -29,7 +29,7 @@ val newsList = listOf(
         destination = "",
         date = "17.06.2025",
         time = "23:59",
-        type = NewsEnum.REMINDER
+        type = NewsKind.REMINDER
     ),
     News(
         title = "Wein & Käse Verköstigung",
@@ -38,7 +38,7 @@ val newsList = listOf(
         destination = "Weingut Harri, Rebenweg 8, 67890 Käseland",
         date = "28.06.2025",
         time = "16:00",
-        type = NewsEnum.EVENTS
+        type = NewsKind.EVENTS
     ),
     News(
         title = "Chäs & Chill – Afterwork Edition",
@@ -47,7 +47,7 @@ val newsList = listOf(
         destination = "Altmarkt 5, 12345 Käseburg",
         date = "04.07.2025",
         time = "18:00",
-        type = NewsEnum.EVENTS
+        type = NewsKind.EVENTS
     ),
     News(
         title = "Neue Käsesorte eingetroffen!",
@@ -56,7 +56,7 @@ val newsList = listOf(
         destination = "",
         date = "",
         time = "",
-        type = NewsEnum.NEWS
+        type = NewsKind.NEWS
     ),
     News(
         title = "Nicht vergessen: Anmeldung schließt heute!",
@@ -65,7 +65,7 @@ val newsList = listOf(
         destination = "",
         date = "19.06.2025",
         time = "22:00",
-        type = NewsEnum.REMINDER
+        type = NewsKind.REMINDER
     )
 )
 
@@ -76,5 +76,5 @@ val fakeNews: News = News(
     destination = "",
     date = "19.06.2025",
     time = "22:00",
-    type = NewsEnum.REMINDER
+    type = NewsKind.REMINDER
 )

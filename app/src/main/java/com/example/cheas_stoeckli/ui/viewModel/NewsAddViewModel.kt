@@ -3,11 +3,11 @@ package com.example.cheas_stoeckli.ui.viewModel
 import androidx.lifecycle.ViewModel
 import com.example.cheas_stoeckli.data.repositories.NewsAddRepository
 import com.example.cheas_stoeckli.domain.models.News
-import com.example.cheas_stoeckli.ui.enums.NewsEnum
+import com.example.cheas_stoeckli.ui.enums.NewsKind
 
 
 class NewsAddViewModel(
-   private val newsAddRepo: NewsAddRepository = NewsAddRepository()
+    private val newsAddRepo: NewsAddRepository = NewsAddRepository()
 ) : ViewModel() {
 
 
@@ -18,7 +18,8 @@ class NewsAddViewModel(
         destination: String,
         date: String,
         time: String,
-        type: NewsEnum
+        type: NewsKind,
+
     ) {
         val news = News(
             title = title,
@@ -27,9 +28,25 @@ class NewsAddViewModel(
             destination = destination,
             date = date,
             time = time,
-            type = type
+            type = type,
         )
-       newsAddRepo.addAnnoucement(news)
+        newsAddRepo.addAnnoucement(news)
     }
+
+    fun addNewss(
+        news: News,
+    ) {
+        val news = News(
+            title = news.title,
+            text = news.text,
+            img = news.img,
+            destination = news.destination,
+            date = news.date,
+            time = news.time,
+            type = news.type,
+        )
+        newsAddRepo.addAnnoucement(news)
+    }
+
 }
 

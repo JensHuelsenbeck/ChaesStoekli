@@ -15,11 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cheas_stoeckli.ui.enums.NewsEnum
+import com.example.cheas_stoeckli.ui.enums.NewsKind
 
 @Composable
 fun EnumItem(
-    enum: NewsEnum,
+    enum: NewsKind,
     onClick: () -> Unit,
     modifier: Modifier = Modifier) {
 
