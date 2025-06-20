@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.cheas_stoeckli.ui.components.Angebot.CheeseCard
 import com.example.cheas_stoeckli.ui.theme.Cheas_StoeckliTheme
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 
@@ -23,7 +22,16 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Cheas_StoeckliTheme {
-                        CheeseCard()
+                AppStart()
+                
+                /*
+                        CheeseCard(
+                            navigateToOffer = { TODO() },
+                            text = "Hier gehts zu den  Käsesorten.",
+
+                        )
+
+                 */
                 }
             }
         }

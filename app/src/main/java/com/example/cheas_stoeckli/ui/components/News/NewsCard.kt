@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.cheas_stoeckli.app.R
-import com.example.cheas_stoeckli.data.model.News
+import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.eventTimeAndDate
 import com.example.cheas_stoeckli.ui.theme.newsEnumColor

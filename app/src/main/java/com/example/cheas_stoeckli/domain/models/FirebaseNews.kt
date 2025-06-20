@@ -1,9 +1,9 @@
-package com.example.cheas_stoeckli.data.model
+package com.example.cheas_stoeckli.domain.models
 
 import com.example.cheas_stoeckli.ui.enums.NewsEnum
 import java.util.UUID
 
-class News(
+class FirestoreNews(
 
     val id: String = UUID.randomUUID().toString(),
     val title: String = "",
@@ -12,6 +12,6 @@ class News(
     val destination: String = "",
     val date: String = "",
     val time: String = "",
-    val type: NewsEnum = NewsEnum.NEWS
+    val type: String = NewsEnum.NEWS.rawValue
 
-    )
+)

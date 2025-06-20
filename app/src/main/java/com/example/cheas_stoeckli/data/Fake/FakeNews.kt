@@ -1,6 +1,6 @@
 package com.example.cheas_stoeckli.data.Fake
 
-import com.example.cheas_stoeckli.data.model.News
+import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.ui.enums.NewsEnum
 
 val newsList = listOf(
