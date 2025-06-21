@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.storage.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -94,6 +95,9 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.play.services.auth)
 
+    // Cloud Storage
+    implementation(libs.google.firebase.firestore)
+
     //Firestore
     implementation(libs.firebase.firestore)
 
@@ -102,6 +106,6 @@ dependencies {
     implementation(libs.coil.network.okhttp)
 
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
+    implementation(libs.kotlinx.coroutines.play.services)
 
 }

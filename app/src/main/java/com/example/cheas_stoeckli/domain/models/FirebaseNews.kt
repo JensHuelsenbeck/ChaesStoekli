@@ -10,6 +10,7 @@ class FirestoreNews(
     val title: String = "",
     val text: String = "",
     val img: String = "",
+    val imgPath: String = "",
     val destination: String = "",
     val date: String = "",
     val time: String = "",

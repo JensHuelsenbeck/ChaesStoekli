@@ -13,7 +13,7 @@ class NewsAddRepository {
 
 
     fun addAnnoucement(news: News) {
-        val firebaseNews = NewsMapper.fromDomain(news)
+        val firebaseNews = NewsMapper.toFirebase(news)
         collection.document(firebaseNews.id).set(firebaseNews)
             .addOnSuccessListener { Log.d("NewsAddRepository", "Annoucement added successfully") }
             .addOnFailureListener { e ->

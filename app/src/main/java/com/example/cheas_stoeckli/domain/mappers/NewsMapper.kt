@@ -6,12 +6,13 @@ import com.example.cheas_stoeckli.ui.enums.NewsKind
 
 object NewsMapper {
 
-    fun toDomain(dto: FirestoreNews): News {
+    fun toApp(dto: FirestoreNews): News {
         return News(
             id = dto.id,
             title = dto.title,
             text = dto.text,
             img = dto.img,
+            imgPath = dto.imgPath,
             destination = dto.destination,
             date = dto.date,
             time = dto.time,
@@ -20,12 +21,13 @@ object NewsMapper {
         )
     }
 
-    fun fromDomain(news: News): FirestoreNews {
+    fun toFirebase(news: News): FirestoreNews {
         return FirestoreNews(
             id = news.id,
             title = news.title,
             text = news.text,
             img = news.img,
+            imgPath = news.imgPath,
             destination = news.destination,
             date = news.date,
             time = news.time,
@@ -34,5 +36,4 @@ object NewsMapper {
 
         )
     }
-
 }
