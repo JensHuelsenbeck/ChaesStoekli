@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.cheas_stoeckli.ui.components.Dialog.NewsAddDialog
 import com.example.cheas_stoeckli.ui.theme.Cheas_StoeckliTheme
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 
@@ -23,7 +22,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Cheas_StoeckliTheme {
-                NewsAddDialog()
+                AppStart()
                 }
             }
         }
