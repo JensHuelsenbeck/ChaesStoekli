@@ -51,8 +51,6 @@ fun NewsAddDialog(
     }
 
 
-
-
     var title = remember { mutableStateOf("") }
     var text = remember { mutableStateOf("") }
     var img = remember { mutableStateOf("") }
@@ -81,7 +79,8 @@ fun NewsAddDialog(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
-                modifier = Modifier.background(cardBackgroundPrimary)
+                modifier = Modifier
+                    .background(cardBackgroundPrimary)
 
                     .fillMaxSize()
             ) {
@@ -108,20 +107,20 @@ fun NewsAddDialog(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 DialogTextField(
-                    usedString = title ,
+                    usedString = title,
                     label = "Überschrift",
                     placeholder = "Wähle eine kurze Überschrift",
                     maxLines = 2,
                     minLines = 2
                 )
                 DialogTextField(
-                    usedString = text ,
+                    usedString = text,
                     label = "Beschreibung",
                     placeholder = "Erzähle worum es geht",
                     maxLines = 5,
                     minLines = 5
                 )
-                if(type == NewsKind.EVENTS || type == NewsKind.REMINDER) {
+                if (type == NewsKind.EVENTS || type == NewsKind.REMINDER) {
                     DialogTextField(
                         usedString = date,
                         label = "Datum",
@@ -137,7 +136,7 @@ fun NewsAddDialog(
                         minLines = 2
                     )
                 }
-                if(type == NewsKind.EVENTS) {
+                if (type == NewsKind.EVENTS) {
                     DialogTextField(
                         usedString = destination,
                         label = "Veranstaltungsort",
@@ -165,16 +164,17 @@ fun NewsAddDialog(
                         Log.d("SaveNewsButton", "type: ${type?.name ?: "null"}")
 
                         viewModel.addNews(
-                        title = title.value,
-                        text = text.value,
-                        img = img.value,
-                        destination = destination.value,
-                        date = date.value,
-                        type = type ?: NewsKind.NEWS,
-                        time = time.value
-                    )
+                            title = title.value,
+                            text = text.value,
+                            img = img.value,
+                            imgPath = imagePath.value,
+                            destination = destination.value,
+                            date = date.value,
+                            type = type ?: NewsKind.NEWS,
+                            time = time.value
+                        )
 
-                                      },
+                    },
                 )
                 Spacer(Modifier.height(20.dp))
             }

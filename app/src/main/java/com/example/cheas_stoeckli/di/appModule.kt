@@ -1,5 +1,6 @@
 package com.example.cheas_stoeckli.di
 
+import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository
 import com.example.cheas_stoeckli.data.repositories.NewsAddRepository
 import com.example.cheas_stoeckli.data.repositories.NewsRepository
 import com.example.cheas_stoeckli.data.repositories.UserRepository
@@ -23,6 +24,7 @@ val appModule = module {
     singleOf(::UserRepository)
     singleOf(::NewsRepository)
     singleOf(::NewsAddRepository)
+    singleOf(::CloudStorageRepository)
 
     // UseCases
     singleOf(::SignInWithGoogleUseCase)

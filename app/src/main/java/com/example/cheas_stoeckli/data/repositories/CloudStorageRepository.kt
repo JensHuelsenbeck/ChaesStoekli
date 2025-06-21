@@ -5,7 +5,7 @@ import com.google.firebase.storage.FirebaseStorage
 import java.util.UUID
 
 
-class CloudStorageRepo {
+class CloudStorageRepository {
 
     private val storage = FirebaseStorage.getInstance()
 
