@@ -1,5 +1,6 @@
 package com.example.cheas_stoeckli.ui.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.cheas_stoeckli.data.repositories.NewsAddRepository
 import com.example.cheas_stoeckli.domain.models.News
@@ -21,6 +22,9 @@ class NewsAddViewModel(
         type: NewsKind,
 
     ) {
+
+        Log.d("AddNewsViewModel", "addNews wurde aufgerufen")
+
         val news = News(
             title = title,
             text = text,
@@ -30,7 +34,7 @@ class NewsAddViewModel(
             time = time,
             type = type,
         )
-        newsAddRepo.addAnnoucement(news)
+        newsAddRepo.addAnnouncement(news)
     }
 
     fun addNewss(
@@ -45,7 +49,7 @@ class NewsAddViewModel(
             time = news.time,
             type = news.type,
         )
-        newsAddRepo.addAnnoucement(news)
+        newsAddRepo.addAnnouncement(news)
     }
 
 }

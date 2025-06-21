@@ -12,7 +12,8 @@ class NewsAddRepository {
     private val collection = db.collection("announcements")
 
 
-    fun addAnnoucement(news: News) {
+    fun addAnnouncement(news: News) {
+        Log.d("NewsAddRepository", "addAnnoucement wurde aufgerufen")
         val firebaseNews = NewsMapper.fromDomain(news)
         collection.document(firebaseNews.id).set(firebaseNews)
             .addOnSuccessListener { Log.d("NewsAddRepository", "Annoucement added successfully") }

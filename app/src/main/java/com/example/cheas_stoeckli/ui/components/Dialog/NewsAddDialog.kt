@@ -12,15 +12,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,7 +37,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun NewsAddDialog(
     viewModel: NewsAddViewModel = koinViewModel(),
-
+    isDialogOpen: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
 
@@ -51,15 +55,17 @@ fun NewsAddDialog(
         onDismissRequest = {},
     ) {
         Box(
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.TopCenter,
             modifier = Modifier
                 .background(cardBackgroundPrimary, RoundedCornerShape(12.dp))
                 .fillMaxWidth()
                 .fillMaxHeight(0.9f)
+                .verticalScroll(rememberScrollState())
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
+                verticalArrangement = Arrangement.Top,
+                modifier = Modifier.background(cardBackgroundPrimary)
 
                     .fillMaxSize()
             ) {
@@ -67,7 +73,8 @@ fun NewsAddDialog(
                 Text(
                     text = "Neue Ankündigung",
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
 
                 )
                 Spacer(Modifier.height(20.dp))
@@ -128,25 +135,34 @@ fun NewsAddDialog(
                     img = img,
                     onClickAddPicture = { TODO() }
                 )
-
-                fun printNews() {
-                    Log.d("NewsTest", "$title")
-                    Log.d("NewsTest", "$text")
-                    Log.d("NewsTest", "$date")
-                    Log.d("NewsTest", "$time")
-                    Log.d("NewsTest", "$destination")
-                    Log.d("NewsTest", "$type.")
-
-                }
-
-                Spacer(Modifier.height(4.dp))
+                Spacer(Modifier.height(8.dp))
                 SaveNewsButton(
-                    onClickSaveNews = { printNews() },
+                    onClickSaveNews = {
+
+                        Log.d("SaveNewsButton", "title: ${title.value}")
+                        Log.d("SaveNewsButton", "text: ${text.value}")
+                        Log.d("SaveNewsButton", "img: ${img.value}")
+                        Log.d("SaveNewsButton", "destination: ${destination.value}")
+                        Log.d("SaveNewsButton", "date: ${date.value}")
+                        Log.d("SaveNewsButton", "time: ${time.value}")
+                        Log.d("SaveNewsButton", "type: ${type?.name ?: "null"}")
+
+                        viewModel.addNews(
+                        title = title.value,
+                        text = text.value,
+                        img = img.value,
+                        destination = destination.value,
+                        date = date.value,
+                        type = type ?: NewsKind.NEWS,
+                        time = time.value
+                    )
+
+                                      },
                 )
+                Spacer(Modifier.height(20.dp))
             }
         }
     }
-
 }
 
 
