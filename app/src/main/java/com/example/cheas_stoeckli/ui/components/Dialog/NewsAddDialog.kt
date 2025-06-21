@@ -1,6 +1,9 @@
 package com.example.cheas_stoeckli.ui.components.Dialog
 
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,13 +40,26 @@ fun NewsAddDialog(
     modifier: Modifier = Modifier
 ) {
 
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        // Hier passiert aktuell nichts
+    }
+
+
+
+
     var title = remember { mutableStateOf("") }
     var text = remember { mutableStateOf("") }
     var img = remember { mutableStateOf("") }
+    var imagePath = remember { mutableStateOf("") }
     var destination = remember { mutableStateOf("") }
     var date = remember { mutableStateOf("") }
     var time = remember { mutableStateOf("") }
     var type by remember { mutableStateOf<NewsKind?>(null) }
+
+
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
 
     var isSelected by remember { mutableStateOf(false) }
 
@@ -126,7 +142,8 @@ fun NewsAddDialog(
                 Spacer(Modifier.height(4.dp))
                 AddPictureButton(
                     img = img,
-                    onClickAddPicture = { TODO() }
+                    imagePath = imagePath,
+                    onClickAddPicture = { launcher.launch("image/*") }
                 )
 
                 fun printNews() {

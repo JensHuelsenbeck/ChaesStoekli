@@ -66,7 +66,7 @@ fun NewsCard(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     placeholder = painterResource(R.drawable.default_image),
-                    error = painterResource(R.drawable.broken_image),
+                    error = painterResource(R.drawable.broken_image_ja),
                     onLoading = { Log.d("AsyncImage", "Image loading") },
                     onError = { state -> Log.e("AsyncImage", "Error loading image") },
                     onSuccess = { state -> Log.d("AsyncImage", "Image loaded successfully") },

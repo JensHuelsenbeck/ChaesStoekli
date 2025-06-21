@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun AddPictureButton(
     img: MutableState<String>,
+    imagePath: MutableState<String>,
     onClickAddPicture: () -> Unit,
     modifier: Modifier = Modifier
 ) {
