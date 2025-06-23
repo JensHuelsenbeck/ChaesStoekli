@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.cheas_stoeckli.ui.components.News.NewsCard
 import com.example.cheas_stoeckli.ui.enums.NewsKind
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
@@ -58,7 +59,9 @@ fun NewsAddDialog(
     }
 
     Dialog(
-        onDismissRequest = { isDialogOpen.value = false },
+        onDismissRequest = {
+            viewModel.setValuablesToEmpty()
+            isDialogOpen.value = false },
     ) {
         Surface(
             shape = RoundedCornerShape(12.dp),
@@ -69,8 +72,7 @@ fun NewsAddDialog(
         ) {
             Box(
                 contentAlignment = Alignment.TopCenter,
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState()),
+                modifier = Modifier.verticalScroll(rememberScrollState()),
 
                 ) {
 
@@ -84,10 +86,10 @@ fun NewsAddDialog(
                 ) {
                     Spacer(Modifier.height(10.dp))
                     Row(
-                        horizontalArrangement = Arrangement.End,
-                        modifier = Modifier.fillMaxWidth()
+                        horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()
                     ) {
                         IconButton(onClick = {
+                            viewModel.setValuablesToEmpty()
                             isDialogOpen.value = false
                         }) {
                             Icon(
@@ -105,8 +107,6 @@ fun NewsAddDialog(
                             )
                         }
                     }
-
-                    Spacer(Modifier.height(10.dp))
                     Text(
                         text = "Neue Ankündigung",
                         fontSize = 20.sp,
@@ -116,8 +116,7 @@ fun NewsAddDialog(
                     )
                     Spacer(Modifier.height(20.dp))
                     LazyRow(
-                        Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
+                        Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
                     ) {
                         items(NewsKind.entries) { entry ->
                             EnumItem(
@@ -171,12 +170,12 @@ fun NewsAddDialog(
                     }
                     Spacer(Modifier.height(4.dp))
                     AddPictureButton(
-                        onClickAddPicture = { launcher.launch("image/*") }
-                    )
+                        onClickAddPicture = { launcher.launch("image/*") })
+                    Spacer(Modifier.height(8.dp))
+                    NewsCard(viewModel.previewNews)
                     Spacer(Modifier.height(8.dp))
                     SaveNewsButton(
                         onClickSaveNews = {
-
                             viewModel.addNews(
                                 title = viewModel.title.value,
                                 text = viewModel.text.value,

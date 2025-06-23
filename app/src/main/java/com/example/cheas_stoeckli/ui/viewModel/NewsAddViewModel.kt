@@ -27,6 +27,18 @@ class NewsAddViewModel(
     val imageDownloadUrl = mutableStateOf("")
     val imagePathInsideCloud = mutableStateOf("")
 
+    val previewNews: News
+        get() = News(
+            title = title.value,
+            text = text.value,
+            destination = destination.value,
+            date = date.value,
+            time = time.value,
+            type = type ?: NewsKind.NEWS,
+            imgDownloadPath = imageDownloadUrl.value,
+            imgPath = imagePathInsideCloud.value
+        )
+
     fun addNews(
         title: String,
         text: String,
@@ -47,6 +59,7 @@ class NewsAddViewModel(
             type = type,
         )
         newsAddRepo.addAnnoucement(news)
+        setValuablesToEmpty()
     }
 
     fun addPictureToCloud(
@@ -77,7 +90,6 @@ class NewsAddViewModel(
             }
         )
     }
-
     fun setValuablesToEmpty() {
 
         title.value = ""
