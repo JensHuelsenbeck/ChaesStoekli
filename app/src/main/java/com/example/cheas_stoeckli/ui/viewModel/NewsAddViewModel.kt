@@ -2,7 +2,9 @@ package com.example.cheas_stoeckli.ui.viewModel
 
 import android.net.Uri
 import android.util.Log
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository
 import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository.CloudUploadError
@@ -16,7 +18,12 @@ class NewsAddViewModel(
     private val cloudRepo: CloudStorageRepository
 ) : ViewModel() {
 
-
+    var title = mutableStateOf("")
+    var text = mutableStateOf("")
+    var destination = mutableStateOf("")
+    var date = mutableStateOf("")
+    var time = mutableStateOf("")
+    var type by mutableStateOf<NewsKind?>(null)
     val imageDownloadUrl = mutableStateOf("")
     val imagePathInsideCloud = mutableStateOf("")
 
@@ -62,12 +69,29 @@ class NewsAddViewModel(
                     is CloudUploadError.NotFound -> Log.e("Upload", "Fehler: NotFound")
                     is CloudUploadError.Timeout -> Log.e("Upload", "Fehler: Timeout")
                     is CloudUploadError.ServerError -> Log.e("Upload", "Fehler: ServerError")
-                    is CloudUploadError.Unknown -> Log.e("Upload", "Fehler: Unknown: ${error.original.message}")
+                    is CloudUploadError.Unknown -> Log.e(
+                        "Upload",
+                        "Fehler: Unknown: ${error.original.message}"
+                    )
                 }
             }
         )
+    }
+
+    fun setValuablesToEmpty() {
+
+        title.value = ""
+        text.value = ""
+        destination.value = ""
+        date.value = ""
+        time.value = ""
+        type = null
+        imageDownloadUrl.value = ""
+        imagePathInsideCloud.value = ""
 
     }
 
 }
+
+
 

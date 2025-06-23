@@ -54,6 +54,7 @@ fun AppStart(
                 .background(screenBackgroundPrimary)
                 .navigationBarsPadding()
                 .systemBarsPadding(),
+
             bottomBar = {
                 NavigationBar(
                     containerColor = screenBackgroundPrimary,
@@ -78,7 +79,8 @@ fun AppStart(
                                 Text(tabItem.title)
                             },
                             colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent)
+                                indicatorColor = Color.Transparent
+                            )
                         )
                     }
                 }

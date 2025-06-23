@@ -1,7 +1,6 @@
 package com.example.cheas_stoeckli.ui.components.Dialog
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -9,24 +8,27 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.cheas_stoeckli.ui.enums.NewsKind
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
+import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.viewModel.NewsAddViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -50,20 +53,9 @@ fun NewsAddDialog(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-        viewModel.addPictureToCloud(it)
+            viewModel.addPictureToCloud(it)
+        }
     }
-}
-
-
-    var title = remember { mutableStateOf("") }
-    var text = remember { mutableStateOf("") }
-    var img = remember { mutableStateOf("") }
-    var destination = remember { mutableStateOf("") }
-    var date = remember { mutableStateOf("") }
-    var time = remember { mutableStateOf("") }
-    var type by remember { mutableStateOf<NewsKind?>(null) }
-
-    var isSelected by remember { mutableStateOf(false) }
 
     Dialog(
         onDismissRequest = { isDialogOpen.value = false },
@@ -81,15 +73,40 @@ fun NewsAddDialog(
                     .verticalScroll(rememberScrollState()),
 
                 ) {
+
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
                     modifier = Modifier
                         .background(cardBackgroundPrimary)
                         .fillMaxSize()
-                       // .animateContentSize()
+
                 ) {
-                    Spacer(Modifier.height(20.dp))
+                    Spacer(Modifier.height(10.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        IconButton(onClick = {
+                            isDialogOpen.value = false
+                        }) {
+                            Icon(
+                                imageVector = Icons.Filled.Close,
+                                contentDescription = "",
+                                tint = Color.Black,
+                                modifier = Modifier
+                                    .height(30.dp)
+                                    .width(45.dp)
+                                    .background(
+                                        loginButtonColor.copy(alpha = 0.8f),
+                                        shape = RoundedCornerShape(12.dp)
+                                    )
+                                    .padding(8.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(Modifier.height(10.dp))
                     Text(
                         text = "Neue Ankündigung",
                         fontSize = 20.sp,
@@ -105,47 +122,47 @@ fun NewsAddDialog(
                         items(NewsKind.entries) { entry ->
                             EnumItem(
                                 enum = entry,
-                                onClick = { type = entry },
-                                isSelected = type == entry
+                                onClick = { viewModel.type = entry },
+                                isSelected = viewModel.type == entry
                             )
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     DialogTextField(
-                        usedString = title,
+                        usedString = viewModel.title,
                         label = "Überschrift",
                         placeholder = "Wähle eine kurze Überschrift",
                         maxLines = 2,
                         minLines = 2
                     )
                     DialogTextField(
-                        usedString = text,
+                        usedString = viewModel.text,
                         label = "Beschreibung",
                         placeholder = "Erzähle worum es geht",
                         maxLines = 5,
                         minLines = 5
                     )
-                    AnimatedVisibility(visible = type == NewsKind.EVENTS || type == NewsKind.REMINDER) {
+                    AnimatedVisibility(visible = viewModel.type == NewsKind.EVENTS || viewModel.type == NewsKind.REMINDER) {
                         Column {
                             DialogTextField(
-                                usedString = date,
+                                usedString = viewModel.date,
                                 label = "Datum",
                                 placeholder = "Für Veranstaltungen oder Erinnerungen, zB. 05.12.25 oder Di, 20.05",
                                 maxLines = 2,
                                 minLines = 2
                             )
                             DialogTextField(
-                                usedString = time,
+                                usedString = viewModel.time,
                                 label = "Uhrzeit",
-                                placeholder = "Schreibe hier die Uhrzeit hinein? zb. 14:30 ",
+                                placeholder = "Schreibe hier die Uhrzeit hinein. zb. 14:30 ",
                                 maxLines = 2,
                                 minLines = 2
                             )
                         }
                     }
-                    AnimatedVisibility(visible = type == NewsKind.EVENTS) {
+                    AnimatedVisibility(visible = viewModel.type == NewsKind.EVENTS) {
                         DialogTextField(
-                            usedString = destination,
+                            usedString = viewModel.destination,
                             label = "Veranstaltungsort",
                             placeholder = "Schreibe die die Adresse hinein, zb Zürichstrasse 106, 8910 Affoltern am Albis",
                             maxLines = 2,
@@ -160,23 +177,15 @@ fun NewsAddDialog(
                     SaveNewsButton(
                         onClickSaveNews = {
 
-                            Log.d("SaveNewsButton", "title: ${title.value}")
-                            Log.d("SaveNewsButton", "text: ${text.value}")
-                            Log.d("SaveNewsButton", "img: ${img.value}")
-                            Log.d("SaveNewsButton", "destination: ${destination.value}")
-                            Log.d("SaveNewsButton", "date: ${date.value}")
-                            Log.d("SaveNewsButton", "time: ${time.value}")
-                            Log.d("SaveNewsButton", "type: ${type?.name ?: "null"}")
-
                             viewModel.addNews(
-                                title = title.value,
-                                text = text.value,
-                                destination = destination.value,
-                                date = date.value,
-                                type = type ?: NewsKind.NEWS,
-                                time = time.value
+                                title = viewModel.title.value,
+                                text = viewModel.text.value,
+                                destination = viewModel.destination.value,
+                                date = viewModel.date.value,
+                                type = viewModel.type ?: NewsKind.NEWS,
+                                time = viewModel.time.value
                             )
-
+                            isDialogOpen.value = false
                         },
                     )
                     Spacer(Modifier.height(20.dp))

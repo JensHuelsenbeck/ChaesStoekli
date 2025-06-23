@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cheas_stoeckli.ui.enums.NewsKind
+import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 
 @Composable
 fun EnumItem(
@@ -33,7 +34,7 @@ fun EnumItem(
 
             .padding(horizontal = 4.dp)
             .background(
-                if (isSelected) Color.Gray else Color.Transparent,
+                if (isSelected) loginButtonColor else Color.Transparent,
                 RoundedCornerShape(12.dp)
             )
             .border(1.dp, Color.Black, shape = RoundedCornerShape(12.dp))
