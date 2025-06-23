@@ -49,20 +49,20 @@ fun NewsAddDialog(
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-
+        uri?.let {
+        viewModel.addPictureToCloud(it)
     }
+}
 
 
     var title = remember { mutableStateOf("") }
     var text = remember { mutableStateOf("") }
     var img = remember { mutableStateOf("") }
-    var imagePath = remember { mutableStateOf("") }
     var destination = remember { mutableStateOf("") }
     var date = remember { mutableStateOf("") }
     var time = remember { mutableStateOf("") }
     var type by remember { mutableStateOf<NewsKind?>(null) }
 
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
     var isSelected by remember { mutableStateOf(false) }
 
     Dialog(
@@ -154,8 +154,6 @@ fun NewsAddDialog(
                     }
                     Spacer(Modifier.height(4.dp))
                     AddPictureButton(
-                        img = img,
-                        imagePath = imagePath,
                         onClickAddPicture = { launcher.launch("image/*") }
                     )
                     Spacer(Modifier.height(8.dp))
@@ -173,8 +171,6 @@ fun NewsAddDialog(
                             viewModel.addNews(
                                 title = title.value,
                                 text = text.value,
-                                img = img.value,
-                                imgPath = imagePath.value,
                                 destination = destination.value,
                                 date = date.value,
                                 type = type ?: NewsKind.NEWS,

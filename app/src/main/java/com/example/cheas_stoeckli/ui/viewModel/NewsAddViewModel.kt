@@ -1,7 +1,11 @@
 package com.example.cheas_stoeckli.ui.viewModel
 
+import android.net.Uri
+import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository
+import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository.CloudUploadError
 import com.example.cheas_stoeckli.data.repositories.NewsAddRepository
 import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.ui.enums.NewsKind
@@ -9,26 +13,27 @@ import com.example.cheas_stoeckli.ui.enums.NewsKind
 
 class NewsAddViewModel(
     private val newsAddRepo: NewsAddRepository,
-    private val imageRepo: CloudStorageRepository
+    private val cloudRepo: CloudStorageRepository
 ) : ViewModel() {
 
+
+    val imageDownloadUrl = mutableStateOf("")
+    val imagePathInsideCloud = mutableStateOf("")
 
     fun addNews(
         title: String,
         text: String,
-        img: String,
-        imgPath: String,
         destination: String,
         date: String,
         time: String,
         type: NewsKind,
 
-    ) {
+        ) {
         val news = News(
             title = title,
             text = text,
-            imgDownloadPath = img,
-            imgPath = imgPath,
+            imgDownloadPath = imageDownloadUrl.value,
+            imgPath = imagePathInsideCloud.value,
             destination = destination,
             date = date,
             time = time,
@@ -36,5 +41,33 @@ class NewsAddViewModel(
         )
         newsAddRepo.addAnnoucement(news)
     }
+
+    fun addPictureToCloud(
+        uri: Uri,
+    ) {
+        cloudRepo.ImageToCloudStorage(
+            uri = uri,
+            imageDownloadUrl = imageDownloadUrl,
+            imgPathInCloud = imagePathInsideCloud,
+            onFailure = { exception ->
+                val error = when (exception) {
+                    is CloudUploadError -> exception
+                    else -> CloudUploadError.Unknown(exception)
+                }
+
+                when (error) {
+                    is CloudUploadError.BadRequest -> Log.e("Upload", "Fehler: BadRequest")
+                    is CloudUploadError.Unauthorized -> Log.e("Upload", "Fehler: Unauthorized")
+                    is CloudUploadError.Forbidden -> Log.e("Upload", "Fehler: Forbidden")
+                    is CloudUploadError.NotFound -> Log.e("Upload", "Fehler: NotFound")
+                    is CloudUploadError.Timeout -> Log.e("Upload", "Fehler: Timeout")
+                    is CloudUploadError.ServerError -> Log.e("Upload", "Fehler: ServerError")
+                    is CloudUploadError.Unknown -> Log.e("Upload", "Fehler: Unknown: ${error.original.message}")
+                }
+            }
+        )
+
+    }
+
 }
 
