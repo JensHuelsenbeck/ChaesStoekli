@@ -9,7 +9,7 @@ class FirestoreNews(
     val id: String = UUID.randomUUID().toString(),
     val title: String = "",
     val text: String = "",
-    val img: String = "",
+    val imgDownloadPath: String = "",
     val imgPath: String = "",
     val destination: String = "",
     val date: String = "",

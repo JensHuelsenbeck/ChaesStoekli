@@ -27,7 +27,7 @@ class NewsAddViewModel(
         val news = News(
             title = title,
             text = text,
-            img = img,
+            imgDownloadPath = img,
             imgPath = imgPath,
             destination = destination,
             date = date,

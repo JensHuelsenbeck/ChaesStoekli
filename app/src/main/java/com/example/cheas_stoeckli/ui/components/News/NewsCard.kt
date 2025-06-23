@@ -62,7 +62,7 @@ fun NewsCard(
         ) {
             Box {
                 AsyncImage(
-                    model = news.img,
+                    model = news.imgDownloadPath,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     placeholder = painterResource(R.drawable.default_image),
@@ -123,7 +123,6 @@ fun NewsCard(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
-
                         modifier = Modifier
                             .clip(
                                 RoundedCornerShape(
@@ -132,7 +131,6 @@ fun NewsCard(
                             )
                             .background(eventTimeAndDate)
                             .padding(4.dp)
-
                             .align(Alignment.BottomStart)
                     )
                 }

@@ -2,8 +2,8 @@ package com.example.cheas_stoeckli.ui.enums
 
 enum class NewsKind(val rawValue: String) {
     NEWS("Neuigkeit"),
-    EVENTS("Veranstaltung"),
-    REMINDER("Erinnerung");
+    REMINDER("Erinnerung"),
+    EVENTS("Veranstaltung");
 
     companion object {
         fun convertRawValue(rawValue: String): NewsKind? {
