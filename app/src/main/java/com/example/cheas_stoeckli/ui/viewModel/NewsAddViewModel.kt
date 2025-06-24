@@ -6,11 +6,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository
-import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository.CloudUploadError
 import com.example.cheas_stoeckli.data.repositories.NewsAddRepository
 import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.ui.enums.NewsKind
+import kotlinx.coroutines.launch
 
 
 class NewsAddViewModel(
@@ -27,6 +28,12 @@ class NewsAddViewModel(
     val imageDownloadUrl = mutableStateOf("")
     val imagePathInsideCloud = mutableStateOf("")
 
+    val imageUri = mutableStateOf<Uri?>(null)
+
+
+    val isUploading = mutableStateOf(false)
+    val errorMessage = mutableStateOf("")
+
     val previewNews: News
         get() = News(
             title = title.value,
@@ -39,57 +46,42 @@ class NewsAddViewModel(
             imgPath = imagePathInsideCloud.value
         )
 
-    fun addNews(
+    fun uploadImageAndSaveNews(
+
         title: String,
         text: String,
         destination: String,
         date: String,
         time: String,
         type: NewsKind,
+        onSuccess: () -> Unit,
 
         ) {
-        val news = News(
-            title = title,
-            text = text,
-            imgDownloadPath = imageDownloadUrl.value,
-            imgPath = imagePathInsideCloud.value,
-            destination = destination,
-            date = date,
-            time = time,
-            type = type,
-        )
-        newsAddRepo.addAnnoucement(news)
-        setValuablesToEmpty()
-    }
+        viewModelScope.launch {
+            try {
+                val (downloadUrl, imagePath) = cloudRepo.imageToCloudStorage(imageUri.value!!)
+                val news = News(
+                    title = title,
+                    text = text,
+                    destination = destination,
+                    date = date,
+                    time = time,
+                    type = type,
+                    imgDownloadPath = downloadUrl,
+                    imgPath = imagePath
+                )
+                newsAddRepo.addAnnoucement(news, onSuccess)
 
-    fun addPictureToCloud(
-        uri: Uri,
-    ) {
-        cloudRepo.ImageToCloudStorage(
-            uri = uri,
-            imageDownloadUrl = imageDownloadUrl,
-            imgPathInCloud = imagePathInsideCloud,
-            onFailure = { exception ->
-                val error = when (exception) {
-                    is CloudUploadError -> exception
-                    else -> CloudUploadError.Unknown(exception)
-                }
-
-                when (error) {
-                    is CloudUploadError.BadRequest -> Log.e("Upload", "Fehler: BadRequest")
-                    is CloudUploadError.Unauthorized -> Log.e("Upload", "Fehler: Unauthorized")
-                    is CloudUploadError.Forbidden -> Log.e("Upload", "Fehler: Forbidden")
-                    is CloudUploadError.NotFound -> Log.e("Upload", "Fehler: NotFound")
-                    is CloudUploadError.Timeout -> Log.e("Upload", "Fehler: Timeout")
-                    is CloudUploadError.ServerError -> Log.e("Upload", "Fehler: ServerError")
-                    is CloudUploadError.Unknown -> Log.e(
-                        "Upload",
-                        "Fehler: Unknown: ${error.original.message}"
-                    )
-                }
+            } catch (e: Exception) {
+                errorMessage.value = "Fehler beim Hochladen oder Speichern"
+                Log.e("NewsSave", e.message ?: "")
+            } finally {
+                isUploading.value = false
+                setValuablesToEmpty()
             }
-        )
+        }
     }
+
     fun setValuablesToEmpty() {
 
         title.value = ""
@@ -100,9 +92,7 @@ class NewsAddViewModel(
         type = null
         imageDownloadUrl.value = ""
         imagePathInsideCloud.value = ""
-
     }
-
 }
 
 

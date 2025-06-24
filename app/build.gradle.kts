@@ -95,8 +95,11 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.play.services.auth)
 
+
+
     // Cloud Storage
     implementation(libs.google.firebase.firestore)
+    implementation(libs.google.firebase.storage.ktx)
 
     //Firestore
     implementation(libs.firebase.firestore)

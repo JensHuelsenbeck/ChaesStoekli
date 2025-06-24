@@ -1,5 +1,6 @@
 package com.example.cheas_stoeckli.ui.components.News
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -40,6 +41,7 @@ import com.example.cheas_stoeckli.ui.theme.newsEnumColor
 @Composable
 fun NewsCard(
     news: News,
+    uri: Uri?,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -63,7 +65,7 @@ fun NewsCard(
         ) {
             Box {
                 AsyncImage(
-                    model = news.imgDownloadPath,
+                    model = uri ?: news.imgDownloadPath,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     placeholder = painterResource(R.drawable.default_image),

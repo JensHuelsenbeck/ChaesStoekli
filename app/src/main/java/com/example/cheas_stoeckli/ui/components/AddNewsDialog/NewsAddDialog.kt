@@ -26,9 +26,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,21 +46,27 @@ import com.example.cheas_stoeckli.ui.enums.NewsKind
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.viewModel.NewsAddViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NewsAddDialog(
     viewModel: NewsAddViewModel = koinViewModel(),
     isDialogOpen: MutableState<Boolean>,
+    snackbarHostState: SnackbarHostState,
+    snackbarScope: CoroutineScope,
 ) {
 
+
+    val errorMessage = viewModel.errorMessage.value
     val showConfirmDialog = remember { mutableStateOf(false) }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            viewModel.addPictureToCloud(it)
+            viewModel.imageUri.value = it
         }
     }
 
@@ -174,22 +182,29 @@ fun NewsAddDialog(
                     Spacer(Modifier.height(8.dp))
                     NewsCard(
                         news = viewModel.previewNews,
+                        uri = viewModel.imageUri.value,
                         modifier = Modifier.border(2.dp, Color.Gray, RoundedCornerShape(12.dp)),
                     )
                     Spacer(Modifier.height(8.dp))
                     SaveNewsButton(
                         onClickSaveNews = {
-                            viewModel.addNews(
+                            viewModel.uploadImageAndSaveNews(
                                 title = viewModel.title.value,
                                 text = viewModel.text.value,
                                 destination = viewModel.destination.value,
                                 date = viewModel.date.value,
                                 type = viewModel.type ?: NewsKind.NEWS,
-                                time = viewModel.time.value
+                                time = viewModel.time.value,
+                                onSuccess = {
+                                    snackbarScope.launch {
+                                        snackbarHostState.showSnackbar("Erfolgreich gespeichert!")
+                                    }
+                                },
                             )
                             isDialogOpen.value = false
                         },
-                    )
+
+                        )
                     Spacer(Modifier.height(20.dp))
                 }
             }
@@ -202,6 +217,12 @@ fun NewsAddDialog(
             showAddDialog = isDialogOpen,
             viewModel = viewModel,
         )
+    }
+    LaunchedEffect(errorMessage) {
+        if (errorMessage.isNotEmpty()) {
+            snackbarHostState.showSnackbar(errorMessage)
+            viewModel.errorMessage.value = ""
+        }
     }
 }
 

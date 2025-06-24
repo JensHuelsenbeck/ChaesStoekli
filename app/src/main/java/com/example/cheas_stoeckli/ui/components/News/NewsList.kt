@@ -13,7 +13,10 @@ fun NewsList(
     LazyColumn {
 
         items(news) { news ->
-            NewsCard(news = news)
+            NewsCard(
+                news = news,
+                uri = null
+            )
         }
 
     }

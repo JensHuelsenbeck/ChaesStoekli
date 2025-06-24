@@ -12,12 +12,19 @@ class NewsAddRepository {
     private val collection = db.collection("announcements")
 
 
-    fun addAnnoucement(news: News) {
+    fun addAnnoucement(
+        news: News,
+        onSuccess: () -> Unit,
+
+    ) {
         val firebaseNews = NewsMapper.toFirebase(news)
         collection.document(firebaseNews.id).set(firebaseNews)
-            .addOnSuccessListener { Log.d("NewsAddRepository", "Annoucement added successfully") }
+            .addOnSuccessListener {
+            onSuccess()
+            }
             .addOnFailureListener { e ->
-                Log.e("NewsAddRepository", "Error writing document: ${e.message}")
+                Log.e("NewsAddRepository", "Fehler beim schreiben: ${e.message}")
+
             }
     }
 
