@@ -16,7 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.cheas_stoeckli.ui.components.Dialog.NewsAddDialog
+import com.example.cheas_stoeckli.ui.components.AddNewsDialog.NewsAddDialog
 import com.example.cheas_stoeckli.ui.components.Header
 import com.example.cheas_stoeckli.ui.components.News.NewsList
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary

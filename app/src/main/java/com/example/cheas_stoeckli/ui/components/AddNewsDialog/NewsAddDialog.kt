@@ -1,10 +1,11 @@
-package com.example.cheas_stoeckli.ui.components.Dialog
+package com.example.cheas_stoeckli.ui.components.AddNewsDialog
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,8 +50,9 @@ import org.koin.androidx.compose.koinViewModel
 fun NewsAddDialog(
     viewModel: NewsAddViewModel = koinViewModel(),
     isDialogOpen: MutableState<Boolean>,
-    modifier: Modifier = Modifier
 ) {
+
+    val showConfirmDialog = remember { mutableStateOf(false) }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -59,9 +63,7 @@ fun NewsAddDialog(
     }
 
     Dialog(
-        onDismissRequest = {
-            viewModel.setValuablesToEmpty()
-            isDialogOpen.value = false },
+        onDismissRequest = { showConfirmDialog.value = true },
     ) {
         Surface(
             shape = RoundedCornerShape(12.dp),
@@ -88,10 +90,8 @@ fun NewsAddDialog(
                     Row(
                         horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()
                     ) {
-                        IconButton(onClick = {
-                            viewModel.setValuablesToEmpty()
-                            isDialogOpen.value = false
-                        }) {
+                        IconButton(onClick = { showConfirmDialog.value = true }
+                        ) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
                                 contentDescription = "",
@@ -172,7 +172,10 @@ fun NewsAddDialog(
                     AddPictureButton(
                         onClickAddPicture = { launcher.launch("image/*") })
                     Spacer(Modifier.height(8.dp))
-                    NewsCard(viewModel.previewNews)
+                    NewsCard(
+                        news = viewModel.previewNews,
+                        modifier = Modifier.border(2.dp, Color.Gray, RoundedCornerShape(12.dp)),
+                    )
                     Spacer(Modifier.height(8.dp))
                     SaveNewsButton(
                         onClickSaveNews = {
@@ -191,6 +194,14 @@ fun NewsAddDialog(
                 }
             }
         }
+    }
+    if (showConfirmDialog.value) {
+        ConfirmDialog(
+            confirmText = "Zurück zu Grüezi Wohl? Dabei werden alle Eingaben verworfen.",
+            showConfirmDialog = showConfirmDialog,
+            showAddDialog = isDialogOpen,
+            viewModel = viewModel,
+        )
     }
 }
 

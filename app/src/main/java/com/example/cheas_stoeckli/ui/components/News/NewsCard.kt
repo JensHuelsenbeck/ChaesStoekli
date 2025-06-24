@@ -40,10 +40,11 @@ import com.example.cheas_stoeckli.ui.theme.newsEnumColor
 @Composable
 fun NewsCard(
     news: News,
+    modifier: Modifier = Modifier
 ) {
     Card(
         colors = CardDefaults.cardColors(cardBackgroundPrimary),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(0.9f)
             .height(200.dp)
             .combinedClickable(

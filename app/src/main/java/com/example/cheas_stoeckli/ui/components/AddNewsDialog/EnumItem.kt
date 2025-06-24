@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.components.Dialog
+package com.example.cheas_stoeckli.ui.components.AddNewsDialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
