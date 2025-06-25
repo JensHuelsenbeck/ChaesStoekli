@@ -34,7 +34,6 @@ fun NewsScreen(
 ) {
 
     val annoucements = viewModel.announcements.collectAsState()
-    val news = viewModel.news.collectAsState()
     var showDialog = remember { mutableStateOf(false) }
 
     Box(
@@ -66,7 +65,10 @@ fun NewsScreen(
                     Text(text = "Add News")
                 }
             }
-            NewsList(news = annoucements.value)
+            NewsList(
+                news = annoucements.value,
+                newsViewModel = viewModel
+            )
         }
     }
     if (showDialog.value) {

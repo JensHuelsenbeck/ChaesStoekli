@@ -42,6 +42,7 @@ import com.example.cheas_stoeckli.ui.theme.newsEnumColor
 fun NewsCard(
     news: News,
     uri: Uri?,
+    onClickDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -50,7 +51,7 @@ fun NewsCard(
             .fillMaxWidth(0.9f)
             .height(200.dp)
             .combinedClickable(
-                onClick = {  },
+                onClick =  onClickDelete,
                 onLongClick = {  }
             ),
         shape = RoundedCornerShape(12.dp)

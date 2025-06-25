@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.stateIn
 class NewsViewModel(
     private val signOutUseCase: SignOutUseCase,
     observeCurrentUserUseCase: ObserveCurrentUserUseCase,
-    newsRepo: NewsRepository
-): ViewModel() {
+    private val newsRepo: NewsRepository
+) : ViewModel() {
 
     private val _news = MutableStateFlow(newsList)
     val news = _news.asStateFlow()
@@ -31,6 +31,10 @@ class NewsViewModel(
                 initialValue = emptyList()
             )
 
+
+    fun deleteAnnouncement(news: News) {
+        newsRepo.deleteAnnouncement(news)
+    }
 
     fun onSignOutClick() {
         signOutUseCase()
