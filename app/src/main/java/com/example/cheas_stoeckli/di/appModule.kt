@@ -11,6 +11,7 @@ import com.example.cheas_stoeckli.domain.usecases.SignInWithGoogleUseCase
 import com.example.cheas_stoeckli.ui.viewModel.AuthenticationViewModel
 import com.example.cheas_stoeckli.ui.viewModel.NewsAddViewModel
 import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
+import com.example.cheas_stoeckli.ui.viewModel.NetworkViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -35,5 +36,6 @@ val appModule = module {
     viewModelOf(::AuthenticationViewModel)
     viewModelOf(::NewsViewModel)
     viewModelOf(::NewsAddViewModel)
+    viewModelOf(::NetworkViewModel)
 }
 

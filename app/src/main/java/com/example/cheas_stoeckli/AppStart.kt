@@ -13,10 +13,12 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,12 +39,17 @@ import com.example.cheas_stoeckli.ui.enums.TabItem
 import com.example.cheas_stoeckli.ui.screens.LoginScreen
 import com.example.cheas_stoeckli.ui.screens.NewsScreen
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
+import com.example.cheas_stoeckli.ui.viewModel.NetworkViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AppStart(
     modifier: Modifier = Modifier,
-    authenticationService: AuthenticationService = AuthenticationService()
+    authenticationService: AuthenticationService = AuthenticationService(),
+    networkViewmodel: NetworkViewModel = koinViewModel()
 ) {
+
+    val isDeviceOnline by networkViewmodel.isOnline.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -51,6 +58,18 @@ fun AppStart(
     var selectedTab by rememberSaveable { mutableStateOf(TabItem.NEWS) }
 
     val isSignedIn by authenticationService.isSignedIn.collectAsState(false)
+
+    LaunchedEffect(isDeviceOnline) {
+        if (!isDeviceOnline) {
+            snackbarHostState.showSnackbar(
+                message = "Keine Internetverbindung",
+                duration = SnackbarDuration.Indefinite
+            )
+        } else {
+            snackbarHostState.currentSnackbarData?.dismiss()
+        }
+    }
+
 
     if (!isSignedIn) {
         LoginScreen()
@@ -109,5 +128,6 @@ fun AppStart(
                 }
             }
         }
+
     }
 }
