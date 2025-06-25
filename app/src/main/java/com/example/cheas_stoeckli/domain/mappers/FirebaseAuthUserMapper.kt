@@ -10,7 +10,8 @@ object FirebaseAuthUserMapper {
         return User(
             id = dto.uid,
             email = dto.email ?: "",
-            fullName = dto.displayName ?: ""
+            fullName = dto.displayName ?: "",
+            
         )
     }
 }

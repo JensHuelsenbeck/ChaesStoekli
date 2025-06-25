@@ -32,6 +32,8 @@ fun NewsScreen(
     snackbarScope: CoroutineScope,
     viewModel: NewsViewModel = koinViewModel()
 ) {
+
+    val annoucements = viewModel.announcements.collectAsState()
     val news = viewModel.news.collectAsState()
     var showDialog = remember { mutableStateOf(false) }
 
@@ -64,7 +66,7 @@ fun NewsScreen(
                     Text(text = "Add News")
                 }
             }
-            NewsList(news = news.value)
+            NewsList(news = annoucements.value)
         }
     }
     if (showDialog.value) {

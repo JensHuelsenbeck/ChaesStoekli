@@ -137,6 +137,7 @@ fun NewsCard(
                             .align(Alignment.BottomStart)
                     )
                 }
+                /*
                 if(news.destination != "") {
                     Text(
                         text = "Anfahrt",
@@ -156,6 +157,7 @@ fun NewsCard(
                             .align(Alignment.BottomEnd)
                     )
                 }
+                */
             }
         }
     }
