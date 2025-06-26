@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.ui.components.AddNewsDialog.NewsAddDialog
 import com.example.cheas_stoeckli.ui.components.Header
+import com.example.cheas_stoeckli.ui.components.News.NewsDetailsDialog
 import com.example.cheas_stoeckli.ui.components.News.NewsList
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
@@ -49,7 +50,7 @@ fun NewsScreen(
     appUser.value?.let { Log.d("AppUser", it.permissonLevel) }
     val annoucements = viewModel.announcements.collectAsState()
     var showDialog = remember { mutableStateOf(false) }
-
+    var showDetails = remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .background(screenBackgroundPrimary)
@@ -68,7 +69,9 @@ fun NewsScreen(
             ) {
                 Header(text = "Grüezi Wohl")
                 Spacer(Modifier.weight(1f))
-                IconButton(onClick = { }) {
+                IconButton(
+                    onClick = { showDetails.value = true }
+                ) {
                     Box(
                         modifier = Modifier
                             .size(42.dp)
@@ -83,11 +86,12 @@ fun NewsScreen(
                         )
                     }
                 }
-              Button(onClick =
-                  { viewModel.onSignOutClick() }
-              ) {
-                  Text("+")
-              }
+                Button(
+                    onClick =
+                        { viewModel.onSignOutClick() }
+                ) {
+                    Text("+")
+                }
             }
             NewsList(
                 news = annoucements.value,
@@ -95,19 +99,25 @@ fun NewsScreen(
                 user = appUser.value
             )
         }
-        if(appUser.value?.permissonLevel == "1")
-        FloatingActionButton(
-            onClick = {  showDialog.value = true  },
-            containerColor = loginButtonColor,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(horizontal = 16.dp, vertical = 28.dp)
-        ) {
-            Image(
-                painter = painterResource(R.drawable.write_square_24),
-                contentDescription = "Beitrag schreiben"
-            )
-        }
+        if (appUser.value?.permissonLevel == "1")
+            FloatingActionButton(
+                onClick = { showDialog.value = true },
+                containerColor = loginButtonColor,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(horizontal = 16.dp, vertical = 28.dp)
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.write_square_24),
+                    contentDescription = "Beitrag schreiben"
+                )
+            }
+    }
+    if(showDetails.value) {
+        NewsDetailsDialog(
+            user = appUser.value,
+            onDismiss = { showDetails.value = false }
+        )
     }
     if (showDialog.value) {
         NewsAddDialog(

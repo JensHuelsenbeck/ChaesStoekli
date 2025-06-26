@@ -63,7 +63,7 @@ fun NewsCard(
             .height(200.dp)
             .combinedClickable(
                 onClick = {  },
-                onLongClick = { if(user?.permissonLevel == "1")isDialogshown = true else { } }
+                onLongClick = { if(user?.permissonLevel == "1") isDialogshown = true else { } }
             ),
         shape = RoundedCornerShape(12.dp)
     ) {
