@@ -29,8 +29,6 @@ class NewsAddViewModel(
     val imagePathInsideCloud = mutableStateOf("")
 
     val imageUri = mutableStateOf<Uri?>(null)
-
-
     val isUploading = mutableStateOf(false)
     val errorMessage = mutableStateOf("")
 
@@ -92,6 +90,7 @@ class NewsAddViewModel(
         type = null
         imageDownloadUrl.value = ""
         imagePathInsideCloud.value = ""
+        imageUri.value = null
     }
 }
 

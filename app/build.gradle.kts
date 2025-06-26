@@ -55,6 +55,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.firebase.storage.ktx)
 
+    // Mehr material3 Icons
+    implementation(libs.androidx.material.icons.extended)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -94,8 +97,6 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.play.services.auth)
-
-
 
     // Cloud Storage
     implementation(libs.google.firebase.firestore)

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.example.cheas_stoeckli.ui.components.News.NewsCard
 import com.example.cheas_stoeckli.ui.enums.NewsKind
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
@@ -72,13 +72,13 @@ fun NewsAddDialog(
 
     Dialog(
         onDismissRequest = { showConfirmDialog.value = true },
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
             shape = RoundedCornerShape(12.dp),
             color = cardBackgroundPrimary,
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.9f)
+                .fillMaxSize(0.9f)
         ) {
             Box(
                 contentAlignment = Alignment.TopCenter,
