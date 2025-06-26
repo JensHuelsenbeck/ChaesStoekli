@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.domain.models.News
+import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.eventTimeAndDate
 import com.example.cheas_stoeckli.ui.theme.newsEnumColor
@@ -46,6 +47,7 @@ import com.example.cheas_stoeckli.ui.theme.newsEnumColor
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NewsCard(
+    user: User?,
     news: News,
     uri: Uri?,
     onClickDelete: () -> Unit,
@@ -61,7 +63,7 @@ fun NewsCard(
             .height(200.dp)
             .combinedClickable(
                 onClick = {  },
-                onLongClick = { isDialogshown = true }
+                onLongClick = { if(user?.permissonLevel == "1")isDialogshown = true else { } }
             ),
         shape = RoundedCornerShape(12.dp)
     ) {

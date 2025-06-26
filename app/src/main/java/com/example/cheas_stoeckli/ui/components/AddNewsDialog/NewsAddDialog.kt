@@ -184,6 +184,7 @@ fun NewsAddDialog(
                         news = viewModel.previewNews,
                         uri = viewModel.imageUri.value,
                         onClickDelete = {},
+                        user = null,
                         modifier = Modifier.border(2.dp, Color.Gray, RoundedCornerShape(12.dp)),
                     )
                     Spacer(Modifier.height(8.dp))

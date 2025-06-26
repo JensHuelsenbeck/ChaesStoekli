@@ -91,7 +91,8 @@ fun NewsScreen(
             }
             NewsList(
                 news = annoucements.value,
-                newsViewModel = viewModel
+                newsViewModel = viewModel,
+                user = appUser.value
             )
         }
         if(appUser.value?.permissonLevel == "1")

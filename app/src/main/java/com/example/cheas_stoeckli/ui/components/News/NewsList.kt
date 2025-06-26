@@ -15,10 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cheas_stoeckli.domain.models.News
+import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
 
 @Composable
 fun NewsList(
+    user: User?,
     news: List<News>,
     newsViewModel: NewsViewModel
 ) {
@@ -43,7 +45,8 @@ fun NewsList(
                     NewsCard(
                         news = item,
                         uri = null,
-                        onClickDelete = { newsViewModel.deleteAnnouncement(item) }
+                        onClickDelete = { newsViewModel.deleteAnnouncement(item) },
+                        user = user
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
