@@ -1,3 +1,13 @@
+import java.io.FileInputStream
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+val apiKey = localProperties.getProperty("maps_api_key") ?: ""
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -23,13 +33,21 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "maps_api_key", "\"$apiKey\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "maps_api_key", "\"$apiKey\"")
         }
+    }
+    buildFeatures {
+        buildConfig = true
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -41,6 +59,7 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 dependencies {
@@ -75,6 +94,7 @@ dependencies {
     implementation(libs.moshi)
     implementation(libs.retrofit)
     implementation(libs.converterMoshi)
+
 
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
