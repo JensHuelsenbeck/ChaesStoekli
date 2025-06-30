@@ -24,6 +24,7 @@ koinBom = "4.1.0-Beta4"
 navigationCompose = "2.9.0"
 kotlinSerialization = "1.6.3"
 moshiVersion = "1.15.0"
+playServicesLocation = "21.3.0"
 retrofitVersion = "2.11.0"
 roomRuntime = "2.7.1"
 kspVersion = "2.0.21-1.0.25"
@@ -81,6 +82,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
 moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshiVersion" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
 converterMoshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofitVersion" }
 

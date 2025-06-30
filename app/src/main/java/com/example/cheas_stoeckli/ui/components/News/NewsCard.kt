@@ -78,20 +78,6 @@ fun NewsCard(
 
         ) {
             Box {
-                /*
-                AsyncImage(
-                    model = uri ?: news.imgDownloadPath,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    placeholder = painterResource(R.drawable.default_image),
-                    onLoading = { Log.d("AsyncImage", "Image loading") },
-                    onError = { state -> Log.e("AsyncImage", "Error loading image") },
-                    onSuccess = { state -> Log.d("AsyncImage", "Image loaded successfully") },
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(136.dp)
-                )
-                */
                 SubcomposeAsyncImage(
                     model = uri ?: news.imgDownloadPath,
                     contentDescription = null,

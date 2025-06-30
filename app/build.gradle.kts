@@ -140,6 +140,8 @@ dependencies {
 
     //FusedLocation - Standortabfrage per GPS, WLan, Bluetoth oder Handynetz von Google
     implementation(libs.accompanist.permissions.v0315beta)
+    implementation(libs.play.services.location)
+
 
 
 

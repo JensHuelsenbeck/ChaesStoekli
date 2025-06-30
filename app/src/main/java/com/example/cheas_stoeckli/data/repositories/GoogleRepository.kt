@@ -1,11 +1,18 @@
 package com.example.cheas_stoeckli.data.repositories
 
+import android.Manifest
+import android.content.Context
+import android.location.Location
+import androidx.annotation.RequiresPermission
 import com.cheas_stoeckli.app.BuildConfig
 import com.example.cheas_stoeckli.data.remote.GoogleDirections.GoogleApiService
+import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.tasks.await
 
 
-class GoogleMapsRepository(
-    private val apiService: GoogleApiService
+class GoogleRepository(
+    private val apiService: GoogleApiService,
+    private val context: Context
 ) {
 
     val apiKey = BuildConfig.maps_api_key
@@ -29,4 +36,17 @@ class GoogleMapsRepository(
                 "&path=enc:$polyline" +
                 "&key=$apiKey"
     }
+
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
+    suspend fun getCurrentLocation(): Result<Location> {
+        return try {
+            val fused = LocationServices.getFusedLocationProviderClient(context)
+            val loc = fused.lastLocation.await()
+                ?: return Result.failure(IllegalStateException("Location null"))
+            Result.success(loc)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 }

@@ -16,3 +16,6 @@ object KontaktRoute
 
 @Serializable
 object FavoritenRoute
+
+@Serializable
+object NewsDetailRoute
