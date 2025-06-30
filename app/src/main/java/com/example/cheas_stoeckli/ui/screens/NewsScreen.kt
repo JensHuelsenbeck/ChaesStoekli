@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,12 +31,13 @@ import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.ui.components.AddNewsDialog.NewsAddDialog
 import com.example.cheas_stoeckli.ui.components.Header
-import com.example.cheas_stoeckli.ui.components.News.NewsDetailsDialog
+import com.example.cheas_stoeckli.ui.components.News.NewsInformation
 import com.example.cheas_stoeckli.ui.components.News.NewsList
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -47,10 +49,10 @@ fun NewsScreen(
 ) {
 
     val appUser = viewModel.appUser.collectAsState()
-    appUser.value?.let { Log.d("AppUser", it.permissonLevel) }
+    val infoDialog = viewModel.InfoDialog.collectAsState()
     val annoucements = viewModel.announcements.collectAsState()
     var showDialog = remember { mutableStateOf(false) }
-    var showDetails = remember { mutableStateOf(false) }
+    var showInfoDialog = remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .background(screenBackgroundPrimary)
@@ -70,7 +72,7 @@ fun NewsScreen(
                 Header(text = "Grüezi Wohl")
                 Spacer(Modifier.weight(1f))
                 IconButton(
-                    onClick = { showDetails.value = true }
+                    onClick = { showInfoDialog.value = true }
                 ) {
                     Box(
                         modifier = Modifier
@@ -88,7 +90,10 @@ fun NewsScreen(
                 }
                 Button(
                     onClick =
-                        { viewModel.onSignOutClick() }
+                        {
+                            viewModel.onSignOutClick()
+                            //viewModel.hasSeenInfoDialog(false)
+                        }
                 ) {
                     Text("+")
                 }
@@ -113,10 +118,13 @@ fun NewsScreen(
                 )
             }
     }
-    if(showDetails.value) {
-        NewsDetailsDialog(
+    if (showInfoDialog.value) {
+        NewsInformation(
             user = appUser.value,
-            onDismiss = { showDetails.value = false }
+            onDismiss = {
+                showInfoDialog.value = false
+                viewModel.hasSeenInfoDialog(seen = true)
+            }
         )
     }
     if (showDialog.value) {
@@ -125,6 +133,18 @@ fun NewsScreen(
             snackbarHostState = snackbarHostState,
             snackbarScope = snackbarScope
         )
+    }
+    LaunchedEffect(Unit) {
+        delay(1000L)
+        Log.d(
+            "NewsScreen",
+            "LaunchedEffect gestartet – InfoDialog in ViewModel: ${infoDialog.value}"
+        )
+        if (!infoDialog.value) {
+            Log.d("NewsScreen", "InfoDialog wird angezeigt (showInfoDialog = true)")
+            showInfoDialog.value = true
+
+        }
     }
 }
 

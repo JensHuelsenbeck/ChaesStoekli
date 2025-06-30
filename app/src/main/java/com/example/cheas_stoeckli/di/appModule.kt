@@ -4,6 +4,7 @@ import com.example.cheas_stoeckli.data.remote.GoogleDirections.GoogleAPI
 import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository
 import com.example.cheas_stoeckli.data.repositories.NewsAddRepository
 import com.example.cheas_stoeckli.data.repositories.NewsRepository
+import com.example.cheas_stoeckli.data.repositories.UserPrefRepository
 import com.example.cheas_stoeckli.data.repositories.UserRepository
 import com.example.cheas_stoeckli.data.services.AuthenticationService
 import com.example.cheas_stoeckli.domain.domain.usecases.SignOutUseCase
@@ -12,6 +13,7 @@ import com.example.cheas_stoeckli.domain.usecases.SignInWithGoogleUseCase
 import com.example.cheas_stoeckli.ui.viewModel.AuthenticationViewModel
 import com.example.cheas_stoeckli.ui.viewModel.NetworkViewModel
 import com.example.cheas_stoeckli.ui.viewModel.NewsAddViewModel
+import com.example.cheas_stoeckli.ui.viewModel.NewsDetailViewModel
 import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -27,6 +29,7 @@ val appModule = module {
     singleOf(::NewsRepository)
     singleOf(::NewsAddRepository)
     singleOf(::CloudStorageRepository)
+    singleOf(::UserPrefRepository)
 
     // UseCases
     singleOf(::SignInWithGoogleUseCase)
@@ -38,6 +41,7 @@ val appModule = module {
     viewModelOf(::NewsViewModel)
     viewModelOf(::NewsAddViewModel)
     viewModelOf(::NetworkViewModel)
+    viewModelOf(::NewsDetailViewModel)
 
     //Retrofitservice
 

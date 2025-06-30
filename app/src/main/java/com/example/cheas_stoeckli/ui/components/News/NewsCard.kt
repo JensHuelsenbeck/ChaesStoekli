@@ -1,7 +1,6 @@
 package com.example.cheas_stoeckli.ui.components.News
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -10,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,19 +30,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.eventTimeAndDate
 import com.example.cheas_stoeckli.ui.theme.newsEnumColor
+import com.example.cheas_stoeckli.utils.RotatingPlaceholder
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -76,21 +78,42 @@ fun NewsCard(
 
         ) {
             Box {
+                /*
                 AsyncImage(
                     model = uri ?: news.imgDownloadPath,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     placeholder = painterResource(R.drawable.default_image),
-                    error = painterResource(R.drawable.broken_image_ja),
                     onLoading = { Log.d("AsyncImage", "Image loading") },
                     onError = { state -> Log.e("AsyncImage", "Error loading image") },
                     onSuccess = { state -> Log.d("AsyncImage", "Image loaded successfully") },
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(136.dp)
-
-
                 )
+                */
+                SubcomposeAsyncImage(
+                    model = uri ?: news.imgDownloadPath,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(136.dp)
+                ) {
+                    when (painter.state) {
+                        is AsyncImagePainter.State.Loading -> {
+                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                RotatingPlaceholder(drawableRes = R.drawable.cheesewheel_placeholder)
+                            }
+                        }
+                        is AsyncImagePainter.State.Error -> {
+                            RotatingPlaceholder(drawableRes = R.drawable.cheesewheel_placeholder)
+                        }
+                        else -> {
+                            SubcomposeAsyncImageContent()
+                        }
+                    }
+                }
                 Text(
                     text = news.type.rawValue,
                     textAlign = TextAlign.Center,

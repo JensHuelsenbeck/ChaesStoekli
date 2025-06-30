@@ -27,8 +27,9 @@ import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 
 
 @Composable
-fun NewsDetailsDialog(
-    user: User?, onDismiss: () -> Unit
+fun NewsInformation(
+    user: User?,
+    onDismiss: () -> Unit
 ) {
     Dialog(
         onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -55,7 +56,18 @@ fun NewsDetailsDialog(
                 if (user?.permissonLevel == "1") {
                     Text(
                         text = "Du kannst auf die Ankündigungen tippen, um mehr Details zu sehen – \n " +
-                                "inklusive einer Wegbeschreibung oder Routenplanung.",
+                                "inklusive einer Wegbeschreibung oder Routenplanung bei Veranstaltungen." +
+                                "Dafür brauchen wir aber deine Zustimmung zur Standortbestimmung. " +
+                                "Wir werden  dich danach fragen, wenn es nötig ist.",
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        text = "Dafür brauchen wir aber deine Zustimmung zur Standortbestimmung. " +
+                                "Wenn es nötig sein sollte, fragen wir danach." +
+                                " \nDie App wird aber auch ohne deine Erlaubnis wunderbar funktionieren",
                         fontSize = 16.sp,
                         color = Color.Black,
                         textAlign = TextAlign.Center
@@ -71,7 +83,16 @@ fun NewsDetailsDialog(
                 } else {
                     Text(
                         text = "Du kannst auf die Ankündigungen tippen, um mehr Details zu sehen – \n" +
-                                "inklusive einer Wegbeschreibung oder Routenplanung.",
+                                "inklusive einer Wegbeschreibung oder Routenplanung bei Veranstaltungen.\n",
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        text = "Dafür brauchen wir aber deine Zustimmung zur Standortbestimmung. " +
+                                "Wenn es nötig sein sollte, fragen wir danach." +
+                        " \nDie App wird aber auch ohne deine Erlaubnis wunderbar funktionieren",
                         fontSize = 16.sp,
                         color = Color.Black,
                         textAlign = TextAlign.Center
@@ -80,7 +101,7 @@ fun NewsDetailsDialog(
                 Spacer(Modifier.height(16.dp))
                 Button(
                     onClick = onDismiss,
-                    colors = ButtonDefaults.buttonColors(containerColor = loginButtonColor )
+                    colors = ButtonDefaults.buttonColors(containerColor = loginButtonColor)
                 ) {
                     Text(
                         text = "Verstanden \u2714",

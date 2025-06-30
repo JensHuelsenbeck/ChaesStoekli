@@ -64,6 +64,7 @@ android {
 
 dependencies {
 
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -76,6 +77,11 @@ dependencies {
 
     // Mehr material3 Icons
     implementation(libs.androidx.material.icons.extended)
+
+    // DataStore
+    implementation(libs.androidx.datastore.core.android)
+    implementation(libs.androidx.datastore.preferences)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -131,5 +137,10 @@ dependencies {
 
 
     implementation(libs.kotlinx.coroutines.play.services)
+
+    //FusedLocation - Standortabfrage per GPS, WLan, Bluetoth oder Handynetz von Google
+    implementation(libs.accompanist.permissions.v0315beta)
+
+
 
 }

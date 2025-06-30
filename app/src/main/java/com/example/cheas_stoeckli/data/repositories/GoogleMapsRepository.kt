@@ -10,16 +10,21 @@ class GoogleMapsRepository(
 
     val apiKey = BuildConfig.maps_api_key
 
-    suspend fun GoogleMapsCall(origin: String, destination: String) {
-      val polyline =  apiService.getDirections(
-            origin = origin,
-            destination = destination,
-            apiKey = apiKey
+    suspend fun getPolyline(origin: String, destination: String): String {
+        val polyline = apiService.getDirections(
+            origin = origin, destination = destination, apiKey = apiKey
         )
+        if (!polyline.isSuccessful) {
+            throw retrofit2.HttpException(polyline)
+        }
+
+        return polyline.body()?.routes?.firstOrNull()?.overviewPolyline?.points
+            ?: throw IllegalStateException("Polyline fehlt in der API-Antwort")
+
     }
 
-    fun staticMapsCall(polyline: String): String {
-       return "https://maps.googleapis.com/maps/api/staticmap" +
+    fun staticMapsUrlBuilder(polyline: String): String {
+        return "https://maps.googleapis.com/maps/api/staticmap" +
                 "?size=600x400" +
                 "&path=enc:$polyline" +
                 "&key=$apiKey"
