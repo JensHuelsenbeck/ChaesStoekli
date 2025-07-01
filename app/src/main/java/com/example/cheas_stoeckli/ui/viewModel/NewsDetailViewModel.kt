@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cheas_stoeckli.data.remote.GoogleDirections.GoogleApiService
 import com.example.cheas_stoeckli.data.repositories.GoogleRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +14,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class NewsDetailViewModel(
-    apiService: GoogleApiService, private val googleMapsRepository: GoogleRepository
+   private val googleMapsRepository: GoogleRepository
 ) : ViewModel() {
 
     private val _polyline = MutableStateFlow("")
@@ -59,38 +58,23 @@ class NewsDetailViewModel(
         }
     }
 
-    @RequiresPermission(
-        allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION]
-    )
-    fun requestLocation() {
-        viewModelScope.launch {
-            googleMapsRepository.getCurrentLocation().onSuccess { location ->
-                    _location.value = location
-                    _error.value = null
-                }.onFailure { e ->
-                    _error.value = when (e) {
-                        is SecurityException -> "Keine Standort-Berechtigung"
-                        is IOException -> "Keine Internetverbindung"
-                        else -> e.message ?: "Standortfehler"
-                    }
-                }
-        }
-    }
-
-    private fun makeOriginString(): String {
-        val current = location.value
-        val latitude = current?.latitude ?: 0.0
-        val longitude = current?.longitude ?: 0.0
-        return "$latitude,$longitude"
-    }
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     fun getMapUrl(destination: String) {
-        requestLocation()
-       val originUrl =  makeOriginString()
-        getStaticMap(
-            origin = originUrl,
-            destination = destination
-        )
+        viewModelScope.launch {
+            try {
+                val result = googleMapsRepository.buildMapUrl(destination)
+                result.onSuccess { url ->
+                    Log.d("NewsDetailViewModel", "✓ Static-Map-URL erhalten: $url")
+                    _staticMapUrl.value = url
+                }.onFailure { e ->
+                    Log.e("NewsDetailViewModel", "✗ buildMapUrl-Fehler: ${e.message}")
+                    _error.value = e.message
+                }
+            } catch (e: Exception) {
+                Log.e("NewsDetailViewModel", "✗ Unbekannter Fehler: ${e.message}")
+                _error.value = e.message
+            }
+        }
     }
 }

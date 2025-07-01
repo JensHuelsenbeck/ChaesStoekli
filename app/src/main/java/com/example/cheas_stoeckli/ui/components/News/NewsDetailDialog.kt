@@ -1,5 +1,8 @@
 package com.example.cheas_stoeckli.ui.components.News
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,12 +19,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,23 +43,27 @@ import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.NewsDetailViewModel
 import com.example.cheas_stoeckli.utils.RotatingPlaceholder
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
+@SuppressLint("MissingPermission")
 @Composable
 fun NewsDetailDialog(
     news: News,
+    onDismiss: () -> Unit,
     newsDetailViewModel: NewsDetailViewModel = koinViewModel()
 ) {
-    val context = LocalContext.current
+
+    val mapsUrl by newsDetailViewModel.staticMapUrl.collectAsState()
 
     val fineLocPermission = rememberPermissionState(
-        android.Manifest.permission.ACCESS_FINE_LOCATION
+        Manifest.permission.ACCESS_FINE_LOCATION
     )
     Dialog(
-        onDismissRequest = { },
+        onDismissRequest = { onDismiss() },
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
@@ -74,7 +83,7 @@ fun NewsDetailDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(0.3f)
-                        .background(Color.Black)
+                        .background(cardBackgroundPrimary)
                 ) {
                     SubcomposeAsyncImage(
                         modifier = Modifier
@@ -112,6 +121,7 @@ fun NewsDetailDialog(
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.SemiBold,
+                    color = Color.Black,
                     modifier = Modifier.padding(8.dp)
                 )
                 Column(
@@ -126,25 +136,55 @@ fun NewsDetailDialog(
                                 "${news.time}",
                         fontSize = 18.sp,
                         lineHeight = 24.sp,
+                        color = Color.Black,
                         textAlign = TextAlign.Center
                     )
                 }
                 Spacer(Modifier.height(12.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
+                        .background(cardBackgroundPrimary)
+                ) {
+                    SubcomposeAsyncImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f),
+                        model = mapsUrl,
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        loading = {
+                            RotatingPlaceholder(drawableRes = R.drawable.cheesewheel_placeholder)
+
+                        }
+                    )
+                }
             }
-        }
 
-
-
-
-        LaunchedEffect(news.type) {
-            if (news.type == NewsKind.EVENTS && !fineLocPermission.status.isGranted) {
-                fineLocPermission.launchPermissionRequest()
-            }
         }
         LaunchedEffect(fineLocPermission.status) {
+            if (news.type == NewsKind.EVENTS) {
+                when (fineLocPermission.status) {
+                    PermissionStatus.Granted -> {
+                        Log.d("NewsDetailDialog", "Permission granted → Map laden")
+                        newsDetailViewModel.getMapUrl(news.destination)
+                    }
+                    is PermissionStatus.Denied -> {
+                        Log.d("NewsDetailDialog", "Permission (noch) nicht erteilt")
+                        fineLocPermission.launchPermissionRequest()
+                    }
+                }
+            }
+        }
+        DisposableEffect(fineLocPermission.status.isGranted) {
             if (news.type == NewsKind.EVENTS && fineLocPermission.status.isGranted) {
+                Log.d("NewsDetailDialog", "Permission granted later")
+                println("Berechtigung wurde nachträglich erteilt – Map wird geladen")
                 newsDetailViewModel.getMapUrl(news.destination)
             }
+            onDispose { }
         }
     }
 }
@@ -152,5 +192,9 @@ fun NewsDetailDialog(
 @Preview
 @Composable
 private fun Newspreview() {
-    NewsDetailDialog(fakeNews)
+    NewsDetailDialog(
+        fakeNews,
+        onDismiss = { TODO() },
+
+        )
 }

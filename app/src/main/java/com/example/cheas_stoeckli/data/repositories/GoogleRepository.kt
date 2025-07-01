@@ -7,6 +7,8 @@ import androidx.annotation.RequiresPermission
 import com.cheas_stoeckli.app.BuildConfig
 import com.example.cheas_stoeckli.data.remote.GoogleDirections.GoogleApiService
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.tasks.await
 
 
@@ -38,15 +40,30 @@ class GoogleRepository(
     }
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
-    suspend fun getCurrentLocation(): Result<Location> {
+    suspend fun getFreshLocation(): Result<Location> {
         return try {
             val fused = LocationServices.getFusedLocationProviderClient(context)
-            val loc = fused.lastLocation.await()
-                ?: return Result.failure(IllegalStateException("Location null"))
-            Result.success(loc)
+            val location = fused.getCurrentLocation(
+                Priority.PRIORITY_HIGH_ACCURACY,
+                CancellationTokenSource().token
+            ).await()
+
+            if (location != null) {
+                Result.success(location)
+            } else {
+                Result.failure(Exception("Standort ist null"))
+            }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
+    suspend fun buildMapUrl(destination: String): Result<String> {
+        return getFreshLocation().mapCatching { location ->
+            val origin = "${location.latitude},${location.longitude}"
+            val poly = getPolyline(origin, destination)
+            staticMapsUrlBuilder(poly)
+        }
+    }
 }

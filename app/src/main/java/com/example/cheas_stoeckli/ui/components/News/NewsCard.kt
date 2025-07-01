@@ -57,6 +57,7 @@ fun NewsCard(
 ) {
 
    var isDialogshown by rememberSaveable { mutableStateOf(false) }
+    var showDetailDialog by rememberSaveable { mutableStateOf(false) }
 
     Card(
         colors = CardDefaults.cardColors(cardBackgroundPrimary),
@@ -64,8 +65,11 @@ fun NewsCard(
             .fillMaxWidth(0.9f)
             .height(200.dp)
             .combinedClickable(
-                onClick = {  },
-                onLongClick = { if(user?.permissonLevel == "1") isDialogshown = true else { } }
+                onClick = { showDetailDialog = true },
+                onLongClick = {
+                    if (user?.permissonLevel == "1") isDialogshown = true else {
+                    }
+                }
             ),
         shape = RoundedCornerShape(12.dp)
     ) {
@@ -158,27 +162,6 @@ fun NewsCard(
                             .align(Alignment.BottomStart)
                     )
                 }
-                /*
-                if(news.destination != "") {
-                    Text(
-                        text = "Anfahrt",
-                        textAlign = TextAlign.Center,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Blue,
-
-                        modifier = Modifier
-                            .clip(
-                                RoundedCornerShape(
-                                    topStart = 8.dp
-                                )
-                            )
-                            .background(eventTimeAndDate)
-                            .padding(4.dp)
-                            .align(Alignment.BottomEnd)
-                    )
-                }
-                */
             }
         }
     }
@@ -209,6 +192,13 @@ fun NewsCard(
             textContentColor = Color.Black,
             titleContentColor = Color.Black,
             modifier = modifier
+        )
+    }
+
+    if(showDetailDialog) {
+        NewsDetailDialog(
+            news = news,
+            onDismiss = { showDetailDialog = false }
         )
     }
 

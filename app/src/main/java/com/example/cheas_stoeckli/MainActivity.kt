@@ -1,5 +1,6 @@
 package com.example.cheas_stoeckli
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +12,7 @@ import com.example.cheas_stoeckli.ui.theme.Cheas_StoeckliTheme
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

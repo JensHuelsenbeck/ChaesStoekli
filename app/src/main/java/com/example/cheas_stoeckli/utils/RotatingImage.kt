@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RotatingPlaceholder(drawableRes: Int, size: Dp = 92.dp) {
+fun RotatingPlaceholder(drawableRes: Int, size: Dp = 85.dp) {
     val infiniteTransition = rememberInfiniteTransition()
     val rotation by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1000, easing = LinearEasing),
+            animation = tween(durationMillis = 1750, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         )
     )

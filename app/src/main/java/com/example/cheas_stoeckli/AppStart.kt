@@ -123,7 +123,10 @@ fun AppStart(
                     startDestination = TabItem.NEWS.route,
                 ) {
                     composable<NewsRoute> {
-                        NewsScreen(snackbarHostState = snackbarHostState, snackbarScope = scope)
+                        NewsScreen(
+                            snackbarHostState = snackbarHostState,
+                            snackbarScope = scope
+                        )
                     }
                 }
             }
