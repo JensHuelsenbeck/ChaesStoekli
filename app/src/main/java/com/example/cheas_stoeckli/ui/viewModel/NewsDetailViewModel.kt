@@ -1,9 +1,13 @@
 package com.example.cheas_stoeckli.ui.viewModel
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.location.Location
+import android.net.Uri
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cheas_stoeckli.data.repositories.GoogleRepository
@@ -77,4 +81,16 @@ class NewsDetailViewModel(
             }
         }
     }
+    fun intentToGoogleMaps(context: Context, destination: String) {
+        val uri = "geo:0,0?q=${Uri.encode(destination)}".toUri()
+        val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+            setPackage("com.google.android.apps.maps")
+        }
+        context.startActivity(intent)
+    }
+
+    fun clearStaticMapsUrl() {
+        _staticMapUrl.value = ""
+    }
+
 }
