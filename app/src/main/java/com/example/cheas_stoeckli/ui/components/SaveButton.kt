@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.components.AddNewsDialog
+package com.example.cheas_stoeckli.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +17,7 @@ import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 
 @Composable
 fun SaveNewsButton(
+    text: String,
     onClickSaveNews: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -30,7 +31,7 @@ fun SaveNewsButton(
             .padding(horizontal = 16.dp)
     ) {
         Text(
-            text = "Speichern",
+            text = text,
             fontSize = 14.sp,
             color = Color.White,
             fontWeight = FontWeight.Bold,

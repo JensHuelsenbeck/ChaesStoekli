@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -51,99 +53,103 @@ fun NewsScreen(
     val appUser = viewModel.appUser.collectAsState()
     val infoDialog = viewModel.InfoDialog.collectAsState()
     val annoucements = viewModel.announcements.collectAsState()
-    var showDialog = remember { mutableStateOf(false) }
-    var showInfoDialog = remember { mutableStateOf(false) }
-    Box(
-        modifier = Modifier
-            .background(screenBackgroundPrimary)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+    val showAddDialog = remember { mutableStateOf(false) }
+    val showInfoDialog = remember { mutableStateOf(false) }
 
+    Surface(
+        modifier = Modifier
+            .fillMaxSize(),
+        color = screenBackgroundPrimary
+    ) {
+        Box() {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
             ) {
-                Header(text = "Grüezi Wohl")
-                Spacer(Modifier.weight(1f))
-                IconButton(
-                    onClick = { showInfoDialog.value = true }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(42.dp)
-                            .background(loginButtonColor, shape = CircleShape),
-                        contentAlignment = Alignment.Center
+                    Header(text = "Grüezi Wohl")
+                    Spacer(Modifier.weight(1f))
+                    IconButton(
+                        onClick = { showInfoDialog.value = true }
                     ) {
-                        Text(
-                            text = "?",
-                            fontSize = 24.sp,
-                            color = Color.Black,
-                            textAlign = TextAlign.Center
-                        )
+                        Box(
+                            modifier = Modifier
+                                .size(42.dp)
+                                .background(loginButtonColor, shape = CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "?",
+                                fontSize = 24.sp,
+                                color = Color.Black,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                    Button(
+                        onClick =
+                            {
+                                viewModel.onSignOutClick()
+                                //viewModel.hasSeenInfoDialog(false)
+                            }
+                    ) {
+                        Text("+")
                     }
                 }
-                Button(
-                    onClick =
-                        {
-                            viewModel.onSignOutClick()
-                            //viewModel.hasSeenInfoDialog(false)
-                        }
-                ) {
-                    Text("+")
-                }
-            }
-            NewsList(
-                news = annoucements.value,
-                newsViewModel = viewModel,
-                user = appUser.value
-            )
-        }
-        if (appUser.value?.permissonLevel == "1")
-            FloatingActionButton(
-                onClick = { showDialog.value = true },
-                containerColor = loginButtonColor,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(horizontal = 16.dp, vertical = 28.dp)
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.write_square_24),
-                    contentDescription = "Beitrag schreiben"
+                NewsList(
+                    news = annoucements.value,
+                    newsViewModel = viewModel,
+                    user = appUser.value
                 )
             }
-    }
-    if (showInfoDialog.value) {
-        NewsInformation(
-            user = appUser.value,
-            onDismiss = {
-                showInfoDialog.value = false
-                viewModel.hasSeenInfoDialog(seen = true)
-            }
-        )
-    }
-    if (showDialog.value) {
-        NewsAddDialog(
-            isDialogOpen = showDialog,
-            snackbarHostState = snackbarHostState,
-            snackbarScope = snackbarScope
-        )
-    }
-    LaunchedEffect(Unit) {
-        delay(1000L)
-        Log.d(
-            "NewsScreen",
-            "LaunchedEffect gestartet – InfoDialog in ViewModel: ${infoDialog.value}"
-        )
-        if (!infoDialog.value) {
-            Log.d("NewsScreen", "InfoDialog wird angezeigt (showInfoDialog = true)")
-            showInfoDialog.value = true
+            if (appUser.value?.permissonLevel == "1")
+                FloatingActionButton(
+                    onClick = { showAddDialog.value = true },
+                    containerColor = loginButtonColor,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(horizontal = 16.dp, vertical = 28.dp)
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.write_square_24),
+                        contentDescription = "Beitrag schreiben"
+                    )
+                }
+        }
+        if (showInfoDialog.value) {
+            NewsInformation(
+                user = appUser.value,
+                onDismiss = {
+                    showInfoDialog.value = false
+                    viewModel.hasSeenInfoDialog(seen = true)
+                }
+            )
+        }
+        if (showAddDialog.value) {
+            NewsAddDialog(
+                isDialogOpen = showAddDialog,
+                snackbarHostState = snackbarHostState,
+                snackbarScope = snackbarScope
+            )
+        }
+        LaunchedEffect(Unit) {
+            delay(1000L)
+            Log.d(
+                "NewsScreen",
+                "LaunchedEffect gestartet – InfoDialog in ViewModel: ${infoDialog.value}"
+            )
+            if (!infoDialog.value) {
+                Log.d("NewsScreen", "InfoDialog wird angezeigt (showInfoDialog = true)")
+                showInfoDialog.value = true
 
+            }
         }
     }
 }

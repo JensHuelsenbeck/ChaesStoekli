@@ -9,14 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
-import com.example.cheas_stoeckli.ui.viewModel.NewsAddViewModel
 
 @Composable
 fun ConfirmDialog(
     showConfirmDialog: MutableState<Boolean>,
     showAddDialog: MutableState<Boolean>,
-    viewModel: NewsAddViewModel,
     confirmText: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     AlertDialog(
@@ -27,7 +26,7 @@ fun ConfirmDialog(
             fontSize = 17.sp) } },
         confirmButton = { TextButton(onClick = {
             showAddDialog.value = false
-            viewModel.setValuablesToEmpty()
+            onClick()
         }) { Text(
             text = "Bestätigen",
             color = Color.Blue,

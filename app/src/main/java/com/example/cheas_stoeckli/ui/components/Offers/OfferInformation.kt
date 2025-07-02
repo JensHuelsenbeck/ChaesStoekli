@@ -27,12 +27,13 @@ import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 
 
 @Composable
-fun NewsInformation(
+fun OfferInformation(
     user: User?,
     onDismiss: () -> Unit
 ) {
     Dialog(
-        onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Surface(
             shape = RoundedCornerShape(12.dp),
@@ -47,52 +48,23 @@ fun NewsInformation(
                     .background(cardBackgroundPrimary)
             ) {
                 Text(
-                    text = "Hinweise zu den Ankündigungen",
+                    text = "Hinweise zu den Angeboten",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
                 Spacer(Modifier.height(8.dp))
+                Text(
+                    text = "Du kannst auf den Käse, das Raclette und das Fondue tippen, um zum Sortiment zu gelangen.",
+                    fontSize = 16.sp,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(Modifier.height(12.dp))
                 if (user?.permissonLevel == "1") {
                     Text(
-                        text = "Du kannst auf die Ankündigungen tippen, um mehr Details zu sehen – \n " +
-                                "inklusive einer Wegbeschreibung oder Routenplanung bei Veranstaltungen." +
-                                "Dafür brauchen wir aber deine Zustimmung zur Standortbestimmung. " +
-                                "Wir werden  dich danach fragen, wenn es nötig ist.",
-                        fontSize = 16.sp,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(Modifier.height(2.dp))
-                    Text(
-                        text = "Dafür brauchen wir aber deine Zustimmung zur Standortbestimmung. " +
-                                "Wenn es nötig sein sollte, fragen wir danach." +
-                                " \nDie App wird aber auch ohne deine Erlaubnis wunderbar funktionieren",
-                        fontSize = 16.sp,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(Modifier.height(12.dp))
-                    Text(
-                        text = "Zusätzlich kannst du durch langes Drücken eine Ankündigung löschen " +
+                        text = "Zusätzlich kannst du durch langes Drücken ein Angebot löschen " +
                                 "– \n und über den Button unten rechts eine neue hinzufügen.",
-                        fontSize = 16.sp,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center
-                    )
-                } else {
-                    Text(
-                        text = "Du kannst auf die Ankündigungen tippen, um mehr Details zu sehen – \n" +
-                                "inklusive einer Wegbeschreibung oder Routenplanung bei Veranstaltungen.\n",
-                        fontSize = 16.sp,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(Modifier.height(2.dp))
-                    Text(
-                        text = "Dafür brauchen wir aber deine Zustimmung zur Standortbestimmung. " +
-                                "Wenn es nötig sein sollte, fragen wir danach." +
-                        " \nDie App wird aber auch ohne deine Erlaubnis wunderbar funktionieren",
                         fontSize = 16.sp,
                         color = Color.Black,
                         textAlign = TextAlign.Center

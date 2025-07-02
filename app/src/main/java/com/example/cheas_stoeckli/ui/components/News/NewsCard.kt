@@ -56,7 +56,7 @@ fun NewsCard(
     modifier: Modifier = Modifier
 ) {
 
-   var isDialogshown by rememberSaveable { mutableStateOf(false) }
+    var isDialogshown by rememberSaveable { mutableStateOf(false) }
     var showDetailDialog by rememberSaveable { mutableStateOf(false) }
 
     Card(
@@ -96,9 +96,11 @@ fun NewsCard(
                                 RotatingPlaceholder(drawableRes = R.drawable.cheesewheel_placeholder)
                             }
                         }
+
                         is AsyncImagePainter.State.Error -> {
                             RotatingPlaceholder(drawableRes = R.drawable.cheesewheel_placeholder)
                         }
+
                         else -> {
                             SubcomposeAsyncImageContent()
                         }
@@ -167,23 +169,29 @@ fun NewsCard(
     }
     Spacer(Modifier.height(8.dp))
 
-    if(isDialogshown) {
+    if (isDialogshown) {
         AlertDialog(
             onDismissRequest = {},
             dismissButton = {
                 TextButton(onClick = {
                     isDialogshown = false
-                }) { Text(
-                    text = "Abbrechen",
-                    color = Color.Blue) }
+                }) {
+                    Text(
+                        text = "Abbrechen",
+                        color = Color.Blue
+                    )
+                }
             },
             confirmButton = {
                 TextButton(onClick = {
                     onClickDelete()
                     isDialogshown = false
-                }) { Text(
-                    text = "Löschen",
-                    color = Color.Blue) }
+                }) {
+                    Text(
+                        text = "Löschen",
+                        color = Color.Blue
+                    )
+                }
             },
             icon = { /* Icon */ },
             title = { Text("Achtung!") },
@@ -195,7 +203,7 @@ fun NewsCard(
         )
     }
 
-    if(showDetailDialog) {
+    if (showDetailDialog) {
         NewsDetailDialog(
             news = news,
             onDismiss = { showDetailDialog = false }

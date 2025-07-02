@@ -11,13 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.cheas_stoeckli.data.Fake.offerList
 import com.example.cheas_stoeckli.domain.models.Offer
+import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.ui.enums.OfferKind
+import com.example.cheas_stoeckli.ui.viewModel.OfferViewModel
 
 @Composable
 fun OfferList(
+    user: User?,
     offers: List<Offer>,
+    viewModel: OfferViewModel
 ) {
     Box(
         modifier = Modifier
@@ -28,17 +31,24 @@ fun OfferList(
             horizontalAlignment = Alignment.CenterHorizontally,
             contentPadding = PaddingValues(8.dp),
         ) {
-            items(offerList.filter { it.type != OfferKind.ALLGEMEIN }) { item ->
+            items(offers.filter { it.type != OfferKind.ALLGEMEIN }) { item ->
                 OfferCard(
-                    navigateToDetailedOffer = { },
+                    navigateToDetailedOffer = {},
                     offer = item,
+                    onclickDelete = {  },
+                    uri = null,
+                    user = user,
+
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
-            items(offerList.filter { it.type == OfferKind.ALLGEMEIN }) { item ->
+            items(offers.filter { it.type == OfferKind.ALLGEMEIN }) { item ->
                 OfferCard(
-                    navigateToDetailedOffer = { },
+                    navigateToDetailedOffer = {  },
                     offer = item,
+                    onclickDelete = { viewModel.deleteOffer(item) },
+                    uri = null,
+                    user = user,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
