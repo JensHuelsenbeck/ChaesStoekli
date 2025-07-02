@@ -24,7 +24,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Cheas_StoeckliTheme {
-                AppStart()
+              AppStart()
+
                 }
             }
         }

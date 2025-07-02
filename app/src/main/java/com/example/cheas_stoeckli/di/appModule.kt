@@ -2,11 +2,11 @@ package com.example.cheas_stoeckli.di
 
 import com.example.cheas_stoeckli.data.remote.GoogleDirections.GoogleAPI
 import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository
+import com.example.cheas_stoeckli.data.repositories.GoogleRepository
 import com.example.cheas_stoeckli.data.repositories.NewsAddRepository
 import com.example.cheas_stoeckli.data.repositories.NewsRepository
 import com.example.cheas_stoeckli.data.repositories.UserPrefRepository
 import com.example.cheas_stoeckli.data.repositories.UserRepository
-import com.example.cheas_stoeckli.data.repositories.GoogleRepository
 import com.example.cheas_stoeckli.data.services.AuthenticationService
 import com.example.cheas_stoeckli.domain.domain.usecases.SignOutUseCase
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
@@ -16,6 +16,7 @@ import com.example.cheas_stoeckli.ui.viewModel.NetworkViewModel
 import com.example.cheas_stoeckli.ui.viewModel.NewsAddViewModel
 import com.example.cheas_stoeckli.ui.viewModel.NewsDetailViewModel
 import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
+import com.example.cheas_stoeckli.ui.viewModel.OfferViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -44,6 +45,7 @@ val appModule = module {
     viewModelOf(::NewsAddViewModel)
     viewModelOf(::NetworkViewModel)
     viewModelOf(::NewsDetailViewModel)
+    viewModelOf(::OfferViewModel)
 
     //Retrofitservice
 

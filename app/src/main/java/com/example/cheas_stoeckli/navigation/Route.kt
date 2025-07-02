@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 object NewsRoute
 
  @Serializable
-object AngebotRoute
+object OfferRoute
 
 @Serializable
 object TeamRoute

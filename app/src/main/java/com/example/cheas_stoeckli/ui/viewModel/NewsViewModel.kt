@@ -25,7 +25,6 @@ class NewsViewModel(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = null,
-
         )
 
     val InfoDialog: StateFlow<Boolean> = userPrefRepo.hasSeenLocationDialog.stateIn(

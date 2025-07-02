@@ -35,9 +35,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cheas_stoeckli.data.services.AuthenticationService
 import com.example.cheas_stoeckli.navigation.NewsRoute
+import com.example.cheas_stoeckli.navigation.OfferRoute
+import com.example.cheas_stoeckli.navigation.TeamRoute
 import com.example.cheas_stoeckli.ui.enums.TabItem
 import com.example.cheas_stoeckli.ui.screens.LoginScreen
 import com.example.cheas_stoeckli.ui.screens.NewsScreen
+import com.example.cheas_stoeckli.ui.screens.OfferScreen
+import com.example.cheas_stoeckli.ui.screens.TeamScreen
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.NetworkViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -120,7 +124,7 @@ fun AppStart(
             ) {
                 NavHost(
                     navController = navController,
-                    startDestination = TabItem.NEWS.route,
+                    startDestination = selectedTab.route,
                 ) {
                     composable<NewsRoute> {
                         NewsScreen(
@@ -128,9 +132,18 @@ fun AppStart(
                             snackbarScope = scope
                         )
                     }
+                    composable<OfferRoute> {
+                        OfferScreen(
+                            snackbarHostState = snackbarHostState,
+                            snackbarScope = scope,
+                        )
+                    }
+                    composable<TeamRoute> {
+                        TeamScreen()
+                    }
                 }
             }
         }
-
     }
 }
+

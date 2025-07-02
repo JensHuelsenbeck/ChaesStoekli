@@ -2,9 +2,9 @@ package com.example.cheas_stoeckli.ui.enums
 
 import androidx.annotation.DrawableRes
 import com.cheas_stoeckli.app.R
-import com.example.cheas_stoeckli.navigation.AngebotRoute
 import com.example.cheas_stoeckli.navigation.FavoritenRoute
 import com.example.cheas_stoeckli.navigation.NewsRoute
+import com.example.cheas_stoeckli.navigation.OfferRoute
 import com.example.cheas_stoeckli.navigation.TeamRoute
 
 
@@ -14,7 +14,7 @@ enum class TabItem(
    @DrawableRes val tabIcon: Int
 ) {
     NEWS(NewsRoute, "Grüezi ", R.drawable.waving_hand_24),
-    ANGEBOT(AngebotRoute, "s'Angebot", R.drawable.shopping_bag_24),
+    ANGEBOT(OfferRoute, "s'Angebot", R.drawable.shopping_bag_24),
     TEAM(TeamRoute, "s'Team", R.drawable.groups_24),
     KONTAKT(TeamRoute, "Kontakt", R.drawable.near_me_24),
     FAVORITEN(FavoritenRoute, "Favoriten", R.drawable.favorite_24)
