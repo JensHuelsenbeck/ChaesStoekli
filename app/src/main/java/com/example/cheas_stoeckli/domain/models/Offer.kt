@@ -5,7 +5,6 @@ import com.google.firebase.Timestamp
 import java.util.UUID
 
 data class Offer (
-
     val id: String = UUID.randomUUID().toString(),
     val title: String = "",
     val text: String = "",
@@ -14,5 +13,4 @@ data class Offer (
     val imgPath: String = "",
     val type: OfferKind = OfferKind.ALLGEMEIN,
     val createdAt: Timestamp = Timestamp.now()
-
     )

@@ -1,18 +1,22 @@
 package com.example.cheas_stoeckli.ui.viewModel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cheas_stoeckli.data.repositories.OfferRepository
-import com.example.cheas_stoeckli.domain.models.Offer
+import com.example.cheas_stoeckli.data.repositories.CheeseRepository
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
+import com.example.cheas_stoeckli.ui.enums.MilkType
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-class OfferViewModel(
+class CheeseViewModel(
     observeCurrentUserUseCase: ObserveCurrentUserUseCase,
-  private val offerRepo: OfferRepository
+    cheeseRepo: CheeseRepository
 ): ViewModel() {
+
+    var type by mutableStateOf<MilkType?>(null)
 
     val appUser = observeCurrentUserUseCase().stateIn(
         scope = viewModelScope,
@@ -20,15 +24,13 @@ class OfferViewModel(
         initialValue = null,
     )
 
-    val offers: StateFlow<List<Offer>> = offerRepo.observOffers().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
+    val cheese = cheeseRepo.observOffers().stateIn(
+        scope = viewModelScope ,
+        started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()
     )
 
-    fun deleteOffer(offer: Offer) {
-        offerRepo.deleteOffer(offer)
-
-    }
 
 }
+
+

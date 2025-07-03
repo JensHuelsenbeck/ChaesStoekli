@@ -1,12 +1,12 @@
 package com.example.cheas_stoeckli.domain.mappers
 
-import com.example.cheas_stoeckli.domain.models.FirestoreOffer
+import com.example.cheas_stoeckli.domain.models.FirebaseOffer
 import com.example.cheas_stoeckli.domain.models.Offer
 import com.example.cheas_stoeckli.ui.enums.OfferKind
 
 object OfferMapper {
 
-    fun toApp(dto: FirestoreOffer): Offer {
+    fun toApp(dto: FirebaseOffer): Offer {
         return Offer(
             id = dto.id,
             title = dto.title,
@@ -19,8 +19,8 @@ object OfferMapper {
         )
     }
 
-    fun toFirebase(offer: Offer): FirestoreOffer {
-        return FirestoreOffer(
+    fun toFirebase(offer: Offer): FirebaseOffer {
+        return FirebaseOffer(
             id = offer.id,
             title = offer.title,
             text = offer.text,

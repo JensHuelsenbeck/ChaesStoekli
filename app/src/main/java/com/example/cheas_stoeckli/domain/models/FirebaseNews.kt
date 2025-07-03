@@ -4,7 +4,7 @@ import com.example.cheas_stoeckli.ui.enums.NewsKind
 import com.google.firebase.Timestamp
 import java.util.UUID
 
-class FirestoreNews(
+class FiresbaseNews(
 
     val id: String = UUID.randomUUID().toString(),
     val title: String = "",

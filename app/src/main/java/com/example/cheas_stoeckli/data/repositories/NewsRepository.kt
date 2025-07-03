@@ -3,7 +3,7 @@ package com.example.cheas_stoeckli.data.repositories
 
 import android.util.Log
 import com.example.cheas_stoeckli.domain.mappers.NewsMapper
-import com.example.cheas_stoeckli.domain.models.FirestoreNews
+import com.example.cheas_stoeckli.domain.models.FiresbaseNews
 import com.example.cheas_stoeckli.domain.models.News
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -32,7 +32,7 @@ class NewsRepository {
 
                 if (snapshot != null && !snapshot.isEmpty) {
                     val newsList = snapshot.documents.mapNotNull { doc ->
-                        doc.toObject(FirestoreNews::class.java)
+                        doc.toObject(FiresbaseNews::class.java)
                             ?.let { dto -> NewsMapper.toApp(dto).copy(id = doc.id) }
                     }
                     trySend(newsList).isSuccess

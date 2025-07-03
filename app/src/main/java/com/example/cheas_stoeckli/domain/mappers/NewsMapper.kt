@@ -1,12 +1,12 @@
 package com.example.cheas_stoeckli.domain.mappers
 
-import com.example.cheas_stoeckli.domain.models.FirestoreNews
+import com.example.cheas_stoeckli.domain.models.FiresbaseNews
 import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.ui.enums.NewsKind
 
 object NewsMapper {
 
-    fun toApp(dto: FirestoreNews): News {
+    fun toApp(dto: FiresbaseNews): News {
         return News(
             id = dto.id,
             title = dto.title,
@@ -21,8 +21,8 @@ object NewsMapper {
         )
     }
 
-    fun toFirebase(news: News): FirestoreNews {
-        return FirestoreNews(
+    fun toFirebase(news: News): FiresbaseNews {
+        return FiresbaseNews(
             id = news.id,
             title = news.title,
             text = news.text,

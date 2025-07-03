@@ -1,6 +1,7 @@
 package com.example.cheas_stoeckli.ui.components.Offers
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -52,6 +53,7 @@ fun OfferCard(
 
     var isDialogshown by remember { mutableStateOf(false) }
 
+    Log.d("OfferCardUri","URI im Dialog: $uri")
 
     if (offer.type == OfferKind.ALLGEMEIN) {
         Card(
@@ -101,7 +103,7 @@ fun OfferCard(
                     )
                     Spacer(Modifier.height(6.dp))
                 }
-                if (offer.imgDownloadPath != "")
+                if (uri != null || offer.imgDownloadPath.isNotBlank())
                     SubcomposeAsyncImage(
                         modifier = Modifier.fillMaxWidth(),
                         model = uri ?: offer.imgDownloadPath,

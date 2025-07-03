@@ -166,7 +166,12 @@ fun AppStart(
                         FavoriteScreen()
                     }
                     composable<CheeseRoute> {
-                        CheeseScreen(popBackStack = { navController.popBackStack() })
+                        CheeseScreen(
+                            popBackStack = { navController.popBackStack() },
+                            snackbarHostState = snackbarHostState,
+                            snackbarScope = scope,
+
+                        )
                     }
                     composable<RacletteRoute> {
                         RacletteScreen(popBackStack = { navController.popBackStack() })

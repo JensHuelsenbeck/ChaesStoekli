@@ -121,7 +121,6 @@ fun NewsAddDialog(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
-
                     )
                     Spacer(Modifier.height(20.dp))
                     LazyRow(

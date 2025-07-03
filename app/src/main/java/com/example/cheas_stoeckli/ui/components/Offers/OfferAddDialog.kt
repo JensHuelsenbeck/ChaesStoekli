@@ -1,6 +1,7 @@
 package com.example.cheas_stoeckli.ui.components.Offers
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -65,7 +66,11 @@ fun OfferAddDialog(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
+            Log.d("LauncherUri", "Path: ${it.path}")
+
             viewModel.imageUri.value = it
+
+            Log.d("ViewModelUri", "Path: ${viewModel.imageUri.value}")
         }
     }
 
@@ -177,7 +182,7 @@ fun OfferAddDialog(
     }
     if (showConfirmDialog.value) {
         ConfirmDialog(
-            confirmText = "Zurück zu Grüezi Wohl? Dabei werden alle Eingaben verworfen.",
+            confirmText = "Zurück zu s' Angebot? Dabei werden alle Eingaben verworfen.",
             showConfirmDialog = showConfirmDialog,
             showAddDialog = isDialogOpen,
             onClick = { viewModel.setValuablesToEmpty() }

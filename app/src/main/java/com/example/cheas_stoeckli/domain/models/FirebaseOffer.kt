@@ -4,7 +4,7 @@ import com.example.cheas_stoeckli.ui.enums.OfferKind
 import com.google.firebase.Timestamp
 import java.util.UUID
 
-class FirestoreOffer(
+class FirebaseOffer(
 
     val id: String = UUID.randomUUID().toString(),
     val title: String = "",

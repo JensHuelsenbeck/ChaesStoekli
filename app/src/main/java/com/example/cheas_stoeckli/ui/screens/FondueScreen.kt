@@ -52,7 +52,9 @@ fun FondueScreen(
                     Header(text = "Fonduesortiment")
                     Spacer(Modifier.weight(1f))
                     IconButton(
-                        onClick = {  }
+                        onClick = {  },
+                        modifier = Modifier
+                            .padding(end = 16.dp)
                     ) {
                         Box(
                             modifier = Modifier

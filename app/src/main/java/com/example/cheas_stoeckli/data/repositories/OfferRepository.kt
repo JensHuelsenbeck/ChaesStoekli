@@ -3,7 +3,7 @@ package com.example.cheas_stoeckli.data.repositories
 
 import android.util.Log
 import com.example.cheas_stoeckli.domain.mappers.OfferMapper
-import com.example.cheas_stoeckli.domain.models.FirestoreOffer
+import com.example.cheas_stoeckli.domain.models.FirebaseOffer
 import com.example.cheas_stoeckli.domain.models.Offer
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -32,7 +32,7 @@ class OfferRepository {
 
                 if (snapshot != null && !snapshot.isEmpty) {
                     val offerList = snapshot.documents.mapNotNull { doc ->
-                        doc.toObject(FirestoreOffer::class.java)
+                        doc.toObject(FirebaseOffer::class.java)
                             ?.let { dto -> OfferMapper.toApp(dto).copy(id = doc.id) }
                     }
                     trySend(offerList).isSuccess
@@ -43,7 +43,7 @@ class OfferRepository {
         awaitClose { listener.remove() }
     }
 
-    fun deleteAnnouncement(offer: Offer) {
+    fun deleteOffer(offer: Offer) {
         if (offer.imgPath.isNotEmpty()) {
             cloudStorage.reference.child(offer.imgPath).delete()
                 .addOnSuccessListener { Log.i(tag, "Bild in der Cloud wurde gelöscht") }
