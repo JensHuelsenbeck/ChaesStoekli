@@ -34,13 +34,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cheas_stoeckli.data.services.AuthenticationService
+import com.example.cheas_stoeckli.navigation.CheeseRoute
+import com.example.cheas_stoeckli.navigation.FavoriteRoute
+import com.example.cheas_stoeckli.navigation.FondueRoute
 import com.example.cheas_stoeckli.navigation.NewsRoute
 import com.example.cheas_stoeckli.navigation.OfferRoute
+import com.example.cheas_stoeckli.navigation.RacletteRoute
 import com.example.cheas_stoeckli.navigation.TeamRoute
+import com.example.cheas_stoeckli.ui.enums.OfferKind
 import com.example.cheas_stoeckli.ui.enums.TabItem
+import com.example.cheas_stoeckli.ui.screens.CheeseScreen
+import com.example.cheas_stoeckli.ui.screens.FavoriteScreen
+import com.example.cheas_stoeckli.ui.screens.FondueScreen
 import com.example.cheas_stoeckli.ui.screens.LoginScreen
 import com.example.cheas_stoeckli.ui.screens.NewsScreen
 import com.example.cheas_stoeckli.ui.screens.OfferScreen
+import com.example.cheas_stoeckli.ui.screens.RacletteScreen
 import com.example.cheas_stoeckli.ui.screens.TeamScreen
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.NetworkViewModel
@@ -53,6 +62,7 @@ fun AppStart(
     networkViewmodel: NetworkViewModel = koinViewModel()
 ) {
 
+
     val isDeviceOnline by networkViewmodel.isOnline.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -62,6 +72,16 @@ fun AppStart(
     var selectedTab by rememberSaveable { mutableStateOf(TabItem.NEWS) }
 
     val isSignedIn by authenticationService.isSignedIn.collectAsState(false)
+
+
+    val onOfferNavigate: (OfferKind) -> Unit = { kind ->
+        when (kind) {
+            OfferKind.KAESE -> navController.navigate(CheeseRoute)
+            OfferKind.RACLETTE -> navController.navigate(RacletteRoute)
+            OfferKind.FONDUE -> navController.navigate(FondueRoute)
+            OfferKind.ALLGEMEIN -> {}
+        }
+    }
 
     LaunchedEffect(isDeviceOnline) {
         if (!isDeviceOnline) {
@@ -136,14 +156,28 @@ fun AppStart(
                         OfferScreen(
                             snackbarHostState = snackbarHostState,
                             snackbarScope = scope,
+                            onClickToDetailedOfferScreen = onOfferNavigate
                         )
                     }
                     composable<TeamRoute> {
                         TeamScreen()
+                    }
+                    composable<FavoriteRoute> {
+                        FavoriteScreen()
+                    }
+                    composable<CheeseRoute> {
+                        CheeseScreen(popBackStack = { navController.popBackStack() })
+                    }
+                    composable<RacletteRoute> {
+                        RacletteScreen(popBackStack = { navController.popBackStack() })
+                    }
+                    composable<FondueRoute> {
+                        FondueScreen(popBackStack = { navController.popBackStack() })
                     }
                 }
             }
         }
     }
 }
+
 

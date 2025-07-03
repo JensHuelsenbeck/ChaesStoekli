@@ -4,9 +4,10 @@ import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -35,12 +36,13 @@ import coil.compose.SubcomposeAsyncImage
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.domain.models.Offer
 import com.example.cheas_stoeckli.domain.models.User
+import com.example.cheas_stoeckli.ui.enums.OfferKind
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.utils.RotatingPlaceholder
 
 @Composable
 fun OfferCard(
-    navigateToDetailedOffer: () -> Unit,
+    onClickToDetailedOfferScreen: (OfferKind) -> Unit,
     onclickDelete: () -> Unit,
     uri: Uri?,
     offer: Offer,
@@ -50,65 +52,91 @@ fun OfferCard(
 
     var isDialogshown by remember { mutableStateOf(false) }
 
-    Card(
-        colors = CardDefaults.cardColors(cardBackgroundPrimary),
-        modifier = modifier
-            .fillMaxWidth(0.9f)
-            .heightIn(min = 100.dp)
-            .combinedClickable(
-                onClick = { navigateToDetailedOffer() },
-                onLongClick = {
-                    if (user?.permissonLevel == "1") isDialogshown = true else {
-                    }
-                }),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFD9D9D9).copy(alpha = 0.6f))
-                .clip(RoundedCornerShape(12.dp))
-                .padding(16.dp)
+
+    if (offer.type == OfferKind.ALLGEMEIN) {
+        Card(
+            colors = CardDefaults.cardColors(cardBackgroundPrimary),
+            modifier = modifier
+                .fillMaxWidth(0.9f)
+                .heightIn(min = 100.dp)
+                .combinedClickable(
+                    onClick = { },
+                    onLongClick = {
+                        if (user?.permissonLevel == "1") isDialogshown = true else {
+                        }
+                    }),
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Text(
-                text = offer.title,
-                fontSize = 22.sp,
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-            )
-            Spacer(Modifier.height(8.dp))
-            if (offer.text != "") {
-                Text(
-                    text = offer.text,
-                    fontSize = 14.sp,
-                    color = Color.Black,
-                )
-                Spacer(Modifier.height(6.dp))
-            }
-            if (offer.bottomText != "") {
-                Text(
-                    text = offer.bottomText,
-                    fontSize = 15.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(Modifier.height(6.dp))
-            }
-            if(offer.imgDownloadPath != "")
-            SubcomposeAsyncImage(
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .padding(4.dp),
-                model = uri ?: offer.imgDownloadPath,
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                loading = {
-                    RotatingPlaceholder(drawableRes = R.drawable.cheesewheel_placeholder)
-                })
+                    .background(Color(0xFFD9D9D9).copy(alpha = 0.6f))
+                    .clip(RoundedCornerShape(12.dp))
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = offer.title,
+                    fontSize = 22.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(Modifier.height(8.dp))
+                if (offer.text != "") {
+                    Text(
+                        text = offer.text,
+                        fontSize = 14.sp,
+                        color = Color.Black,
+                    )
+                    Spacer(Modifier.height(6.dp))
+                }
+                if (offer.bottomText != "") {
+                    Text(
+                        text = offer.bottomText,
+                        fontSize = 15.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(Modifier.height(6.dp))
+                }
+                if (offer.imgDownloadPath != "")
+                    SubcomposeAsyncImage(
+                        modifier = Modifier.fillMaxWidth(),
+                        model = uri ?: offer.imgDownloadPath,
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        loading = {
+                            RotatingPlaceholder(drawableRes = R.drawable.cheesewheel_placeholder)
+                        })
+            }
+        }
+    } else {
+        Card(
+            colors = CardDefaults.cardColors(cardBackgroundPrimary),
+            modifier = modifier
+                .fillMaxWidth(0.9f)
+                .height(125.dp)
+                .combinedClickable(
+                    onClick = {  onClickToDetailedOfferScreen(offer.type) },
+                    onLongClick = { }
+                ),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier. fillMaxSize()
+            ) {
+                Text(
+                    text = offer.title,
+                    fontSize = 26.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(12.dp)
+                )
+            }
         }
     }
     if (isDialogshown) {

@@ -20,6 +20,7 @@ import com.example.cheas_stoeckli.ui.viewModel.OfferViewModel
 fun OfferList(
     user: User?,
     offers: List<Offer>,
+    onClickToDetailedOfferScreen: (OfferKind) -> Unit,
     viewModel: OfferViewModel
 ) {
     Box(
@@ -33,7 +34,7 @@ fun OfferList(
         ) {
             items(offers.filter { it.type != OfferKind.ALLGEMEIN }) { item ->
                 OfferCard(
-                    navigateToDetailedOffer = {},
+                    onClickToDetailedOfferScreen = onClickToDetailedOfferScreen,
                     offer = item,
                     onclickDelete = {  },
                     uri = null,
@@ -44,7 +45,7 @@ fun OfferList(
             }
             items(offers.filter { it.type == OfferKind.ALLGEMEIN }) { item ->
                 OfferCard(
-                    navigateToDetailedOffer = {  },
+                    onClickToDetailedOfferScreen = { },
                     offer = item,
                     onclickDelete = { viewModel.deleteOffer(item) },
                     uri = null,

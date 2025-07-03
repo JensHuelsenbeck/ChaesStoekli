@@ -12,10 +12,16 @@ object OfferRoute
 object TeamRoute
 
 @Serializable
-object KontaktRoute
+object ContactRoute
 
 @Serializable
-object FavoritenRoute
+object FavoriteRoute
 
 @Serializable
-object NewsDetailRoute
+object CheeseRoute
+
+@Serializable
+object FondueRoute
+
+@Serializable
+object RacletteRoute

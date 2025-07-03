@@ -34,6 +34,7 @@ import com.example.cheas_stoeckli.ui.components.Header
 import com.example.cheas_stoeckli.ui.components.Offers.OfferAddDialog
 import com.example.cheas_stoeckli.ui.components.Offers.OfferInformation
 import com.example.cheas_stoeckli.ui.components.Offers.OfferList
+import com.example.cheas_stoeckli.ui.enums.OfferKind
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.OfferViewModel
@@ -45,6 +46,7 @@ fun OfferScreen(
     snackbarHostState: SnackbarHostState,
     snackbarScope: CoroutineScope,
     viewModel: OfferViewModel = koinViewModel(),
+    onClickToDetailedOfferScreen: (OfferKind) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -69,7 +71,7 @@ fun OfferScreen(
 
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        .padding(vertical = 8.dp, horizontal = 16.dp)
                 ) {
                     Header(text = "s' Angebot")
                     Spacer(Modifier.weight(1f))
@@ -95,7 +97,8 @@ fun OfferScreen(
                 OfferList(
                     offers = offers.value,
                     user = appUser.value,
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    onClickToDetailedOfferScreen = onClickToDetailedOfferScreen
                 )
             }
             if (appUser.value?.permissonLevel == "1")

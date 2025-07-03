@@ -72,7 +72,7 @@ fun NewsScreen(
 
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        .padding(vertical = 8.dp, horizontal = 16.dp)
                 ) {
                     Header(text = "Grüezi Wohl")
                     Spacer(Modifier.weight(1f))

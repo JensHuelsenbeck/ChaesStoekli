@@ -153,7 +153,7 @@ fun OfferAddDialog(
                         onclickDelete = {},
                         user = null,
                         modifier = Modifier.border(2.dp, Color.Gray, RoundedCornerShape(12.dp)),
-                        navigateToDetailedOffer = {  },
+                        onClickToDetailedOfferScreen = { }
                     )
                     Spacer(Modifier.height(8.dp))
                     SaveNewsButton(
