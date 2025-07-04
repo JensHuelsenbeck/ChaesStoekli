@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.components.Cheese
+package com.example.cheas_stoeckli.ui.components.Raclette
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,13 +31,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
-import com.example.cheas_stoeckli.domain.models.Cheese
+import com.example.cheas_stoeckli.domain.models.Raclette
 import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 
 @Composable
-fun CheeseCard(
-    cheese: Cheese,
+fun RacletteCard(
+    raclette: Raclette,
     user: User?,
     onClickDelete: () -> Unit
 
@@ -75,7 +75,7 @@ fun CheeseCard(
                 fontWeight = FontWeight.Bold,
             )
                 Text(
-                    text = cheese.name,
+                    text = raclette.name,
                     fontSize = 22.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
@@ -83,7 +83,7 @@ fun CheeseCard(
         }
             Spacer(Modifier.height(8.dp))
             Text(
-                text = cheese.description,
+                text = raclette.description,
                 fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
@@ -134,7 +134,7 @@ fun CheeseCard(
             },
             icon = { },
             title = { Text("Achtung!") },
-            text = { Text("Den Käse wirklich löschen?") },
+            text = { Text("Den Raclettekäser wirklich löschen?") },
             containerColor = cardBackgroundPrimary,
             textContentColor = Color.Black,
             titleContentColor = Color.Black

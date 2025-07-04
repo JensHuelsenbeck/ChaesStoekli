@@ -1,11 +1,6 @@
-package com.example.cheas_stoeckli.ui.components.AddNewsDialog
+package com.example.cheas_stoeckli.ui.components.Cheese
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,35 +36,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.cheas_stoeckli.ui.components.News.NewsCard
+import com.example.cheas_stoeckli.ui.components.AddNewsDialog.ConfirmDialog
+import com.example.cheas_stoeckli.ui.components.AddNewsDialog.DialogTextField
 import com.example.cheas_stoeckli.ui.components.SaveButton
-import com.example.cheas_stoeckli.ui.enums.NewsKind
+import com.example.cheas_stoeckli.ui.enums.MilkType
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
-import com.example.cheas_stoeckli.ui.viewModel.NewsAddViewModel
+import com.example.cheas_stoeckli.ui.viewModel.CheeseAddViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun NewsAddDialog(
-    viewModel: NewsAddViewModel = koinViewModel(),
+fun CheeseAddDialog(
+    viewModel: CheeseAddViewModel = koinViewModel(),
     isDialogOpen: MutableState<Boolean>,
     snackbarHostState: SnackbarHostState,
     snackbarScope: CoroutineScope,
 ) {
 
 
-    val errorMessage = viewModel.errorMessage.value
+    val errorMessage = viewModel.errorMessage
     val showConfirmDialog = remember { mutableStateOf(false) }
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let {
-            viewModel.imageUri.value = it
-        }
-    }
 
     Dialog(
         onDismissRequest = { showConfirmDialog.value = true },
@@ -126,78 +115,41 @@ fun NewsAddDialog(
                     LazyRow(
                         Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
                     ) {
-                        items(NewsKind.entries) { entry ->
-                            EnumItem(
-                                enum = entry,
-                                onClick = { viewModel.type = entry },
-                                isSelected = viewModel.type == entry
-                            )
+                        items(MilkType.entries.filter { it != MilkType.ALL }) { entry ->
+                          CheeseEnumItem(
+                              enum = entry,
+                              onClick = { viewModel.milkType = entry },
+                              isSelected = viewModel.milkType == entry
+                          )
+                            Spacer(Modifier.height(10.dp))
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     DialogTextField(
-                        usedString = viewModel.title,
+                        usedString = viewModel.name,
                         label = "Überschrift",
                         placeholder = "Wähle eine kurze Überschrift",
                         maxLines = 2,
                         minLines = 2
                     )
                     DialogTextField(
-                        usedString = viewModel.text,
+                        usedString = viewModel.description,
                         label = "Beschreibung",
-                        placeholder = "Erzähle worum es geht",
+                        placeholder = "Beschreibe den Käse. Wie schmeckt er? Wozu passt er besonders gut?",
                         maxLines = 5,
                         minLines = 5
                     )
-                    AnimatedVisibility(visible = viewModel.type == NewsKind.EVENTS || viewModel.type == NewsKind.REMINDER) {
-                        Column {
-                            DialogTextField(
-                                usedString = viewModel.date,
-                                label = "Datum",
-                                placeholder = "Für Veranstaltungen oder Erinnerungen, zB. 05.12.25 oder Di, 20.05",
-                                maxLines = 2,
-                                minLines = 2
-                            )
-                            DialogTextField(
-                                usedString = viewModel.time,
-                                label = "Uhrzeit",
-                                placeholder = "Schreibe hier die Uhrzeit hinein. zb. 14:30 ",
-                                maxLines = 2,
-                                minLines = 2
-                            )
-                        }
-                    }
-                    AnimatedVisibility(visible = viewModel.type == NewsKind.EVENTS) {
-                        DialogTextField(
-                            usedString = viewModel.destination,
-                            label = "Veranstaltungsort",
-                            placeholder = "Schreibe die die Adresse hinein, zb Zürichstrasse 106, 8910 Affoltern am Albis",
-                            maxLines = 2,
-                            minLines = 2
-                        )
-                    }
-                    Spacer(Modifier.height(4.dp))
-                    AddPictureButton(
-                        onClickAddPicture = { launcher.launch("image/*") })
                     Spacer(Modifier.height(8.dp))
-                    NewsCard(
-                        news = viewModel.previewNews,
-                        uri = viewModel.imageUri.value,
-                        onClickDelete = {},
+                    CheeseCard(
+                        cheese = viewModel.previewCheese,
                         user = null,
-                        modifier = Modifier.border(2.dp, Color.Gray, RoundedCornerShape(12.dp)),
+                        onClickDelete = { }
                     )
                     Spacer(Modifier.height(8.dp))
                     SaveButton(
                         text = "Speichern",
                         onClickSave = {
-                            viewModel.uploadImageAndSaveNews(
-                                title = viewModel.title.value,
-                                text = viewModel.text.value,
-                                destination = viewModel.destination.value,
-                                date = viewModel.date.value,
-                                type = viewModel.type ?: NewsKind.NEWS,
-                                time = viewModel.time.value,
+                            viewModel.saveCheese(
                                 onSuccess = {
                                     snackbarScope.launch {
                                         snackbarHostState.showSnackbar("Erfolgreich gespeichert!")
@@ -215,16 +167,17 @@ fun NewsAddDialog(
     }
     if (showConfirmDialog.value) {
         ConfirmDialog(
-            confirmText = "Zurück zu Grüezi Wohl? Dabei werden alle Eingaben verworfen.",
+            confirmText = "Zurück zum Käsesortiment? Dabei werden alle Eingaben verworfen.",
             showConfirmDialog = showConfirmDialog,
             showAddDialog = isDialogOpen,
             onClick = { viewModel.setValuablesToEmpty() }
         )
     }
+
     LaunchedEffect(errorMessage) {
         if (errorMessage.isNotEmpty()) {
             snackbarHostState.showSnackbar(errorMessage)
-            viewModel.errorMessage.value = ""
+            viewModel.errorMessage = ""
         }
     }
 }

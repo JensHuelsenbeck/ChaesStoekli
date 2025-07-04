@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.components.Cheese
+package com.example.cheas_stoeckli.ui.components.Raclette
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,21 +14,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cheas_stoeckli.domain.models.Cheese
+import com.example.cheas_stoeckli.domain.models.Raclette
 import com.example.cheas_stoeckli.domain.models.User
-import com.example.cheas_stoeckli.ui.viewModel.CheeseViewModel
+import com.example.cheas_stoeckli.ui.viewModel.RacletteViewModel
 
 @Composable
-fun CheeseList(
+fun RacletteList(
     user: User?,
-    cheese: List<Cheese>,
-    viewModel: CheeseViewModel
+    raclette: List<Raclette>,
+    viewModel: RacletteViewModel
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        if (cheese.isEmpty()) {
+        if (raclette.isEmpty()) {
             Text(
                 text = "Noch keine Einträge",
                 color = Color.Black,
@@ -41,11 +41,11 @@ fun CheeseList(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 contentPadding = PaddingValues(8.dp),
             ) {
-                items(cheese) { item ->
-                    CheeseCard(
-                        cheese = item,
+                items(raclette) { item ->
+                    RacletteCard(
+                        raclette = item,
                         user = user,
-                        onClickDelete = { viewModel.deleteCheese(item) }
+                        onClickDelete = { viewModel.deleteRaclette(item) }
 
                     )
                     Spacer(modifier = Modifier.height(8.dp))

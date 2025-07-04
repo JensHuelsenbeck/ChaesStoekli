@@ -22,10 +22,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,12 +32,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
+import com.example.cheas_stoeckli.ui.components.Cheese.CheeseAddDialog
 import com.example.cheas_stoeckli.ui.components.BackButton
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseEnumItem
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseList
 import com.example.cheas_stoeckli.ui.components.Header
-import com.example.cheas_stoeckli.ui.components.Offers.OfferAddDialog
-import com.example.cheas_stoeckli.ui.components.Offers.OfferInformation
 import com.example.cheas_stoeckli.ui.enums.MilkType
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
@@ -56,10 +53,10 @@ fun CheeseScreen(
     modifier: Modifier = Modifier,
 ) {
 
-    val cheese = viewModel.cheese.collectAsState()
+    val milkType = viewModel.milkType.collectAsState()
+    val cheese = viewModel.filteredCheese.collectAsState()
     val appUser = viewModel.appUser.collectAsState()
-    var showAddDialog = remember { mutableStateOf(false) }
-    var showInfoDialog by remember { mutableStateOf(false) }
+    val showAddDialog = remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier
@@ -83,7 +80,7 @@ fun CheeseScreen(
                     Header(text = "Käsesortiment")
                     Spacer(Modifier.weight(1f))
                     IconButton(
-                        onClick = { showInfoDialog = true },
+                        onClick = {  },
                         modifier = Modifier
                             .padding(end = 16.dp)
                     ) {
@@ -109,13 +106,16 @@ fun CheeseScreen(
                     items(MilkType.entries) { entry ->
                         CheeseEnumItem(
                             enum = entry,
-                            onClick = { viewModel.type = entry },
-                            isSelected = viewModel.type == entry
+                            onClick = { viewModel.setMilkType(entry) },
+                            isSelected = milkType.value == entry
                         )
                     }
                 }
+                Spacer(Modifier.height(8.dp))
                 CheeseList(
-                    cheese = cheese.value
+                    cheese = cheese.value,
+                    user = appUser.value,
+                    viewModel = viewModel
                 )
             }
             if (appUser.value?.permissonLevel == "1")
@@ -132,14 +132,8 @@ fun CheeseScreen(
                     )
                 }
         }
-        if (showInfoDialog) {
-            OfferInformation(
-                user = appUser.value,
-                onDismiss = { showInfoDialog = false }
-            )
-        }
         if (showAddDialog.value) {
-            OfferAddDialog(
+            CheeseAddDialog(
                 isDialogOpen = showAddDialog,
                 snackbarHostState = snackbarHostState,
                 snackbarScope = snackbarScope

@@ -1,11 +1,9 @@
-package com.example.cheas_stoeckli.ui.components.AddNewsDialog
+package com.example.cheas_stoeckli.ui.components.Raclette
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,8 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -41,26 +37,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.cheas_stoeckli.ui.components.News.NewsCard
+import com.example.cheas_stoeckli.ui.components.AddNewsDialog.AddPictureButton
+import com.example.cheas_stoeckli.ui.components.AddNewsDialog.ConfirmDialog
+import com.example.cheas_stoeckli.ui.components.AddNewsDialog.DialogTextField
 import com.example.cheas_stoeckli.ui.components.SaveButton
-import com.example.cheas_stoeckli.ui.enums.NewsKind
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
-import com.example.cheas_stoeckli.ui.viewModel.NewsAddViewModel
+import com.example.cheas_stoeckli.ui.viewModel.RacletteAddViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun NewsAddDialog(
-    viewModel: NewsAddViewModel = koinViewModel(),
+fun RacletteAddDialog(
+    viewModel: RacletteAddViewModel = koinViewModel(),
     isDialogOpen: MutableState<Boolean>,
     snackbarHostState: SnackbarHostState,
     snackbarScope: CoroutineScope,
 ) {
 
 
-    val errorMessage = viewModel.errorMessage.value
+    val errorMessage = viewModel.errorMessage
     val showConfirmDialog = remember { mutableStateOf(false) }
 
     val launcher = rememberLauncherForActivityResult(
@@ -117,87 +114,40 @@ fun NewsAddDialog(
                         }
                     }
                     Text(
-                        text = "Neue Ankündigung",
+                        text = "Neue Raclettekäse",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                     Spacer(Modifier.height(20.dp))
-                    LazyRow(
-                        Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
-                    ) {
-                        items(NewsKind.entries) { entry ->
-                            EnumItem(
-                                enum = entry,
-                                onClick = { viewModel.type = entry },
-                                isSelected = viewModel.type == entry
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
                     DialogTextField(
-                        usedString = viewModel.title,
-                        label = "Überschrift",
-                        placeholder = "Wähle eine kurze Überschrift",
+                        usedString = viewModel.name,
+                        label = "Name",
+                        placeholder = "Wie heißt die Mischung?",
                         maxLines = 2,
                         minLines = 2
                     )
                     DialogTextField(
-                        usedString = viewModel.text,
+                        usedString = viewModel.description,
                         label = "Beschreibung",
-                        placeholder = "Erzähle worum es geht",
+                        placeholder = "Erzähle etwas über die Raclettemischung. ",
                         maxLines = 5,
                         minLines = 5
                     )
-                    AnimatedVisibility(visible = viewModel.type == NewsKind.EVENTS || viewModel.type == NewsKind.REMINDER) {
-                        Column {
-                            DialogTextField(
-                                usedString = viewModel.date,
-                                label = "Datum",
-                                placeholder = "Für Veranstaltungen oder Erinnerungen, zB. 05.12.25 oder Di, 20.05",
-                                maxLines = 2,
-                                minLines = 2
-                            )
-                            DialogTextField(
-                                usedString = viewModel.time,
-                                label = "Uhrzeit",
-                                placeholder = "Schreibe hier die Uhrzeit hinein. zb. 14:30 ",
-                                maxLines = 2,
-                                minLines = 2
-                            )
-                        }
-                    }
-                    AnimatedVisibility(visible = viewModel.type == NewsKind.EVENTS) {
-                        DialogTextField(
-                            usedString = viewModel.destination,
-                            label = "Veranstaltungsort",
-                            placeholder = "Schreibe die die Adresse hinein, zb Zürichstrasse 106, 8910 Affoltern am Albis",
-                            maxLines = 2,
-                            minLines = 2
-                        )
-                    }
                     Spacer(Modifier.height(4.dp))
                     AddPictureButton(
                         onClickAddPicture = { launcher.launch("image/*") })
                     Spacer(Modifier.height(8.dp))
-                    NewsCard(
-                        news = viewModel.previewNews,
-                        uri = viewModel.imageUri.value,
+                    RacletteCard(
+                        raclette = viewModel.previewRaclette,
                         onClickDelete = {},
                         user = null,
-                        modifier = Modifier.border(2.dp, Color.Gray, RoundedCornerShape(12.dp)),
                     )
                     Spacer(Modifier.height(8.dp))
                     SaveButton(
                         text = "Speichern",
                         onClickSave = {
-                            viewModel.uploadImageAndSaveNews(
-                                title = viewModel.title.value,
-                                text = viewModel.text.value,
-                                destination = viewModel.destination.value,
-                                date = viewModel.date.value,
-                                type = viewModel.type ?: NewsKind.NEWS,
-                                time = viewModel.time.value,
+                            viewModel.uploadImageAndSaveRaclette(
                                 onSuccess = {
                                     snackbarScope.launch {
                                         snackbarHostState.showSnackbar("Erfolgreich gespeichert!")
@@ -215,7 +165,7 @@ fun NewsAddDialog(
     }
     if (showConfirmDialog.value) {
         ConfirmDialog(
-            confirmText = "Zurück zu Grüezi Wohl? Dabei werden alle Eingaben verworfen.",
+            confirmText = "Zurück zu Raclettesortiment? Dabei werden alle Eingaben verworfen.",
             showConfirmDialog = showConfirmDialog,
             showAddDialog = isDialogOpen,
             onClick = { viewModel.setValuablesToEmpty() }
@@ -224,7 +174,7 @@ fun NewsAddDialog(
     LaunchedEffect(errorMessage) {
         if (errorMessage.isNotEmpty()) {
             snackbarHostState.showSnackbar(errorMessage)
-            viewModel.errorMessage.value = ""
+            viewModel.errorMessage = ""
         }
     }
 }

@@ -174,7 +174,11 @@ fun AppStart(
                         )
                     }
                     composable<RacletteRoute> {
-                        RacletteScreen(popBackStack = { navController.popBackStack() })
+                        RacletteScreen(
+                            popBackStack = { navController.popBackStack() },
+                            snackbarHostState = snackbarHostState,
+                            snackbarScope = scope,
+                        )
                     }
                     composable<FondueRoute> {
                         FondueScreen(popBackStack = { navController.popBackStack() })

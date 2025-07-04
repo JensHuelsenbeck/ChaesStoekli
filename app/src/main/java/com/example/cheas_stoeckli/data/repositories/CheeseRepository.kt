@@ -20,7 +20,7 @@ class CheeseRepository {
 
     private val tag = "OfferRepository: "
 
-    fun observOffers(): Flow<List<Cheese>> = callbackFlow {
+    fun observCheese(): Flow<List<Cheese>> = callbackFlow {
         val listener = collection
             .orderBy("createdAt", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
