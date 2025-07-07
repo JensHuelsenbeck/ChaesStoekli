@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.components.Raclette
+package com.example.cheas_stoeckli.ui.components.Fondue
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,31 +31,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
-import com.example.cheas_stoeckli.domain.models.Raclette
+import com.example.cheas_stoeckli.domain.models.Fondue
 import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 
+
 @Composable
-fun RacletteCard(
-    raclette: Raclette,
+fun FondueCard(
+    fondue: Fondue,
     user: User?,
     onClickDelete: () -> Unit
+
 ) {
 
     var isFavorite by remember { mutableStateOf(false) }
     var isDialogshown by remember { mutableStateOf(false) }
-    var showDetailDialog by rememberSaveable { mutableStateOf(false) }
 
     Card(
         colors = CardDefaults.cardColors(cardBackgroundPrimary),
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .combinedClickable(
-                onClick = { showDetailDialog = true },
-                onLongClick = {
-                    if (user?.permissonLevel == "1") isDialogshown = true else {
-                    }
-                }
+                onClick = { },
+                onLongClick = { if (user?.permissonLevel == "1") isDialogshown = true else {
+                } }
             ),
         shape = RoundedCornerShape(12.dp)
     )
@@ -78,7 +76,7 @@ fun RacletteCard(
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = raclette.name,
+                    text = fondue.name,
                     fontSize = 22.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
@@ -86,7 +84,7 @@ fun RacletteCard(
             }
             Spacer(Modifier.height(8.dp))
             Text(
-                text = raclette.description,
+                text = fondue.description,
                 fontSize = 14.sp,
                 color = Color.Black,
                 modifier = Modifier
@@ -96,12 +94,12 @@ fun RacletteCard(
             Row(
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier.fillMaxWidth()
-            ) {
+            ){
                 IconButton(
                     onClick = { isFavorite = !isFavorite }
                 ) {
                     Image(
-                        painter = painterResource(id = if (isFavorite) R.drawable.favorite_24 else R.drawable.favorite_border_24),
+                        painter = painterResource(id = if(isFavorite) R.drawable.favorite_24 else R.drawable.favorite_border_24),
                         contentDescription = null,
 
                         )
@@ -137,16 +135,10 @@ fun RacletteCard(
             },
             icon = { },
             title = { Text("Achtung!") },
-            text = { Text("Den Raclettekäser wirklich löschen?") },
+            text = { Text("Die Fonduemischung wirklich löschen?") },
             containerColor = cardBackgroundPrimary,
             textContentColor = Color.Black,
             titleContentColor = Color.Black
-        )
-    }
-    if(showDetailDialog){
-        RacletteDetailDialog(
-            raclette = raclette,
-            onDismiss = { showDetailDialog = false }
         )
     }
 

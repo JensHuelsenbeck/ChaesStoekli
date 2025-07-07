@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.data.repositories
+package com.example.cheas_stoeckli.data.repositories.News
 
 
 import android.util.Log

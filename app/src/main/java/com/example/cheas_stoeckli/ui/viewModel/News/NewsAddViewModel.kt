@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.viewModel
+package com.example.cheas_stoeckli.ui.viewModel.News
 
 import android.net.Uri
 import android.util.Log
@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository
-import com.example.cheas_stoeckli.data.repositories.NewsAddRepository
+import com.example.cheas_stoeckli.data.repositories.News.NewsAddRepository
 import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.ui.enums.NewsKind
 import kotlinx.coroutines.launch

@@ -1,8 +1,8 @@
-package com.example.cheas_stoeckli.ui.viewModel
+package com.example.cheas_stoeckli.ui.viewModel.Offer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cheas_stoeckli.data.repositories.OfferRepository
+import com.example.cheas_stoeckli.data.repositories.Offer.OfferRepository
 import com.example.cheas_stoeckli.domain.models.Offer
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
 import kotlinx.coroutines.flow.SharingStarted

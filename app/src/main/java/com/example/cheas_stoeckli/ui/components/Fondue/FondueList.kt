@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.components.Raclette
+package com.example.cheas_stoeckli.ui.components.Fondue
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,21 +14,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cheas_stoeckli.domain.models.Raclette
+import com.example.cheas_stoeckli.domain.models.Fondue
 import com.example.cheas_stoeckli.domain.models.User
-import com.example.cheas_stoeckli.ui.viewModel.Raclette.RacletteViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Fondue.FondueViewModel
+
 
 @Composable
-fun RacletteList(
+fun FondueList(
     user: User?,
-    raclette: List<Raclette>,
-    viewModel: RacletteViewModel
+    fondue: List<Fondue>,
+    viewModel: FondueViewModel
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        if (raclette.isEmpty()) {
+        if (fondue.isEmpty()) {
             Text(
                 text = "Noch keine Einträge",
                 color = Color.Black,
@@ -41,18 +42,17 @@ fun RacletteList(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 contentPadding = PaddingValues(8.dp),
             ) {
-                items(raclette) { item ->
-                    RacletteCard(
-                        raclette = item,
+                items(fondue) { item ->
+                    FondueCard(
+                        fondue = item,
                         user = user,
-                        onClickDelete = { viewModel.deleteRaclette(item) }
-
+                        onClickDelete = { viewModel.deleteFondue(item) }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
     }
-
-
 }
+
+

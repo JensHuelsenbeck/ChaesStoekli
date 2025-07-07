@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.domain.models.User
-import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
+import com.example.cheas_stoeckli.ui.viewModel.News.NewsViewModel
 
 @Composable
 fun NewsList(

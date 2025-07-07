@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.data.repositories
+package com.example.cheas_stoeckli.data.repositories.Raclette
 
 import android.util.Log
 import com.example.cheas_stoeckli.domain.models.Raclette

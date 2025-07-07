@@ -1,8 +1,5 @@
-package com.example.cheas_stoeckli.ui.components.Raclette
+package com.example.cheas_stoeckli.ui.components.Fondue
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -37,20 +36,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.cheas_stoeckli.ui.components.AddNewsDialog.AddPictureButton
 import com.example.cheas_stoeckli.ui.components.AddNewsDialog.ConfirmDialog
 import com.example.cheas_stoeckli.ui.components.AddNewsDialog.DialogTextField
 import com.example.cheas_stoeckli.ui.components.SaveButton
+import com.example.cheas_stoeckli.ui.enums.MilkType
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
-import com.example.cheas_stoeckli.ui.viewModel.Raclette.RacletteAddViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Fondue.FondueAddViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RacletteAddDialog(
-    viewModel: RacletteAddViewModel = koinViewModel(),
+fun FondueAddDialog(
+    viewModel: FondueAddViewModel = koinViewModel(),
     isDialogOpen: MutableState<Boolean>,
     snackbarHostState: SnackbarHostState,
     snackbarScope: CoroutineScope,
@@ -60,13 +59,6 @@ fun RacletteAddDialog(
     val errorMessage = viewModel.errorMessage
     val showConfirmDialog = remember { mutableStateOf(false) }
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let {
-            viewModel.imageUri.value = it
-        }
-    }
 
     Dialog(
         onDismissRequest = { showConfirmDialog.value = true },
@@ -114,40 +106,46 @@ fun RacletteAddDialog(
                         }
                     }
                     Text(
-                        text = "Neue Raclettekäse",
+                        text = "Neuer Raclettekäse",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                     Spacer(Modifier.height(20.dp))
+                    LazyRow(
+                        Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                    ) {
+                        items(MilkType.entries.filter { it != MilkType.ALL }) { entry ->
+
+                            Spacer(Modifier.height(10.dp))
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                     DialogTextField(
                         usedString = viewModel.name,
                         label = "Name",
-                        placeholder = "Wie heißt die Mischung?",
+                        placeholder = "Wähle eine Namen",
                         maxLines = 2,
                         minLines = 2
                     )
                     DialogTextField(
                         usedString = viewModel.description,
                         label = "Beschreibung",
-                        placeholder = "Erzähle etwas über die Raclettemischung. ",
+                        placeholder = "Beschreibe den Käse. Wie schmeckt er? Wozu passt er besonders gut?",
                         maxLines = 5,
                         minLines = 5
                     )
-                    Spacer(Modifier.height(4.dp))
-                    AddPictureButton(
-                        onClickAddPicture = { launcher.launch("image/*") })
                     Spacer(Modifier.height(8.dp))
-                    RacletteCard(
-                        raclette = viewModel.previewRaclette,
-                        onClickDelete = {},
+                    FondueCard(
+                        fondue = viewModel.previewFondue,
                         user = null,
+                        onClickDelete = {}
                     )
                     Spacer(Modifier.height(8.dp))
                     SaveButton(
                         text = "Speichern",
                         onClickSave = {
-                            viewModel.uploadImageAndSaveRaclette(
+                            viewModel.saveFondue(
                                 onSuccess = {
                                     snackbarScope.launch {
                                         snackbarHostState.showSnackbar("Erfolgreich gespeichert!")
@@ -165,12 +163,13 @@ fun RacletteAddDialog(
     }
     if (showConfirmDialog.value) {
         ConfirmDialog(
-            confirmText = "Zurück zu Raclettesortiment? Dabei werden alle Eingaben verworfen.",
+            confirmText = "Zurück zum Käsesortiment? Dabei werden alle Eingaben verworfen.",
             showConfirmDialog = showConfirmDialog,
             showAddDialog = isDialogOpen,
             onClick = { viewModel.setValuablesToEmpty() }
         )
     }
+
     LaunchedEffect(errorMessage) {
         if (errorMessage.isNotEmpty()) {
             snackbarHostState.showSnackbar(errorMessage)

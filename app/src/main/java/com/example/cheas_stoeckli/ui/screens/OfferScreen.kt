@@ -37,7 +37,7 @@ import com.example.cheas_stoeckli.ui.components.Offers.OfferList
 import com.example.cheas_stoeckli.ui.enums.OfferKind
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
-import com.example.cheas_stoeckli.ui.viewModel.OfferViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Offer.OfferViewModel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.compose.koinViewModel
 

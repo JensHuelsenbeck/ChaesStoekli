@@ -1,10 +1,10 @@
-package com.example.cheas_stoeckli.ui.viewModel
+package com.example.cheas_stoeckli.ui.viewModel.News
 
 import android.util.Log
 import androidx.datastore.core.IOException
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cheas_stoeckli.data.repositories.NewsRepository
+import com.example.cheas_stoeckli.data.repositories.News.NewsRepository
 import com.example.cheas_stoeckli.data.repositories.UserPrefRepository
 import com.example.cheas_stoeckli.domain.domain.usecases.SignOutUseCase
 import com.example.cheas_stoeckli.domain.models.News

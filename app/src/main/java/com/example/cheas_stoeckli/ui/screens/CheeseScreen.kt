@@ -40,7 +40,7 @@ import com.example.cheas_stoeckli.ui.components.Header
 import com.example.cheas_stoeckli.ui.enums.MilkType
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
-import com.example.cheas_stoeckli.ui.viewModel.CheeseViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseViewModel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.compose.koinViewModel
 

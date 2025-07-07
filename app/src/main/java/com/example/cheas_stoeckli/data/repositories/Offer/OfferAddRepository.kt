@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.data.repositories
+package com.example.cheas_stoeckli.data.repositories.Offer
 
 import android.util.Log
 import com.example.cheas_stoeckli.domain.mappers.OfferMapper

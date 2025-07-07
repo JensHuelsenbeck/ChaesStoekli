@@ -1,18 +1,18 @@
-package com.example.cheas_stoeckli.ui.viewModel
+package com.example.cheas_stoeckli.ui.viewModel.Fondue
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cheas_stoeckli.data.repositories.RacletteRepository
-import com.example.cheas_stoeckli.domain.models.Raclette
+import com.example.cheas_stoeckli.data.repositories.Fondue.FondueRepository
+import com.example.cheas_stoeckli.domain.models.Fondue
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-class RacletteViewModel(
+class FondueViewModel(
     observeCurrentUserUseCase: ObserveCurrentUserUseCase,
-  private val racletteRepo: RacletteRepository
-): ViewModel() {
+    private val fondueRepo: FondueRepository
+) : ViewModel() {
+
 
     val appUser = observeCurrentUserUseCase().stateIn(
         scope = viewModelScope,
@@ -20,15 +20,16 @@ class RacletteViewModel(
         initialValue = null,
     )
 
-    val raclette: StateFlow<List<Raclette>> = racletteRepo.observRaclette().stateIn(
+    val fondue = fondueRepo.observFondue().stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
+        started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()
     )
 
-    fun deleteRaclette(raclette: Raclette) {
-        racletteRepo.deleteRaclette(raclette)
+    fun deleteFondue(fondue: Fondue) {
+        fondueRepo.deleteFondue(fondue)
 
     }
 
 }
+

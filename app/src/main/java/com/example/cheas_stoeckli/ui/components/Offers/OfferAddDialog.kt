@@ -45,7 +45,7 @@ import com.example.cheas_stoeckli.ui.components.AddNewsDialog.DialogTextField
 import com.example.cheas_stoeckli.ui.components.SaveButton
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
-import com.example.cheas_stoeckli.ui.viewModel.OfferAddViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Offer.OfferAddViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel

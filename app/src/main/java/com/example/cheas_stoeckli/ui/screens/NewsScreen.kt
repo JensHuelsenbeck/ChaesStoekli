@@ -37,7 +37,7 @@ import com.example.cheas_stoeckli.ui.components.News.NewsInformation
 import com.example.cheas_stoeckli.ui.components.News.NewsList
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
-import com.example.cheas_stoeckli.ui.viewModel.NewsViewModel
+import com.example.cheas_stoeckli.ui.viewModel.News.NewsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel

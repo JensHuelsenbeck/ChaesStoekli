@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.viewModel
+package com.example.cheas_stoeckli.ui.viewModel.Offer
 
 import android.net.Uri
 import android.util.Log
@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository
-import com.example.cheas_stoeckli.data.repositories.OfferAddRepository
+import com.example.cheas_stoeckli.data.repositories.Offer.OfferAddRepository
 import com.example.cheas_stoeckli.domain.models.Offer
 import com.example.cheas_stoeckli.ui.enums.OfferKind
 import kotlinx.coroutines.launch

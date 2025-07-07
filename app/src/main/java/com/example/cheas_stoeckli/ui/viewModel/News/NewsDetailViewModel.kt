@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.viewModel
+package com.example.cheas_stoeckli.ui.viewModel.News
 
 import android.Manifest
 import android.content.Context

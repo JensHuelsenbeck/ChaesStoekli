@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.cheas_stoeckli.domain.models.Offer
 import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.ui.enums.OfferKind
-import com.example.cheas_stoeckli.ui.viewModel.OfferViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Offer.OfferViewModel
 
 @Composable
 fun OfferList(

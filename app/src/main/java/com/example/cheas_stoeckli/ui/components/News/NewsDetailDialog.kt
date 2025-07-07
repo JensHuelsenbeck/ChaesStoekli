@@ -44,7 +44,7 @@ import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.ui.enums.NewsKind
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
-import com.example.cheas_stoeckli.ui.viewModel.NewsDetailViewModel
+import com.example.cheas_stoeckli.ui.viewModel.News.NewsDetailViewModel
 import com.example.cheas_stoeckli.utils.RotatingPlaceholder
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus

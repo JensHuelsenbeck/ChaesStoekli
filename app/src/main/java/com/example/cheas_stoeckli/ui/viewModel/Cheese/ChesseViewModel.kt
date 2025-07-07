@@ -1,9 +1,9 @@
-package com.example.cheas_stoeckli.ui.viewModel
+package com.example.cheas_stoeckli.ui.viewModel.Cheese
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cheas_stoeckli.data.repositories.CheeseRepository
+import com.example.cheas_stoeckli.data.repositories.Cheese.CheeseRepository
 import com.example.cheas_stoeckli.domain.models.Cheese
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
 import com.example.cheas_stoeckli.ui.enums.MilkType

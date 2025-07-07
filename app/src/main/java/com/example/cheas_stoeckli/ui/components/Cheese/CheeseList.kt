@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cheas_stoeckli.domain.models.Cheese
 import com.example.cheas_stoeckli.domain.models.User
-import com.example.cheas_stoeckli.ui.viewModel.CheeseViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseViewModel
 
 @Composable
 fun CheeseList(

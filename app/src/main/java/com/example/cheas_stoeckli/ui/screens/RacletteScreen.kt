@@ -35,7 +35,7 @@ import com.example.cheas_stoeckli.ui.components.Raclette.RacletteAddDialog
 import com.example.cheas_stoeckli.ui.components.Raclette.RacletteList
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
-import com.example.cheas_stoeckli.ui.viewModel.RacletteViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Raclette.RacletteViewModel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.compose.koinViewModel
 
