@@ -20,7 +20,7 @@ class FondueViewModel(
         initialValue = null,
     )
 
-    val fondue = fondueRepo.observFondue().stateIn(
+    val fondue = fondueRepo.observeFondue().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()

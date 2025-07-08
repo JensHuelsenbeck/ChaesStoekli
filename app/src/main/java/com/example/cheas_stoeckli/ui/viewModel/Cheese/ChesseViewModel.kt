@@ -28,7 +28,7 @@ class CheeseViewModel(
         initialValue = null,
     )
 
-    val cheese = cheeseRepo.observCheese().stateIn(
+    val cheese = cheeseRepo.observeCheese().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()

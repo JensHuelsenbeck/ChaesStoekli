@@ -18,9 +18,9 @@ class CheeseRepository {
     private val db = Firebase.firestore
     private val collection = db.collection("cheese")
 
-    private val tag = "OfferRepository: "
+    private val tag = "CheeseRepository: "
 
-    fun observCheese(): Flow<List<Cheese>> = callbackFlow {
+    fun observeCheese(): Flow<List<Cheese>> = callbackFlow {
         val listener = collection
             .orderBy("createdAt", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->

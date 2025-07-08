@@ -21,7 +21,7 @@ class OfferRepository {
 
     private val tag = "OfferRepository: "
 
-    fun observOffers(): Flow<List<Offer>> = callbackFlow {
+    fun observeOffers(): Flow<List<Offer>> = callbackFlow {
         val listener = collection
             .orderBy("createdAt", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->

@@ -16,9 +16,9 @@ class FondueRepository {
     private val db = Firebase.firestore
     private val collection = db.collection("fondue")
 
-    private val tag = "OfferRepository: "
+    private val tag = "FondueRepository: "
 
-    fun observFondue(): Flow<List<Fondue>> = callbackFlow {
+    fun observeFondue(): Flow<List<Fondue>> = callbackFlow {
         val listener = collection
             .orderBy("createdAt", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->

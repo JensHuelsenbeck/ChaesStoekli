@@ -160,7 +160,10 @@ fun AppStart(
                         )
                     }
                     composable<TeamRoute> {
-                        TeamScreen()
+                        TeamScreen(
+                            snackbarHostState = snackbarHostState,
+                            snackbarScope = scope,
+                        )
                     }
                     composable<FavoriteRoute> {
                         FavoriteScreen()

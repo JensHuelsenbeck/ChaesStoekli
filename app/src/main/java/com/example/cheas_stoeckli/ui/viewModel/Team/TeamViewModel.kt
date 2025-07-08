@@ -1,17 +1,16 @@
-package com.example.cheas_stoeckli.ui.viewModel.Offer
+package com.example.cheas_stoeckli.ui.viewModel.Team
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cheas_stoeckli.data.repositories.Offer.OfferRepository
-import com.example.cheas_stoeckli.domain.models.Offer
+import com.example.cheas_stoeckli.data.repositories.Team.TeamRepository
+import com.example.cheas_stoeckli.domain.models.TeamMember
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-class OfferViewModel(
+class TeamViewModel(
     observeCurrentUserUseCase: ObserveCurrentUserUseCase,
-  private val offerRepo: OfferRepository
+  private val teamRepo: TeamRepository
 ): ViewModel() {
 
     val appUser = observeCurrentUserUseCase().stateIn(
@@ -20,14 +19,14 @@ class OfferViewModel(
         initialValue = null,
     )
 
-    val offers: StateFlow<List<Offer>> = offerRepo.observeOffers().stateIn(
+    val teamMembers = teamRepo.observeTeamMembers().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = emptyList()
     )
 
-    fun deleteOffer(offer: Offer) {
-        offerRepo.deleteOffer(offer)
+    fun deleteOffer(teamMember: TeamMember) {
+        teamRepo.deleteTeamMember(teamMember)
 
     }
 

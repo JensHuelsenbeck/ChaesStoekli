@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.components.News
+package com.example.cheas_stoeckli.ui.components.Team
 
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -31,25 +31,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import com.cheas_stoeckli.app.R
-import com.example.cheas_stoeckli.domain.models.News
+import com.example.cheas_stoeckli.data.Fake.fakeMember
+import com.example.cheas_stoeckli.domain.models.TeamMember
 import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
-import com.example.cheas_stoeckli.ui.theme.eventTimeAndDate
-import com.example.cheas_stoeckli.ui.theme.newsEnumColor
 import com.example.cheas_stoeckli.utils.RotatingPlaceholder
 
 
 @Composable
-fun NewsCard(
+fun TeamCard(
     user: User?,
-    news: News,
+    member: TeamMember,
     uri: Uri?,
     onClickDelete: () -> Unit,
     modifier: Modifier = Modifier
@@ -62,11 +61,12 @@ fun NewsCard(
         colors = CardDefaults.cardColors(cardBackgroundPrimary),
         modifier = modifier
             .fillMaxWidth(0.9f)
-            .height(200.dp)
+
             .combinedClickable(
                 onClick = { showDetailDialog = true },
                 onLongClick = {
-                    if (user?.permissonLevel == "1") isDialogshown = true else { }
+                    if (user?.permissonLevel == "1") isDialogshown = true else {
+                    }
                 }
             ),
         shape = RoundedCornerShape(12.dp)
@@ -81,12 +81,14 @@ fun NewsCard(
         ) {
             Box {
                 SubcomposeAsyncImage(
-                    model = uri ?: news.imgDownloadPath,
+                    model = uri ?: member.imgDownloadPath,
                     contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .width(136.dp)
+                        .width(150.dp)
+                        .height(150.dp)
+                        .clip(RoundedCornerShape(12.dp))
                 ) {
                     when (painter.state) {
                         is AsyncImagePainter.State.Loading -> {
@@ -104,29 +106,17 @@ fun NewsCard(
                         }
                     }
                 }
-                Text(
-                    text = news.type.rawValue,
-                    textAlign = TextAlign.Center,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .background(newsEnumColor)
-                        .padding(vertical = 4.dp)
-                        .width(136.dp)
-                        .align(Alignment.BottomCenter)
-                )
             }
             Box(modifier = Modifier.fillMaxHeight()) {
                 Column(
                     horizontalAlignment = Alignment.Start,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(4.dp)
+                        .padding(8.dp)
                 ) {
                     Text(
-                        text = news.title,
-                        fontSize = 17.sp,
+                        text = member.name,
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start,
                         color = Color.Black,
@@ -134,33 +124,13 @@ fun NewsCard(
                     )
                     Spacer(Modifier.height(5.dp))
                     Text(
-                        text = news.text,
-                        fontSize = 13.sp,
+                        text = member.description,
+                        fontSize = 14.sp,
                         lineHeight = 18.sp,
                         color = Color.Black,
-                        maxLines = 5,
-                        overflow = TextOverflow.Ellipsis
 
                     )
 
-                }
-                if (news.type.name == "EVENTS" || news.type.name == "REMINDER") {
-                    Text(
-                        text = news.date + " " + news.time,
-                        textAlign = TextAlign.Center,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black,
-                        modifier = Modifier
-                            .clip(
-                                RoundedCornerShape(
-                                    topEnd = 8.dp
-                                )
-                            )
-                            .background(eventTimeAndDate)
-                            .padding(4.dp)
-                            .align(Alignment.BottomStart)
-                    )
                 }
             }
         }
@@ -193,20 +163,23 @@ fun NewsCard(
             },
             icon = { /* Icon */ },
             title = { Text("Achtung!") },
-            text = { Text("Die Ankündigung wirklich löschen?") },
+            text = { Text("Die Peronal wirklich löschen?") },
             containerColor = cardBackgroundPrimary,
             textContentColor = Color.Black,
             titleContentColor = Color.Black,
             modifier = modifier
         )
     }
-
-    if (showDetailDialog) {
-        NewsDetailDialog(
-            news = news,
-            onDismiss = { showDetailDialog = false }
-        )
-    }
-
 }
 
+@Preview
+@Composable
+private fun TeamCardPreviews() {
+TeamCard(
+    user = null,
+    member = fakeMember,
+    uri = null,
+    onClickDelete = {},
+
+)
+}
