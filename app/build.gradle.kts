@@ -143,6 +143,8 @@ dependencies {
     implementation(libs.play.services.location)
 
 
+    // SplashScreen
+    implementation(libs.androidx.core.splashscreen)
 
 
 }

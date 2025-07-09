@@ -48,7 +48,6 @@ import com.example.cheas_stoeckli.ui.screens.CheeseScreen
 import com.example.cheas_stoeckli.ui.screens.ContactScreen
 import com.example.cheas_stoeckli.ui.screens.FavoriteScreen
 import com.example.cheas_stoeckli.ui.screens.FondueScreen
-import com.example.cheas_stoeckli.ui.screens.LoginScreen
 import com.example.cheas_stoeckli.ui.screens.NewsScreen
 import com.example.cheas_stoeckli.ui.screens.OfferScreen
 import com.example.cheas_stoeckli.ui.screens.RacletteScreen
@@ -95,11 +94,6 @@ fun AppStart(
             snackbarHostState.currentSnackbarData?.dismiss()
         }
     }
-
-
-    if (!isSignedIn) {
-        LoginScreen()
-    } else {
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()
@@ -198,7 +192,6 @@ fun AppStart(
                 }
             }
         }
-    }
 }
 
 
