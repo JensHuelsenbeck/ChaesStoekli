@@ -56,22 +56,16 @@ fun NewsInformation(
                 if (user?.permissonLevel == "1") {
                     Text(
                         text = "Du kannst auf die Ankündigungen tippen, um mehr Details zu sehen – \n " +
-                                "inklusive einer Wegbeschreibung oder Routenplanung bei Veranstaltungen." +
-                                "Dafür brauchen wir aber deine Zustimmung zur Standortbestimmung. " +
-                                "Wir werden  dich danach fragen, wenn es nötig ist.",
-                        fontSize = 16.sp,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(Modifier.height(2.dp))
-                    Text(
-                        text = "Dafür brauchen wir aber deine Zustimmung zur Standortbestimmung. " +
-                                "Wenn es nötig sein sollte, fragen wir danach." +
+                                "inklusive einer Wegbeschreibung oder Routenplanung bei Veranstaltungen. " +
+                                "\nDafür brauchen wir aber deine Zustimmung zur Standortbestimmung. " +
+                                "Wir werden  dich danach fragen, wenn es nötig ist." +
                                 " \nDie App wird aber auch ohne deine Erlaubnis wunderbar funktionieren",
                         fontSize = 16.sp,
                         color = Color.Black,
                         textAlign = TextAlign.Center
                     )
+
+
                     Spacer(Modifier.height(12.dp))
                     Text(
                         text = "Zusätzlich kannst du durch langes Drücken eine Ankündigung löschen " +

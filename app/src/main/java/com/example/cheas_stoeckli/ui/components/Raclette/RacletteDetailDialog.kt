@@ -6,36 +6,43 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import coil.compose.SubcomposeAsyncImage
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.domain.models.Raclette
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.utils.RotatingPlaceholder
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RacletteDetailDialog(
     raclette: Raclette,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Dialog(
+
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet (
         onDismissRequest = { onDismiss() },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        containerColor = cardBackgroundPrimary,
+        sheetState = sheetState,
+        scrimColor = Color.Black.copy(alpha = 0.8f)
     ) {
         Surface(
             shape = RoundedCornerShape(12.dp),
             color = cardBackgroundPrimary,
             modifier = Modifier
-              //  .wrapContentHeight()
                 .fillMaxHeight(0.8f)
-                .fillMaxWidth(0.9f)
+                .fillMaxWidth()
         ) {
             Box {
                 SubcomposeAsyncImage(

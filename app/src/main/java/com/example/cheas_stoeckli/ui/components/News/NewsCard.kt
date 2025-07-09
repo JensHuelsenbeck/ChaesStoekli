@@ -202,7 +202,7 @@ fun NewsCard(
     }
 
     if (showDetailDialog) {
-        NewsDetailDialog(
+        NewsDetailSheet(
             news = news,
             onDismiss = { showDetailDialog = false }
         )

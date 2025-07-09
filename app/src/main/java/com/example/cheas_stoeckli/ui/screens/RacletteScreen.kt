@@ -32,6 +32,7 @@ import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.ui.components.BackButton
 import com.example.cheas_stoeckli.ui.components.Header
 import com.example.cheas_stoeckli.ui.components.Raclette.RacletteAddDialog
+import com.example.cheas_stoeckli.ui.components.Raclette.RacletteHeader
 import com.example.cheas_stoeckli.ui.components.Raclette.RacletteList
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
@@ -95,6 +96,7 @@ fun RacletteScreen(
                     }
                 }
                 Spacer(Modifier.height(20.dp))
+                RacletteHeader()
                 RacletteList(
                     raclette = raclette.value,
                     user = appUser.value,

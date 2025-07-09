@@ -7,19 +7,22 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -35,8 +38,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import coil.compose.SubcomposeAsyncImage
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.data.Fake.fakeNews
@@ -47,15 +48,14 @@ import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.viewModel.News.NewsDetailViewModel
 import com.example.cheas_stoeckli.utils.RotatingPlaceholder
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @SuppressLint("MissingPermission")
 @Composable
-fun NewsDetailDialog(
+fun NewsDetailSheet(
     news: News,
     onDismiss: () -> Unit,
     newsDetailViewModel: NewsDetailViewModel = koinViewModel()
@@ -63,20 +63,26 @@ fun NewsDetailDialog(
 
     val context = LocalContext.current
 
+
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val mapsUrl by newsDetailViewModel.staticMapUrl.collectAsState()
     val fineLocPermission = rememberPermissionState(
         Manifest.permission.ACCESS_FINE_LOCATION
     )
-    Dialog(
+    val permissionGranted = fineLocPermission.status.isGranted
+
+    ModalBottomSheet(
         onDismissRequest = { onDismiss() },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        containerColor = cardBackgroundPrimary,
+        sheetState = sheetState,
+        scrimColor = Color.Black.copy(alpha = 0.8f)
     ) {
         Surface(
             shape = RoundedCornerShape(12.dp),
             color = cardBackgroundPrimary,
             modifier = Modifier
-                .wrapContentHeight()
-                .fillMaxWidth(0.9f)
+                .fillMaxHeight(0.9f)
+                .fillMaxWidth()
         ) {
             Column(
                 modifier = Modifier
@@ -104,48 +110,52 @@ fun NewsDetailDialog(
                     )
                 }
                 Spacer(Modifier.height(6.dp))
-                Text(
-                    text = news.title,
-                    fontSize = 20.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    modifier = Modifier.padding(8.dp)
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    text = news.text,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Start,
-                    color = Color.Black,
-                    modifier = Modifier.padding(8.dp)
-                )
-                Spacer(Modifier.height(12.dp))
-                if(news.type == NewsKind.EVENTS) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-                        Text(
-                            text = "Wo muss ich hin?: ",
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.Black,
-                        )
-                        Text(
-                            text = "\n${news.destination},\n${news.date}," +
-                                    "\n${news.time}",
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                            color = Color.Black,
-                        )
+                Column(
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                ) {
+                    Text(
+                        text = news.title,
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = news.text,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Start,
+                        color = Color.Black,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                    Spacer(Modifier.height(12.dp))
+                    if (news.type == NewsKind.EVENTS) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                        ) {
+                            Text(
+                                text = "Wo muss ich hin?: ",
+                                fontSize = 18.sp,
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.Black,
+                            )
+                            Text(
+                                text = "\n${news.destination},\n${news.date}," +
+                                        "\n${news.time}",
+                                fontSize = 16.sp,
+                                lineHeight = 24.sp,
+                                color = Color.Black,
+                            )
+                        }
                     }
                 }
                 Spacer(Modifier.height(12.dp))
 
-                if(news.type == NewsKind.EVENTS ) {
+                if (news.type == NewsKind.EVENTS) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -177,7 +187,7 @@ fun NewsDetailDialog(
                             modifier = Modifier
                                 .padding(horizontal = 4.dp)
                                 .align(Alignment.TopEnd)
-                                .offset(y = (-18).dp)
+                                .offset(y = (-18).dp, x = -10.dp)
                         ) {
                             Text(
                                 text = "In Google Maps öffnen",
@@ -192,33 +202,22 @@ fun NewsDetailDialog(
                 }
             }
         }
-        LaunchedEffect(fineLocPermission.status) {
-            if (news.type == NewsKind.EVENTS) {
-                when (fineLocPermission.status) {
-                    PermissionStatus.Granted -> {
-                        Log.d("NewsDetailDialog", "Permission granted → Map laden")
-                        newsDetailViewModel.getMapUrl(news.destination)
-                    }
 
-                    is PermissionStatus.Denied -> {
-                        Log.d("NewsDetailDialog", "Permission (noch) nicht erteilt")
-                        fineLocPermission.launchPermissionRequest()
-                    }
-                }
+        LaunchedEffect(Unit) {
+            if (news.type == NewsKind.EVENTS && !permissionGranted) {
+                fineLocPermission.launchPermissionRequest()
             }
         }
-        DisposableEffect(fineLocPermission.status.isGranted) {
-            if (news.type == NewsKind.EVENTS && fineLocPermission.status.isGranted) {
-                Log.d("NewsDetailDialog", "Permission granted later")
-                println("Berechtigung wurde nachträglich erteilt – Map wird geladen")
+        LaunchedEffect(permissionGranted) {
+            if (permissionGranted && news.type == NewsKind.EVENTS) {
+                Log.d("NewsDetailDialog", "Permission granted → Map laden")
                 newsDetailViewModel.getMapUrl(news.destination)
             }
-            onDispose { }
         }
-    }
-    DisposableEffect(Unit) {
-        onDispose {
-            newsDetailViewModel.clearStaticMapsUrl()
+        DisposableEffect(Unit) {
+            onDispose {
+                newsDetailViewModel.clearStaticMapsUrl()
+            }
         }
     }
 }
@@ -226,7 +225,7 @@ fun NewsDetailDialog(
 @Preview
 @Composable
 private fun Newspreview() {
-    NewsDetailDialog(
+    NewsDetailSheet(
         fakeNews,
         onDismiss = { TODO() },
 
