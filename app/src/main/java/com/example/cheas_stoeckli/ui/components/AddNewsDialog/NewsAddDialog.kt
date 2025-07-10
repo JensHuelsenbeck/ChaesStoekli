@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.cheas_stoeckli.ui.components.CustomButton
 import com.example.cheas_stoeckli.ui.components.News.NewsCard
-import com.example.cheas_stoeckli.ui.components.SaveButton
 import com.example.cheas_stoeckli.ui.enums.NewsKind
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
@@ -188,9 +188,9 @@ fun NewsAddDialog(
                         modifier = Modifier.border(2.dp, Color.Gray, RoundedCornerShape(12.dp)),
                     )
                     Spacer(Modifier.height(8.dp))
-                    SaveButton(
+                    CustomButton(
                         text = "Speichern",
-                        onClickSave = {
+                        onClick = {
                             viewModel.uploadImageAndSaveNews(
                                 title = viewModel.title.value,
                                 text = viewModel.text.value,

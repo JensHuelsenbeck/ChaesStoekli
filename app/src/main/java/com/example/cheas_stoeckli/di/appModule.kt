@@ -23,6 +23,7 @@ import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
 import com.example.cheas_stoeckli.domain.usecases.SignInWithGoogleUseCase
 import com.example.cheas_stoeckli.ui.viewModel.AuthenticationViewModel
 import com.example.cheas_stoeckli.ui.viewModel.SplashScreenViewModel
+import com.example.cheas_stoeckli.ui.viewModel.More.MoreViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseAddViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Fondue.FondueAddViewModel
@@ -72,6 +73,7 @@ val appModule = module {
     // ViewModels
     viewModelOf(::AuthenticationViewModel)
     viewModelOf(::SplashScreenViewModel)
+    viewModelOf(::MoreViewModel)
     viewModelOf(::NewsViewModel)
     viewModelOf(::NewsAddViewModel)
     viewModelOf(::NetworkViewModel)

@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity(
 
         setContent {
             val viewModel: SplashScreenViewModel = koinViewModel()
-            val authService: AuthenticationService = AuthenticationService()
+            val authService = AuthenticationService()
             val isSignedIn by authService.isSignedIn.collectAsState(false)
             Cheas_StoeckliTheme {
                 if (viewModel.showSplash) {

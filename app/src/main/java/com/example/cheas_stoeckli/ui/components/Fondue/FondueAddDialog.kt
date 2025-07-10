@@ -38,7 +38,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.cheas_stoeckli.ui.components.AddNewsDialog.ConfirmDialog
 import com.example.cheas_stoeckli.ui.components.AddNewsDialog.DialogTextField
-import com.example.cheas_stoeckli.ui.components.SaveButton
+import com.example.cheas_stoeckli.ui.components.CustomButton
 import com.example.cheas_stoeckli.ui.enums.MilkType
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
@@ -142,9 +142,9 @@ fun FondueAddDialog(
                         onClickDelete = {}
                     )
                     Spacer(Modifier.height(8.dp))
-                    SaveButton(
+                    CustomButton(
                         text = "Speichern",
-                        onClickSave = {
+                        onClick = {
                             viewModel.saveFondue(
                                 onSuccess = {
                                     snackbarScope.launch {

@@ -42,7 +42,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.cheas_stoeckli.ui.components.AddNewsDialog.AddPictureButton
 import com.example.cheas_stoeckli.ui.components.AddNewsDialog.ConfirmDialog
 import com.example.cheas_stoeckli.ui.components.AddNewsDialog.DialogTextField
-import com.example.cheas_stoeckli.ui.components.SaveButton
+import com.example.cheas_stoeckli.ui.components.CustomButton
 import com.example.cheas_stoeckli.ui.enums.MemberPosition
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
@@ -159,9 +159,9 @@ fun TeamAddDialog(
                       onClickDelete = {}
                   )
                     Spacer(Modifier.height(8.dp))
-                    SaveButton(
+                    CustomButton(
                         text = "Speichern",
-                        onClickSave = {
+                        onClick = {
                             viewModel.uploadImageAndSaveTeam(
                                 onSuccess = {
                                     snackbarScope.launch {

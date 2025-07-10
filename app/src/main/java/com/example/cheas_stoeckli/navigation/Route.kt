@@ -12,7 +12,7 @@ object OfferRoute
 object TeamRoute
 
 @Serializable
-object ContactRoute
+object MoreRoute
 
 @Serializable
 object FavoriteRoute

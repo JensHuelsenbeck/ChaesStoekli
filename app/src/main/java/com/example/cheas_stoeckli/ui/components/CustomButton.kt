@@ -16,13 +16,13 @@ import androidx.compose.ui.unit.sp
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 
 @Composable
-fun SaveButton(
+fun CustomButton(
     text: String,
-    onClickSave: () -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Button(
-        onClick = onClickSave,
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = loginButtonColor ),
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
@@ -32,7 +32,7 @@ fun SaveButton(
     ) {
         Text(
             text = text,
-            fontSize = 14.sp,
+            fontSize = 16.sp,
             color = Color.White,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(6.dp)

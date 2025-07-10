@@ -35,9 +35,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cheas_stoeckli.data.services.AuthenticationService
 import com.example.cheas_stoeckli.navigation.CheeseRoute
-import com.example.cheas_stoeckli.navigation.ContactRoute
 import com.example.cheas_stoeckli.navigation.FavoriteRoute
 import com.example.cheas_stoeckli.navigation.FondueRoute
+import com.example.cheas_stoeckli.navigation.MoreRoute
 import com.example.cheas_stoeckli.navigation.NewsRoute
 import com.example.cheas_stoeckli.navigation.OfferRoute
 import com.example.cheas_stoeckli.navigation.RacletteRoute
@@ -45,9 +45,9 @@ import com.example.cheas_stoeckli.navigation.TeamRoute
 import com.example.cheas_stoeckli.ui.enums.OfferKind
 import com.example.cheas_stoeckli.ui.enums.TabItem
 import com.example.cheas_stoeckli.ui.screens.CheeseScreen
-import com.example.cheas_stoeckli.ui.screens.ContactScreen
 import com.example.cheas_stoeckli.ui.screens.FavoriteScreen
 import com.example.cheas_stoeckli.ui.screens.FondueScreen
+import com.example.cheas_stoeckli.ui.screens.MoreScreen
 import com.example.cheas_stoeckli.ui.screens.NewsScreen
 import com.example.cheas_stoeckli.ui.screens.OfferScreen
 import com.example.cheas_stoeckli.ui.screens.RacletteScreen
@@ -155,6 +155,7 @@ fun AppStart(
                             onClickToDetailedOfferScreen = onOfferNavigate
                         )
                     }
+
                     composable<TeamRoute> {
                         TeamScreen(
                             snackbarHostState = snackbarHostState,
@@ -164,8 +165,8 @@ fun AppStart(
                     composable<FavoriteRoute> {
                         FavoriteScreen()
                     }
-                    composable<ContactRoute> {
-                        ContactScreen()
+                    composable<MoreRoute> {
+                        MoreScreen()
                     }
                     composable<CheeseRoute> {
                         CheeseScreen(
