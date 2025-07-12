@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -35,12 +37,18 @@ fun MoreScreen(modifier: Modifier = Modifier) {
             .fillMaxSize(),
         color = screenBackgroundPrimary
     ) {
-        Box() {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp, horizontal = 16.dp)
+
             ) {
                 Row(
                     modifier = Modifier
@@ -65,25 +73,26 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
-                ){
+                ) {
                     CustomButton(
                         text = "Impressum",
                         onClick = { isImpressumShown.value = true },
 
-                    )
+                        )
                     Spacer(Modifier.height(8.dp))
                     CustomButton(
                         text = "Datenschutz",
                         onClick = { isDSGVOShown.value = true },
                     )
                 }
+
             }
         }
     }
-    if(isImpressumShown.value) {
+    if (isImpressumShown.value) {
         ImpressumSheet(onDismiss = { isImpressumShown.value = false })
     }
-    if(isDSGVOShown.value) {
+    if (isDSGVOShown.value) {
         DSGVODialog(onDismiss = { isDSGVOShown.value = false })
     }
 }

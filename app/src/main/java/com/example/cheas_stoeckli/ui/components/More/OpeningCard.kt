@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
@@ -92,7 +93,8 @@ fun OpeningCard(
                             text = hours,
                             modifier = Modifier.weight(2f),
                             fontSize = 18.sp,
-                            color = Color.Black
+                            color = Color.Black,
+                            textAlign = TextAlign.Center
                         )
                     }
                     HorizontalDivider(thickness = 1.dp, color = Color.Black.copy(0.4f))
