@@ -53,7 +53,7 @@ fun FondueCard(
             .fillMaxWidth(0.9f)
             .combinedClickable(
                 onClick = { },
-                onLongClick = { if (user?.permissonLevel == "1") isDialogshown = true else {
+                onLongClick = { if (user?.permissionLevel == "1") isDialogshown = true else {
                 } }
             ),
         shape = RoundedCornerShape(12.dp)

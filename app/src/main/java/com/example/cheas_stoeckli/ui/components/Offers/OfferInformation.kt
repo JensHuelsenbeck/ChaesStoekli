@@ -61,7 +61,7 @@ fun OfferInformation(
                     textAlign = TextAlign.Center
                 )
                 Spacer(Modifier.height(12.dp))
-                if (user?.permissonLevel == "1") {
+                if (user?.permissionLevel == "1") {
                     Text(
                         text = "Zusätzlich kannst du durch langes Drücken ein Angebot löschen " +
                                 "– \n und über den Button unten rechts eine neue hinzufügen.",

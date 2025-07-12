@@ -103,7 +103,7 @@ fun RacletteScreen(
                     viewModel = viewModel
                 )
             }
-            if (appUser.value?.permissonLevel == "1")
+            if (appUser.value?.permissionLevel == "1")
                 FloatingActionButton(
                     onClick = { showAddDialog.value = true },
                     containerColor = loginButtonColor,

@@ -64,7 +64,7 @@ fun OfferCard(
                 .combinedClickable(
                     onClick = { },
                     onLongClick = {
-                        if (user?.permissonLevel == "1") isDialogshown = true else {
+                        if (user?.permissionLevel == "1") isDialogshown = true else {
                         }
                     }),
             shape = RoundedCornerShape(12.dp)

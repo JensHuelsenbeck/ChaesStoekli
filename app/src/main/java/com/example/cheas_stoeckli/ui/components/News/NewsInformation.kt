@@ -53,7 +53,7 @@ fun NewsInformation(
                     color = Color.Black
                 )
                 Spacer(Modifier.height(8.dp))
-                if (user?.permissonLevel == "1") {
+                if (user?.permissionLevel == "1") {
                     Text(
                         text = "Du kannst auf die Ankündigungen tippen, um mehr Details zu sehen – \n " +
                                 "inklusive einer Wegbeschreibung oder Routenplanung bei Veranstaltungen. " +
