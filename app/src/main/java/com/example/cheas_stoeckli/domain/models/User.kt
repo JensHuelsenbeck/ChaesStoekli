@@ -6,5 +6,8 @@ data class User(
     @DocumentId val id: String? = "",
     val email: String = "",
     val fullName: String = "",
-    val permissionLevel: String = "0"
+    val permissionLevel: String = "0",
+    val favoriteCheeseIds: List<FavoriteCheese> = emptyList(),
+    val favoriteFondueIds: List<String> = emptyList(),
+    val favoriteRacletteIds: List<String> = emptyList(),
 )

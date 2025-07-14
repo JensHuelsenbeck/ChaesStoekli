@@ -143,7 +143,8 @@ fun CheeseAddDialog(
                     CheeseCard(
                         cheese = viewModel.previewCheese,
                         user = null,
-                        onClickDelete = { }
+                        onClickDelete = { },
+                        viewModel = null
                     )
                     Spacer(Modifier.height(8.dp))
                     CustomButton(

@@ -18,12 +18,15 @@ class UserRepository {
         val userRef = collection.document(user.id!!)
         val snapshot = userRef.get().await()
 
-        val data = mutableMapOf(
+        val data = mutableMapOf<String, Any>(
             "email" to user.email,
             "fullName" to user.fullName
         )
         if (!snapshot.exists()) {
             data["permissionLevel"] = "0"
+            data["favoriteFondueIds"] = emptyList<String>()
+            data["favoriteCheeseIds"] = emptyList<String>()
+            data["favoriteRacletteIds"] = emptyList<String>()
         }
         userRef.set(data, SetOptions.merge())
     }

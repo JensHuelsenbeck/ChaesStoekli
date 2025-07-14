@@ -21,6 +21,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,8 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
-import com.example.cheas_stoeckli.ui.components.Cheese.CheeseAddDialog
 import com.example.cheas_stoeckli.ui.components.BackButton
+import com.example.cheas_stoeckli.ui.components.Cheese.CheeseAddDialog
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseEnumItem
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseList
 import com.example.cheas_stoeckli.ui.components.Header
@@ -57,6 +58,10 @@ fun CheeseScreen(
     val cheese = viewModel.filteredCheese.collectAsState()
     val appUser = viewModel.appUser.collectAsState()
     val showAddDialog = remember { mutableStateOf(false) }
+
+
+
+    val errorMessage = viewModel.uiMessage
 
     Surface(
         modifier = Modifier
@@ -138,6 +143,12 @@ fun CheeseScreen(
                 snackbarHostState = snackbarHostState,
                 snackbarScope = snackbarScope
             )
+        }
+        LaunchedEffect(errorMessage) {
+            if (errorMessage.isNotEmpty()) {
+                snackbarHostState.showSnackbar(errorMessage)
+                viewModel.uiMessage = ""
+            }
         }
     }
 }

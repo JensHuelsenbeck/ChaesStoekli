@@ -4,6 +4,9 @@ import com.example.cheas_stoeckli.data.remote.GoogleDirections.GoogleAPI
 import com.example.cheas_stoeckli.data.repositories.Cheese.CheeseAddRepository
 import com.example.cheas_stoeckli.data.repositories.Cheese.CheeseRepository
 import com.example.cheas_stoeckli.data.repositories.CloudStorageRepository
+import com.example.cheas_stoeckli.data.repositories.Favorites.FavoriteCheeseRepository
+import com.example.cheas_stoeckli.data.repositories.Favorites.FavoriteFondueRepository
+import com.example.cheas_stoeckli.data.repositories.Favorites.FavoriteRacletteRepository
 import com.example.cheas_stoeckli.data.repositories.Fondue.FondueAddRepository
 import com.example.cheas_stoeckli.data.repositories.Fondue.FondueRepository
 import com.example.cheas_stoeckli.data.repositories.GoogleRepository
@@ -22,12 +25,11 @@ import com.example.cheas_stoeckli.domain.domain.usecases.SignOutUseCase
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
 import com.example.cheas_stoeckli.domain.usecases.SignInWithGoogleUseCase
 import com.example.cheas_stoeckli.ui.viewModel.AuthenticationViewModel
-import com.example.cheas_stoeckli.ui.viewModel.SplashScreenViewModel
-import com.example.cheas_stoeckli.ui.viewModel.More.MoreViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseAddViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Fondue.FondueAddViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Fondue.FondueViewModel
+import com.example.cheas_stoeckli.ui.viewModel.More.MoreViewModel
 import com.example.cheas_stoeckli.ui.viewModel.NetworkViewModel
 import com.example.cheas_stoeckli.ui.viewModel.News.NewsAddViewModel
 import com.example.cheas_stoeckli.ui.viewModel.News.NewsDetailViewModel
@@ -36,6 +38,7 @@ import com.example.cheas_stoeckli.ui.viewModel.Offer.OfferAddViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Offer.OfferViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Raclette.RacletteAddViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Raclette.RacletteViewModel
+import com.example.cheas_stoeckli.ui.viewModel.SplashScreenViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Team.TeamAddViewModel
 import com.example.cheas_stoeckli.ui.viewModel.Team.TeamViewModel
 import org.koin.core.module.dsl.singleOf
@@ -64,6 +67,9 @@ val appModule = module {
     singleOf(::FondueRepository)
     singleOf(::TeamAddRepository)
     singleOf(::TeamRepository)
+    singleOf(::FavoriteCheeseRepository)
+    singleOf(::FavoriteFondueRepository)
+    singleOf(::FavoriteRacletteRepository)
 
     // UseCases
     singleOf(::SignInWithGoogleUseCase)

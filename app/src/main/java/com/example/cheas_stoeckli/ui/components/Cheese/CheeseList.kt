@@ -45,7 +45,8 @@ fun CheeseList(
                     CheeseCard(
                         cheese = item,
                         user = user,
-                        onClickDelete = { viewModel.deleteCheese(item) }
+                        onClickDelete = { viewModel.deleteCheese(item) },
+                        viewModel = viewModel
 
                     )
                     Spacer(modifier = Modifier.height(8.dp))

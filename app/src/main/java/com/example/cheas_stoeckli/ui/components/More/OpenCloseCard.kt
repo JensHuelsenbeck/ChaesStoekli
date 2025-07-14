@@ -23,17 +23,14 @@ fun OpenCloseCard(
 
 
     Card(
-        modifier = Modifier.height(380.dp),
+        modifier = Modifier.height(365.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
-
         Image(
             painter = painterResource(
                 if(isOpen) R.drawable.laden_ist_offe else R.drawable.laden_ist_zue
             ),
             contentDescription = "",
-
         )
-
     }
 }

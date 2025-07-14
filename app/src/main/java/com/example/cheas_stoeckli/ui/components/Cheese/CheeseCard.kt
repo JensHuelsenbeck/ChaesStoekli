@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,17 +35,29 @@ import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.domain.models.Cheese
 import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
+import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseViewModel
 
 @Composable
 fun CheeseCard(
     cheese: Cheese,
     user: User?,
-    onClickDelete: () -> Unit
+    onClickDelete: () -> Unit,
+    viewModel: CheeseViewModel?
 
 ) {
 
-    var isFavorite by remember { mutableStateOf(false) }
+    var favoriteCheeseIds = viewModel?.favoriteCheeseIds?.collectAsState()
     var isDialogshown by remember { mutableStateOf(false) }
+
+    val onFavoriteToggle = {
+        viewModel?.let {
+            if (cheese.id in favoriteCheeseIds?.value.orEmpty()) {
+                it.deleteCheeseFromFavorites(cheese.id)
+            } else {
+                it.addCheeseToFavorites(cheese.id)
+            }
+        }
+    }
 
     Card(
         colors = CardDefaults.cardColors(cardBackgroundPrimary),
@@ -52,8 +65,10 @@ fun CheeseCard(
             .fillMaxWidth(0.9f)
             .combinedClickable(
                 onClick = { },
-                onLongClick = { if (user?.permissionLevel == "1") isDialogshown = true else {
-                } }
+                onLongClick = {
+                    if (user?.permissionLevel == "1") isDialogshown = true else {
+                    }
+                }
             ),
         shape = RoundedCornerShape(12.dp)
     )
@@ -68,19 +83,19 @@ fun CheeseCard(
                 .padding(16.dp)
         ) {
             Row() {
-            Text(
-                text = "• ",
-                fontSize = 25.sp,
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-            )
+                Text(
+                    text = "• ",
+                    fontSize = 25.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                )
                 Text(
                     text = cheese.name,
                     fontSize = 22.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
                 )
-        }
+            }
             Spacer(Modifier.height(8.dp))
             Text(
                 text = cheese.description,
@@ -93,16 +108,23 @@ fun CheeseCard(
             Row(
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier.fillMaxWidth()
-            ){
-             IconButton(
-                 onClick = { isFavorite = !isFavorite }
-             ) {
-                 Image(
-                     painter = painterResource(id = if(isFavorite) R.drawable.favorite_24 else R.drawable.favorite_border_24),
-                     contentDescription = null,
+            ) {
+                IconButton(
+                    onClick = {
+                        onFavoriteToggle()
+                    }
+                ) {
+                    Image(
+                        painter = painterResource(
+                            id = if (cheese.id in favoriteCheeseIds?.value.orEmpty())
+                                R.drawable.favorite_24
+                            else
+                                R.drawable.favorite_border_24
+                        ),
+                        contentDescription = null,
 
-                 )
-             }
+                        )
+                }
             }
             Spacer(Modifier.height(6.dp))
         }
