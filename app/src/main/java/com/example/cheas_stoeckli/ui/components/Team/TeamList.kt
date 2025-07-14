@@ -36,7 +36,7 @@ fun TeamList(
                user = user,
                member = member,
                uri = null,
-               onClickDelete = { },
+               onClickDelete = { viewModel.deleteOffer(member) },
            )
                 Spacer(modifier = Modifier.height(8.dp))
             }
