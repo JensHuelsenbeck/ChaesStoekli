@@ -10,8 +10,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,7 +48,7 @@ fun OpeningCard(
                             .padding(vertical = 6.dp, horizontal = 12.dp)
                     ) {
                         Text(
-                            text = "$day:",
+                            text = day,
                             modifier = Modifier.weight(1f),
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,

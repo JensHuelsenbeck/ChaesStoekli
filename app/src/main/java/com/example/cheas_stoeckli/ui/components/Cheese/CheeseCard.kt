@@ -35,8 +35,10 @@ import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.domain.models.Cheese
 import com.example.cheas_stoeckli.domain.models.User
+import com.example.cheas_stoeckli.ui.components.LoginDialog
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun CheeseCard(
@@ -47,8 +49,12 @@ fun CheeseCard(
 
 ) {
 
+    val anonymousUser = FirebaseAuth.getInstance().currentUser
+
     var favoriteCheeseIds = viewModel?.favoriteCheeseIds?.collectAsState()
     var isDialogshown by remember { mutableStateOf(false) }
+
+    val loginDialog = remember { mutableStateOf(false) }
 
     val onFavoriteToggle = {
         viewModel?.let {
@@ -112,21 +118,26 @@ fun CheeseCard(
             ) {
                 IconButton(
                     onClick = {
-                        onFavoriteToggle()
+                        if (anonymousUser?.isAnonymous == true) {
+                            loginDialog.value = true
+                        } else {
+                            onFavoriteToggle()
+                        }
                     }
                 ) {
-                    if(cheese.id in favoriteCheeseIds?.value.orEmpty()) {
+                    if (cheese.id in favoriteCheeseIds?.value.orEmpty()) {
                         Image(
                             painter = painterResource(
-                                id = R.drawable.favo_herz ),
+                                id = R.drawable.favo_herz
+                            ),
                             contentDescription = null,
                             modifier = Modifier
                                 .height(30.dp)
                                 .width(30.dp)
-                            )
+                        )
                     } else {
                         Image(
-                            painter = painterResource(id =  R.drawable.outline_favorite_24),
+                            painter = painterResource(id = R.drawable.outline_favorite_24),
                             contentDescription = null,
                         )
                     }
@@ -168,5 +179,8 @@ fun CheeseCard(
             titleContentColor = Color.Black
         )
     }
+    if(loginDialog.value) LoginDialog(
+        isDialogshown = loginDialog
+    )
 
 }

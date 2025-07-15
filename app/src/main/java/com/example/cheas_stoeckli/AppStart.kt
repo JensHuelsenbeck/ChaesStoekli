@@ -35,7 +35,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cheas_stoeckli.data.services.AuthenticationService
 import com.example.cheas_stoeckli.navigation.CheeseRoute
-import com.example.cheas_stoeckli.navigation.FavoriteRoute
 import com.example.cheas_stoeckli.navigation.FondueRoute
 import com.example.cheas_stoeckli.navigation.MoreRoute
 import com.example.cheas_stoeckli.navigation.NewsRoute
@@ -45,7 +44,6 @@ import com.example.cheas_stoeckli.navigation.TeamRoute
 import com.example.cheas_stoeckli.ui.enums.OfferKind
 import com.example.cheas_stoeckli.ui.enums.TabItem
 import com.example.cheas_stoeckli.ui.screens.CheeseScreen
-import com.example.cheas_stoeckli.ui.screens.FavoriteScreen
 import com.example.cheas_stoeckli.ui.screens.FondueScreen
 import com.example.cheas_stoeckli.ui.screens.MoreScreen
 import com.example.cheas_stoeckli.ui.screens.NewsScreen
@@ -161,9 +159,6 @@ fun AppStart(
                             snackbarHostState = snackbarHostState,
                             snackbarScope = scope,
                         )
-                    }
-                    composable<FavoriteRoute> {
-                        FavoriteScreen()
                     }
                     composable<MoreRoute> {
                         MoreScreen()

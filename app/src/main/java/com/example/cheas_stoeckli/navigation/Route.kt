@@ -15,9 +15,6 @@ object TeamRoute
 object MoreRoute
 
 @Serializable
-object FavoriteRoute
-
-@Serializable
 object CheeseRoute
 
 @Serializable
