@@ -60,7 +60,6 @@ fun CheeseScreen(
     val showAddDialog = remember { mutableStateOf(false) }
 
 
-
     val errorMessage = viewModel.uiMessage
 
     Surface(
@@ -85,7 +84,7 @@ fun CheeseScreen(
                     Header(text = "Käsesortiment")
                     Spacer(Modifier.weight(1f))
                     IconButton(
-                        onClick = {  },
+                        onClick = { },
                         modifier = Modifier
                             .padding(end = 16.dp)
                     ) {
