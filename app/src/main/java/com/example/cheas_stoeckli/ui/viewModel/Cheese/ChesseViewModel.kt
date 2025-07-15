@@ -50,22 +50,25 @@ class CheeseViewModel(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()
     )
-    val filteredCheese = cheese
-        .combine(milkType) { list, selectedType ->
-            if (selectedType == MilkType.ALL) list
-            else list.filter { it.milkType == selectedType }
+    val filteredCheese = combine(cheese, milkType, showFavored, favoriteCheeseIds) {
+            cheeseList, selectedType, onlyFavorites, favoredIds ->
+
+        val milkFiltered = if (selectedType == MilkType.ALL) {
+            cheeseList
+        } else {
+            cheeseList.filter { it.milkType == selectedType }
         }
-        .combine(showFavored) { list, onlyFavorites ->
-            if (onlyFavorites) {
-                val favoredIds = favoriteCheeseIds.value
-                list.filter { it.id in favoredIds }
-            } else list
+
+        if (onlyFavorites) {
+            milkFiltered.filter { it.id in favoredIds }
+        } else {
+            milkFiltered
         }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
-        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
 
     fun setMilkType(type: MilkType) {
         _type.value = type
