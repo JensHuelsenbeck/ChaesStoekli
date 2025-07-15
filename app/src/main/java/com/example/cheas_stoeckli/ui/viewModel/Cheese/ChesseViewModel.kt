@@ -28,6 +28,13 @@ class CheeseViewModel(
     private val _type = MutableStateFlow(MilkType.ALL)
     val milkType = _type.asStateFlow()
 
+    private val _showFavored = MutableStateFlow(false)
+    val showFavored = _showFavored.asStateFlow()
+
+    private val _favoriteCheeseIds = MutableStateFlow<Set<String>>(emptySet())
+    val favoriteCheeseIds = _favoriteCheeseIds.asStateFlow()
+
+
     var uiMessage by mutableStateOf("")
 
 
@@ -44,9 +51,15 @@ class CheeseViewModel(
         initialValue = emptyList()
     )
     val filteredCheese = cheese
-        .combine(milkType) { list, selected ->
-            if (selected == MilkType.ALL) list
-            else list.filter { it.milkType == selected }
+        .combine(milkType) { list, selectedType ->
+            if (selectedType == MilkType.ALL) list
+            else list.filter { it.milkType == selectedType }
+        }
+        .combine(showFavored) { list, onlyFavorites ->
+            if (onlyFavorites) {
+                val favoredIds = favoriteCheeseIds.value
+                list.filter { it.id in favoredIds }
+            } else list
         }
         .stateIn(
             scope = viewModelScope,
@@ -64,19 +77,16 @@ class CheeseViewModel(
 
     }
 
-    private val _favoriteCheeseIds = MutableStateFlow<Set<String>>(emptySet())
-    val favoriteCheeseIds = _favoriteCheeseIds.asStateFlow()
 
     init {
         viewModelScope.launch {
             appUser.collect { user ->
                 _favoriteCheeseIds.value = user?.favoriteCheeseIds
-                    ?.map { it.id } // ⬅️
+                    ?.map { it.id }
                     ?.toSet() ?: emptySet()
             }
         }
     }
-
 
     fun addCheeseToFavorites(cheeseId: String) {
         viewModelScope.launch {
@@ -86,7 +96,7 @@ class CheeseViewModel(
                     cheeseId = cheeseId,
                     onResult = { success ->
                         uiMessage =
-                            if (success) "Zum Favoriten hinzugefügt!" else "Fehler beim Speichern."
+                            if (success) "Zu Favoriten hinzugefügt!" else "Fehler beim Speichern."
                     }
                 )
             } catch (e: Exception) {
@@ -102,14 +112,26 @@ class CheeseViewModel(
                     user = appUser.value ?: User(),
                     cheeseId = cheeseId,
                     onResult = { success ->
-                        uiMessage = if (success) "Favorit entfernt!" else "Fehler beim Entfernen."
+                        uiMessage =
+                            if (success) "Käse aus Favoriten entfernt!" else "Fehler beim Entfernen."
                     }
                 )
 
             } catch (e: Exception) {
                 uiMessage = "Ein Fehler ist aufgetreten."
+                Log.e("CheeseViewModel", "Error deleting cheese from favorites, ${e.message}")
             }
         }
+    }
+
+    fun setShowFavoredToTrue() {
+        _showFavored.value = true
+        Log.d("CheeseViewModel", "ShowFavored is now: ${_showFavored.value}")
+    }
+    fun setShowFavoredToFalse() {
+        _showFavored.value = false
+        Log.d("CheeseViewModel", "ShowFavored is now: ${_showFavored.value}")
+
     }
 
 }

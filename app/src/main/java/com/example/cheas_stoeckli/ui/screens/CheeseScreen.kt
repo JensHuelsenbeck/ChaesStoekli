@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,6 +38,8 @@ import com.example.cheas_stoeckli.ui.components.BackButton
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseAddDialog
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseEnumItem
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseList
+import com.example.cheas_stoeckli.ui.components.FavoFilterItem
+import com.example.cheas_stoeckli.ui.components.FavoFilterItemInverted
 import com.example.cheas_stoeckli.ui.components.Header
 import com.example.cheas_stoeckli.ui.enums.MilkType
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
@@ -59,6 +62,7 @@ fun CheeseScreen(
     val appUser = viewModel.appUser.collectAsState()
     val showAddDialog = remember { mutableStateOf(false) }
 
+    val isFavorite by viewModel.showFavored.collectAsState()
 
     val errorMessage = viewModel.uiMessage
 
@@ -104,6 +108,20 @@ fun CheeseScreen(
                     }
                 }
                 Spacer(Modifier.height(20.dp))
+                Row() {
+                    FavoFilterItemInverted(
+                        isSelected = isFavorite,
+                        text = "Alle anzeigen",
+                        onClick = { viewModel.setShowFavoredToFalse()}
+                    )
+                    FavoFilterItem(
+                        isSelected = isFavorite,
+                        text = "Favoriten anzeigen",
+                        onClick = { viewModel.setShowFavoredToTrue() },
+
+                    )
+                }
+                Spacer(Modifier.height(8.dp))
                 LazyRow(
                     Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
                 ) {

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -114,16 +115,21 @@ fun CheeseCard(
                         onFavoriteToggle()
                     }
                 ) {
-                    Image(
-                        painter = painterResource(
-                            id = if (cheese.id in favoriteCheeseIds?.value.orEmpty())
-                                R.drawable.favorite_24
-                            else
-                                R.drawable.favorite_border_24
-                        ),
-                        contentDescription = null,
-
+                    if(cheese.id in favoriteCheeseIds?.value.orEmpty()) {
+                        Image(
+                            painter = painterResource(
+                                id = R.drawable.favo_herz ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(30.dp)
+                                .width(30.dp)
+                            )
+                    } else {
+                        Image(
+                            painter = painterResource(id =  R.drawable.outline_favorite_24),
+                            contentDescription = null,
                         )
+                    }
                 }
             }
             Spacer(Modifier.height(6.dp))
