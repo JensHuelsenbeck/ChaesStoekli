@@ -142,6 +142,7 @@ fun RacletteAddDialog(
                         raclette = viewModel.previewRaclette,
                         onClickDelete = {},
                         user = null,
+                        viewModel = null
                     )
                     Spacer(Modifier.height(8.dp))
                     CustomButton(

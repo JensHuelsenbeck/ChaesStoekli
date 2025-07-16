@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cheas_stoeckli.data.repositories.News.NewsRepository
 import com.example.cheas_stoeckli.data.repositories.UserPrefRepository
-import com.example.cheas_stoeckli.domain.domain.usecases.SignOutUseCase
 import com.example.cheas_stoeckli.domain.models.News
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class NewsViewModel(
-    private val signOutUseCase: SignOutUseCase,
     observeCurrentUserUseCase: ObserveCurrentUserUseCase,
     private val newsRepo: NewsRepository,
     private val userPrefRepo: UserPrefRepository
@@ -41,10 +39,6 @@ class NewsViewModel(
 
     fun deleteAnnouncement(news: News) {
         newsRepo.deleteAnnouncement(news)
-    }
-
-    fun onSignOutClick() {
-        signOutUseCase()
     }
 
     fun hasSeenInfoDialog(seen: Boolean) {

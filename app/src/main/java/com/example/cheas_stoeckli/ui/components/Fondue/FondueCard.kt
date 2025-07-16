@@ -176,8 +176,8 @@ fun FondueCard(
             titleContentColor = Color.Black
         )
     }
-    if(loginDialog.value) LoginDialog(
-        isDialogshown = loginDialog
-    )
+    if(loginDialog.value) {
+        LoginDialog(isDialogshown = loginDialog)
+    }
 
 }

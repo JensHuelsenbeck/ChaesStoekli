@@ -26,9 +26,14 @@ import com.example.cheas_stoeckli.ui.components.More.ImpressumSheet
 import com.example.cheas_stoeckli.ui.components.More.OpenCloseCard
 import com.example.cheas_stoeckli.ui.components.More.OpeningCard
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
+import com.example.cheas_stoeckli.ui.viewModel.More.MoreViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MoreScreen(modifier: Modifier = Modifier) {
+fun MoreScreen(
+    viewModel: MoreViewModel = koinViewModel(),
+    modifier: Modifier = Modifier
+) {
 
     val isImpressumShown = remember { mutableStateOf(false) }
     val isDSGVOShown = remember { mutableStateOf(false) }
@@ -85,6 +90,11 @@ fun MoreScreen(modifier: Modifier = Modifier) {
                     CustomButton(
                         text = "Datenschutz",
                         onClick = { isDSGVOShown.value = true },
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    CustomButton(
+                        text = "Abmelden",
+                        onClick = { viewModel.onSignOutClick() }
                     )
                 }
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -18,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,18 +36,36 @@ import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.domain.models.Raclette
 import com.example.cheas_stoeckli.domain.models.User
+import com.example.cheas_stoeckli.ui.components.LoginDialog
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
+import com.example.cheas_stoeckli.ui.viewModel.Raclette.RacletteViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun RacletteCard(
     raclette: Raclette,
     user: User?,
-    onClickDelete: () -> Unit
+    onClickDelete: () -> Unit,
+    viewModel: RacletteViewModel?
 ) {
 
-    var isFavorite by remember { mutableStateOf(false) }
+    val anonymousUser = FirebaseAuth.getInstance().currentUser
+    val loginDialog = remember { mutableStateOf(false) }
+
+    var favoriteRacletteIds = viewModel?.favoriteRacletteIds?.collectAsState()
+
     var isDialogshown by remember { mutableStateOf(false) }
     var showDetailDialog by rememberSaveable { mutableStateOf(false) }
+
+    val onFavoriteToggle = {
+        viewModel?.let {
+            if (raclette.id in favoriteRacletteIds?.value.orEmpty()) {
+                it.deleteRacletteFromFavorites(raclette.id)
+            } else {
+                it.addRacletteToFavorites(raclette.id)
+            }
+        }
+    }
 
     Card(
         colors = CardDefaults.cardColors(cardBackgroundPrimary),
@@ -85,6 +105,7 @@ fun RacletteCard(
                 )
             }
             Spacer(Modifier.height(8.dp))
+            if(raclette.description != "")
             Text(
                 text = raclette.description,
                 fontSize = 14.sp,
@@ -98,13 +119,30 @@ fun RacletteCard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 IconButton(
-                    onClick = { isFavorite = !isFavorite }
+                    onClick = {
+                        if (anonymousUser?.isAnonymous == true) {
+                            loginDialog.value = true
+                        } else {
+                            onFavoriteToggle()
+                        }
+                    }
                 ) {
-                    Image(
-                        painter = painterResource(id = if (isFavorite) R.drawable.favorite_24 else R.drawable.favorite_border_24),
-                        contentDescription = null,
-
+                    if (raclette.id in favoriteRacletteIds?.value.orEmpty()) {
+                        Image(
+                            painter = painterResource(
+                                id = R.drawable.favo_herz
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(30.dp)
+                                .width(30.dp)
                         )
+                    } else {
+                        Image(
+                            painter = painterResource(id = R.drawable.outline_favorite_24),
+                            contentDescription = null,
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(6.dp))
@@ -143,11 +181,13 @@ fun RacletteCard(
             titleContentColor = Color.Black
         )
     }
-    if(showDetailDialog){
+    if (showDetailDialog) {
         RacletteDetailDialog(
             raclette = raclette,
             onDismiss = { showDetailDialog = false }
         )
     }
-
+    if (loginDialog.value) {
+        LoginDialog(isDialogshown = loginDialog)
+    }
 }

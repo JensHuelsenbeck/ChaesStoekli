@@ -45,7 +45,8 @@ fun RacletteList(
                     RacletteCard(
                         raclette = item,
                         user = user,
-                        onClickDelete = { viewModel.deleteRaclette(item) }
+                        onClickDelete = { viewModel.deleteRaclette(item) },
+                        viewModel = viewModel
 
                     )
                     Spacer(modifier = Modifier.height(8.dp))

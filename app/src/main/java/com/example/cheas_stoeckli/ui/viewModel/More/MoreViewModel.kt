@@ -2,6 +2,7 @@ package com.example.cheas_stoeckli.ui.viewModel.More
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cheas_stoeckli.domain.domain.usecases.SignOutUseCase
 import com.example.cheas_stoeckli.utils.WeekDay
 import com.example.cheas_stoeckli.utils.openingHours
 import kotlinx.coroutines.flow.SharingStarted
@@ -11,7 +12,9 @@ import kotlinx.coroutines.flow.stateIn
 import java.time.LocalDate
 import java.time.LocalTime
 
-class MoreViewModel(): ViewModel() {
+class MoreViewModel(
+    private val signOutUseCase: SignOutUseCase,
+) : ViewModel() {
 
     val isOpenNow: StateFlow<Boolean> = flow {
         emit(isCurrentlyOpen())
@@ -35,5 +38,9 @@ class MoreViewModel(): ViewModel() {
         "Samstag" to "8:00–14:00",
         "Sonntag" to "geschlossen"
     )
+
+    fun onSignOutClick() {
+        signOutUseCase()
+    }
 
 }
