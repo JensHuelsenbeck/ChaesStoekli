@@ -1,7 +1,6 @@
 package com.example.cheas_stoeckli.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,15 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,11 +23,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.ui.components.BackButton
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseAddDialog
@@ -79,7 +71,6 @@ fun CheeseScreen(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
@@ -87,28 +78,10 @@ fun CheeseScreen(
                     BackButton(popBackStack = popBackStack)
                     Header(text = "Käsesortiment")
                     Spacer(Modifier.weight(1f))
-                    IconButton(
-                        onClick = { },
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(42.dp)
-                                .background(loginButtonColor, shape = CircleShape),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "?",
-                                fontSize = 24.sp,
-                                color = Color.Black,
-                                textAlign = TextAlign.Center
-                            )
+
                         }
-                    }
-                }
-                Spacer(Modifier.height(20.dp))
-                Row() {
+                Spacer(Modifier.height(10.dp))
+                Row {
                     FavoFilterItemInverted(
                         isSelected = isFavorite,
                         text = "Alle anzeigen",

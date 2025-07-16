@@ -50,7 +50,9 @@ class CheeseViewModel(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()
     )
-    val filteredCheese = combine(cheese, milkType, showFavored, favoriteCheeseIds) {
+    val filteredCheese = combine(
+        cheese, milkType, showFavored, favoriteCheeseIds
+    ) {
             cheeseList, selectedType, onlyFavorites, favoredIds ->
 
         val milkFiltered = if (selectedType == MilkType.ALL) {
@@ -99,7 +101,7 @@ class CheeseViewModel(
                     cheeseId = cheeseId,
                     onResult = { success ->
                         uiMessage =
-                            if (success) "Zu Favoriten hinzugefügt!" else "Fehler beim Speichern."
+                            if (success) "Käse zu Favoriten hinzugefügt!" else "Fehler beim Speichern."
                     }
                 )
             } catch (e: Exception) {

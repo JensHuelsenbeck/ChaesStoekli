@@ -139,7 +139,8 @@ fun FondueAddDialog(
                     FondueCard(
                         fondue = viewModel.previewFondue,
                         user = null,
-                        onClickDelete = {}
+                        onClickDelete = {},
+                        viewModel = null
                     )
                     Spacer(Modifier.height(8.dp))
                     CustomButton(

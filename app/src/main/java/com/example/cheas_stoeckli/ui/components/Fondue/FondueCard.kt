@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -18,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,19 +35,35 @@ import androidx.compose.ui.unit.sp
 import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.domain.models.Fondue
 import com.example.cheas_stoeckli.domain.models.User
+import com.example.cheas_stoeckli.ui.components.LoginDialog
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
+import com.example.cheas_stoeckli.ui.viewModel.Fondue.FondueViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
 fun FondueCard(
     fondue: Fondue,
     user: User?,
-    onClickDelete: () -> Unit
+    onClickDelete: () -> Unit,
+    viewModel: FondueViewModel?
 
 ) {
+    val anonymousUser = FirebaseAuth.getInstance().currentUser
+    val loginDialog = remember { mutableStateOf(false) }
 
-    var isFavorite by remember { mutableStateOf(false) }
+    var favoriteFondueIds = viewModel?.favoriteFondueIds?.collectAsState()
     var isDialogshown by remember { mutableStateOf(false) }
+
+    val onFavoriteToggle = {
+        viewModel?.let {
+            if (fondue.id in favoriteFondueIds?.value.orEmpty()) {
+                it.deleteFondueFromFavorites(fondue.id)
+            } else {
+                it.addFondueToFavorites(fondue.id)
+            }
+        }
+    }
 
     Card(
         colors = CardDefaults.cardColors(cardBackgroundPrimary),
@@ -96,13 +114,30 @@ fun FondueCard(
                 modifier = Modifier.fillMaxWidth()
             ){
                 IconButton(
-                    onClick = { isFavorite = !isFavorite }
+                    onClick = {
+                        if (anonymousUser?.isAnonymous == true) {
+                            loginDialog.value = true
+                        } else {
+                            onFavoriteToggle()
+                        }
+                    }
                 ) {
-                    Image(
-                        painter = painterResource(id = if(isFavorite) R.drawable.favorite_24 else R.drawable.favorite_border_24),
-                        contentDescription = null,
-
+                    if (fondue.id in favoriteFondueIds?.value.orEmpty()) {
+                        Image(
+                            painter = painterResource(
+                                id = R.drawable.favo_herz
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(30.dp)
+                                .width(30.dp)
                         )
+                    } else {
+                        Image(
+                            painter = painterResource(id = R.drawable.outline_favorite_24),
+                            contentDescription = null,
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(6.dp))
@@ -141,5 +176,8 @@ fun FondueCard(
             titleContentColor = Color.Black
         )
     }
+    if(loginDialog.value) LoginDialog(
+        isDialogshown = loginDialog
+    )
 
 }

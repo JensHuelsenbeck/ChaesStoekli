@@ -50,11 +50,10 @@ fun CheeseCard(
 ) {
 
     val anonymousUser = FirebaseAuth.getInstance().currentUser
+    val loginDialog = remember { mutableStateOf(false) }
 
     var favoriteCheeseIds = viewModel?.favoriteCheeseIds?.collectAsState()
     var isDialogshown by remember { mutableStateOf(false) }
-
-    val loginDialog = remember { mutableStateOf(false) }
 
     val onFavoriteToggle = {
         viewModel?.let {

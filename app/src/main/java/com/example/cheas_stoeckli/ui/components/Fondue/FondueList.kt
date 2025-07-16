@@ -46,7 +46,8 @@ fun FondueList(
                     FondueCard(
                         fondue = item,
                         user = user,
-                        onClickDelete = { viewModel.deleteFondue(item) }
+                        onClickDelete = { viewModel.deleteFondue(item) },
+                        viewModel = viewModel
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }

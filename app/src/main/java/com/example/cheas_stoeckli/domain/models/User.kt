@@ -8,6 +8,6 @@ data class User(
     val fullName: String = "",
     val permissionLevel: String = "0",
     val favoriteCheeseIds: List<FavoriteCheese> = emptyList(),
-    val favoriteFondueIds: List<String> = emptyList(),
-    val favoriteRacletteIds: List<String> = emptyList(),
+    val favoriteFondueIds: List<FavoriteFondue> = emptyList(),
+    val favoriteRacletteIds: List<FavoriteRaclette> = emptyList(),
 )
