@@ -11,10 +11,12 @@ import com.example.cheas_stoeckli.data.repositories.Fondue.FondueRepository
 import com.example.cheas_stoeckli.domain.models.Fondue
 import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
+import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -42,7 +44,26 @@ class FondueViewModel(
         initialValue = null,
     )
 
-    val fondue = fondueRepo.observeFondue().stateIn(
+    val fondue = fondueRepo.observeFondue()
+        .catch { e ->
+            if (e is FirebaseFirestoreException) {
+                when (e.code) {
+                    FirebaseFirestoreException.Code.PERMISSION_DENIED -> {
+                        uiMessage = "Keine Berechtigung zum Laden der Raclette-Sorten"
+                    }
+                    FirebaseFirestoreException.Code.UNAVAILABLE -> {
+                        Log.e("FondueViewModel", "Verbindung zum Server nicht möglich")
+                    }
+                    else -> {
+                        Log.e("FondueViewModel", "Fehler beim Laden: ${e.code.name}" )
+                    }
+                }
+            } else {
+                Log.e("FondueViewModel",  "Unbekannter Fehler: ${e.localizedMessage}")
+            }
+            emit(emptyList())
+        }
+        .stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()

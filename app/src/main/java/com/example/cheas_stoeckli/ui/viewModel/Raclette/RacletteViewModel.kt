@@ -11,10 +11,12 @@ import com.example.cheas_stoeckli.data.repositories.Raclette.RacletteRepository
 import com.example.cheas_stoeckli.domain.models.Raclette
 import com.example.cheas_stoeckli.domain.models.User
 import com.example.cheas_stoeckli.domain.usecases.ObserveCurrentUserUseCase
+import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -40,7 +42,26 @@ class RacletteViewModel(
         initialValue = null,
     )
 
-    val raclette: StateFlow<List<Raclette>> = racletteRepo.observRaclette().stateIn(
+    val raclette: StateFlow<List<Raclette>> = racletteRepo.observRaclette()
+        .catch { e ->
+            if (e is FirebaseFirestoreException) {
+                when (e.code) {
+                    FirebaseFirestoreException.Code.PERMISSION_DENIED -> {
+                        uiMessage = "Keine Berechtigung zum Laden der Raclette-Sorten"
+                    }
+                    FirebaseFirestoreException.Code.UNAVAILABLE -> {
+                        uiMessage = "Verbindung zum Server nicht möglich"
+                    }
+                    else -> {
+                        Log.e("RacletteViewModel", "Fehler beim Laden: ${e.code.name}" )
+                    }
+                }
+            } else {
+                Log.e("RacletteViewModel",  "Unbekannter Fehler: ${e.localizedMessage}")
+            }
+            emit(emptyList())
+        }
+        .stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = emptyList()

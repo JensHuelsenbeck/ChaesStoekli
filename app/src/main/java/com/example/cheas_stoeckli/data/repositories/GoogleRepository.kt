@@ -10,6 +10,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.tasks.await
+import retrofit2.HttpException
 
 
 class GoogleRepository(
@@ -19,17 +20,20 @@ class GoogleRepository(
 
     val apiKey = BuildConfig.maps_api_key
 
-    suspend fun getPolyline(origin: String, destination: String): String {
-        val polyline = apiService.getDirections(
-            origin = origin, destination = destination, apiKey = apiKey
-        )
-        if (!polyline.isSuccessful) {
-            throw retrofit2.HttpException(polyline)
+    suspend fun getPolyline(origin: String, destination: String): Result<String> {
+        return try {
+            val response = apiService.getDirections(origin, destination, apiKey)
+            if (!response.isSuccessful) {
+                return Result.failure(HttpException(response))
+            }
+
+            val poly = response.body()?.routes?.firstOrNull()?.overviewPolyline?.points
+            poly?.let { Result.success(it) }
+                ?: Result.failure(IllegalStateException("Polyline fehlt in der API-Antwort"))
+
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-
-        return polyline.body()?.routes?.firstOrNull()?.overviewPolyline?.points
-            ?: throw IllegalStateException("Polyline fehlt in der API-Antwort")
-
     }
 
     fun staticMapsUrlBuilder(polyline: String): String {
@@ -62,7 +66,7 @@ class GoogleRepository(
     suspend fun buildMapUrl(destination: String): Result<String> {
         return getFreshLocation().mapCatching { location ->
             val origin = "${location.latitude},${location.longitude}"
-            val poly = getPolyline(origin, destination)
+            val poly = getPolyline(origin, destination).getOrThrow()
             staticMapsUrlBuilder(poly)
         }
     }

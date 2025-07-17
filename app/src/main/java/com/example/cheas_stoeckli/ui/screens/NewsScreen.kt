@@ -49,6 +49,7 @@ fun NewsScreen(
     viewModel: NewsViewModel = koinViewModel()
 ) {
 
+    val errorMessage = viewModel.uiMessage
     val appUser = viewModel.appUser.collectAsState()
     val infoDialog = viewModel.InfoDialog.collectAsState()
     val annoucements = viewModel.announcements.collectAsState()
@@ -140,6 +141,12 @@ fun NewsScreen(
                 showInfoDialog.value = true
 
             }
+        }
+    }
+    LaunchedEffect(errorMessage) {
+        if (errorMessage.isNotEmpty()) {
+            snackbarHostState.showSnackbar(errorMessage)
+            viewModel.uiMessage = ""
         }
     }
 }

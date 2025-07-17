@@ -17,6 +17,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,6 +51,7 @@ fun OfferScreen(
     modifier: Modifier = Modifier,
 ) {
 
+    val errorMessage = viewModel.uiMessage
     val offers = viewModel.offers.collectAsState()
     val appUser = viewModel.appUser.collectAsState()
     var showAddDialog = remember { mutableStateOf(false) }
@@ -127,6 +129,12 @@ fun OfferScreen(
                 snackbarHostState = snackbarHostState,
                 snackbarScope = snackbarScope
             )
+        }
+    }
+    LaunchedEffect(errorMessage) {
+        if (errorMessage.isNotEmpty()) {
+            snackbarHostState.showSnackbar(errorMessage)
+            viewModel.uiMessage = ""
         }
     }
 }

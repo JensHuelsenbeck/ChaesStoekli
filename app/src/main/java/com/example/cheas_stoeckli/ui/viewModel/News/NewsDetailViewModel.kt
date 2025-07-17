@@ -37,7 +37,7 @@ class NewsDetailViewModel(
     fun getStaticMap(origin: String, destination: String) {
         viewModelScope.launch {
             try {
-                val poly = googleMapsRepository.getPolyline(origin, destination)
+                val poly = googleMapsRepository.getPolyline(origin, destination).getOrThrow()
                 _polyline.value = poly
                 _error.value = null
                 val staticUrl = googleMapsRepository.staticMapsUrlBuilder(poly)
@@ -52,9 +52,7 @@ class NewsDetailViewModel(
                 Log.e("NewsDetailViewModel", "I/O Fehler beim Laden der Polyline: ${e.message}")
                 _error.value = "Keine Internetverbindung"
             } catch (e: Exception) {
-                Log.e(
-                    "NewsDetailViewModel",
-                    "Unbekannter Fehler beim Laden der Polyline: ${e.message}"
+                Log.e("NewsDetailViewModel", "Unbekannter Fehler beim Laden der Polyline: ${e.message}"
                 )
                 _error.value =
                     e.message ?: "Ups – da ist etwas schiefgelaufen. - Versuche es später erneut"

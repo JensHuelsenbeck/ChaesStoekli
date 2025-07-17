@@ -14,32 +14,38 @@ class UserRepository {
     private val db = Firebase.firestore
     private val collection = db.collection("users")
 
-    suspend fun saveUser(user: User) {
-        val userRef = collection.document(user.id!!)
-        val snapshot = userRef.get().await()
+    suspend fun saveUser(user: User): Result<Unit> {
+        return try {
+            val userRef = collection.document(user.id!!)
+            val snapshot = userRef.get().await()
 
-        val data = mutableMapOf<String, Any>(
-            "email" to user.email,
-            "fullName" to user.fullName
-        )
-        if (!snapshot.exists()) {
-            data["permissionLevel"] = "0"
-            data["favoriteFondueIds"] = emptyList<String>()
-            data["favoriteCheeseIds"] = emptyList<String>()
-            data["favoriteRacletteIds"] = emptyList<String>()
+            val data = mutableMapOf<String, Any>(
+                "email" to user.email,
+                "fullName" to user.fullName
+            )
+            if (!snapshot.exists()) {
+                data["permissionLevel"] = "0"
+                data["favoriteFondueIds"] = emptyList<String>()
+                data["favoriteCheeseIds"] = emptyList<String>()
+                data["favoriteRacletteIds"] = emptyList<String>()
+            }
+            userRef.set(data, SetOptions.merge()).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-        userRef.set(data, SetOptions.merge())
     }
 
     fun observeUser(id: String): Flow<User?> = callbackFlow {
         val listenerRegistration = collection.document(id).addSnapshotListener { documentSnapshot, error ->
-            if (documentSnapshot == null) {
-                trySend(null)
-            } else {
-                val maybeUser = documentSnapshot.toObject(User::class.java)
-                trySend(maybeUser)
+            if (error != null) {
+                close(error)
+                return@addSnapshotListener
             }
+            val maybeUser = documentSnapshot?.toObject(User::class.java)
+            trySend(maybeUser).isSuccess
         }
+
         awaitClose {
             listenerRegistration.remove()
         }
