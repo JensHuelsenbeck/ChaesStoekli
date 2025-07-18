@@ -15,7 +15,7 @@ import com.example.cheas_stoeckli.ui.viewModel.More.MoreViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun OpenCloseCard(
+fun OpenClosePicture(
     viewModel: MoreViewModel = koinViewModel(),
     modifier: Modifier = Modifier
 ) {

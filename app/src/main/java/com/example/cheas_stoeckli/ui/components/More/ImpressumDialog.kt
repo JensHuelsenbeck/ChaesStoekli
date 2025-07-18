@@ -3,6 +3,7 @@ package com.example.cheas_stoeckli.ui.components.More
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -40,8 +41,9 @@ fun ImpressumSheet(
         ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
                     ) {
                     Text(
                         text = """ 

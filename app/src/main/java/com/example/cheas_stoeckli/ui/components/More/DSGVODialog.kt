@@ -134,7 +134,7 @@ fun DSGVODialog(
 
                         """.trimIndent(),
                     color = Color.Black,
-                    fontSize = 14.sp
+                    fontSize = 15.sp
                 )
             }
         }

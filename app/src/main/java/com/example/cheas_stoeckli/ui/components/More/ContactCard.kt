@@ -1,8 +1,8 @@
 package com.example.cheas_stoeckli.ui.components.More
 
 import android.content.Intent
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
@@ -29,6 +30,9 @@ fun ContactCard(
     val phoneNumber = "+41447616194"
     val email = "mail@chaesstoeckli.ch"
     val website = "https://chaesstoeckli.ch/Grueezi-Wohl/"
+    val orderSite = "https://www.chaesstoeckli.ch/Bstellige-Kontakt/"
+    val adress = "Zürichstrasse 106 8910 Affoltern am Albis"
+
 
     Card(
         colors = CardDefaults.cardColors(cardBackgroundPrimary),
@@ -46,22 +50,63 @@ fun ContactCard(
             CardText("Chäs Stöckli AG", Color.Black)
             CardText("Zürichstrasse 106", Color.Black)
             CardText("8910 Affoltern am Albis", Color.Black)
-            CardText("+41 44 761 61 94", Color.Blue, modifier = Modifier.clickable {
-                val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = "tel:$phoneNumber".toUri()
-                context.startActivity(intent)
-            })
-            CardText("mail@chaesstoeckli.ch", Color.Blue, modifier = Modifier.clickable {
-                val intent = Intent(Intent.ACTION_SENDTO).apply {
-                    data = "mailto:$email".toUri()
+            CardText("+41 44 761 61 94", Color.Black)
+            CardText("mail@chaesstoeckli.ch", Color.Black)
+            Spacer(Modifier.height(12.dp))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()) {
+                Row {
+                ContactCardButton(
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            data = "geo:0,0?q=$adress".toUri()
+                        }
+                        context.startActivity(intent)
+                    },
+                    text = "Anfahrt",
+                )
+                ContactCardButton(
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_DIAL)
+                        intent.data = "tel:$phoneNumber".toUri()
+                        context.startActivity(intent)
+                    },
+                    text = "Anruf",
+                )
+            }
+                Spacer(Modifier.height(4.dp))
+                Row {
+                    ContactCardButton(
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                data = "mailto:$email".toUri()
+                            }
+                            context.startActivity(intent)
+                        },
+                        text = "Email",
+                    )
+                    ContactCardButton(
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_VIEW).apply {
+                                data = website.toUri()
+                            }
+                            context.startActivity(intent)
+                        },
+                        text = "Website",
+                    )
                 }
-                context.startActivity(intent) })
-            CardText("Website", Color.Blue, modifier = Modifier.clickable {
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    data = website.toUri()
-                }
-                context.startActivity(intent)
-            })
+                Spacer(Modifier.height(4.dp))
+                ContactCardButton(
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            data = orderSite.toUri()
+                        }
+                        context.startActivity(intent)
+                    },
+                    text = "Bestellen"
+                )
+            }
         }
     }
 }
@@ -76,6 +121,7 @@ fun CardText(
         text = text,
         color = color,
         fontSize = 20.sp,
+        textAlign = TextAlign.Center,
         modifier = modifier
     )
     Spacer(Modifier.height(2.dp))

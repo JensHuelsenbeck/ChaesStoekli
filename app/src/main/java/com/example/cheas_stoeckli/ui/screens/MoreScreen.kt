@@ -23,7 +23,7 @@ import com.example.cheas_stoeckli.ui.components.Header
 import com.example.cheas_stoeckli.ui.components.More.ContactCard
 import com.example.cheas_stoeckli.ui.components.More.DSGVODialog
 import com.example.cheas_stoeckli.ui.components.More.ImpressumSheet
-import com.example.cheas_stoeckli.ui.components.More.OpenCloseCard
+import com.example.cheas_stoeckli.ui.components.More.OpenClosePicture
 import com.example.cheas_stoeckli.ui.components.More.OpeningCard
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.More.MoreViewModel
@@ -56,7 +56,7 @@ fun MoreScreen(
                     .padding(vertical = 8.dp, horizontal = 16.dp)
 
             ) {
-                OpenCloseCard()
+                OpenClosePicture()
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
