@@ -1,6 +1,5 @@
 package com.example.cheas_stoeckli.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -26,11 +24,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.cheas_stoeckli.app.R
+import com.example.cheas_stoeckli.ui.components.CustomFloatingActionButton
 import com.example.cheas_stoeckli.ui.components.Header
 import com.example.cheas_stoeckli.ui.components.Offers.OfferAddDialog
 import com.example.cheas_stoeckli.ui.components.Offers.OfferInformation
@@ -103,19 +100,12 @@ fun OfferScreen(
                     onClickToDetailedOfferScreen = onClickToDetailedOfferScreen
                 )
             }
-            if (appUser.value?.permissionLevel == "1")
-                FloatingActionButton(
+            if (appUser.value?.permissionLevel == "1") {
+                CustomFloatingActionButton(
                     onClick = { showAddDialog.value = true },
-                    containerColor = loginButtonColor,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(horizontal = 16.dp, vertical = 28.dp)
-                ) {
-                    Image(
-                        painter = painterResource(R.drawable.write_square_24),
-                        contentDescription = "Beitrag schreiben"
-                    )
-                }
+                    modifier = Modifier.align(Alignment.BottomEnd)
+                )
+            }
         }
         if (showInfoDialog) {
             OfferInformation(

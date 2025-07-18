@@ -55,7 +55,8 @@ fun OfferInformation(
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    text = "Du kannst auf den Käse, das Raclette und das Fondue tippen, um zum Sortiment zu gelangen.",
+                    text = "Du kannst auf den Käse, das Raclette und das Fondue tippen, um zum Sortiment zu gelangen." +
+                            "Im Sortiment, kann das Produkt mit einem tab auf das Herz favorisiert werden.",
                     fontSize = 16.sp,
                     color = Color.Black,
                     textAlign = TextAlign.Center
@@ -64,7 +65,7 @@ fun OfferInformation(
                 if (user?.permissionLevel == "1") {
                     Text(
                         text = "Zusätzlich kannst du durch langes Drücken ein Angebot löschen " +
-                                "– \n und über den Button unten rechts eine neue hinzufügen.",
+                                "– \n und über den Button unten rechts eine neues hinzufügen.",
                         fontSize = 16.sp,
                         color = Color.Black,
                         textAlign = TextAlign.Center

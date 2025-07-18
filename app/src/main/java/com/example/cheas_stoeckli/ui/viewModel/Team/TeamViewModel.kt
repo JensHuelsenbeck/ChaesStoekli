@@ -25,7 +25,7 @@ class TeamViewModel(
         initialValue = emptyList()
     )
 
-    fun deleteOffer(teamMember: TeamMember) {
+    fun deleteTeamMember(teamMember: TeamMember) {
         teamRepo.deleteTeamMember(teamMember)
 
     }

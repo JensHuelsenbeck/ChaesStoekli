@@ -21,13 +21,3 @@ class CloudStorageRepository {
         return Pair(downloadUrl.toString(), imagePath)
     }
 }
-
-sealed class CloudUploadError : Exception() {
-    object BadRequest : CloudUploadError()
-    object Unauthorized : CloudUploadError()
-    object Forbidden : CloudUploadError()
-    object Timeout : CloudUploadError()
-    object NotFound : CloudUploadError()
-    object ServerError : CloudUploadError()
-    data class Unknown(val original: Exception) : CloudUploadError()
-}

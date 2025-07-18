@@ -1,6 +1,5 @@
 package com.example.cheas_stoeckli.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -23,18 +21,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.cheas_stoeckli.app.R
 import com.example.cheas_stoeckli.ui.components.BackButton
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseAddDialog
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseEnumItem
 import com.example.cheas_stoeckli.ui.components.Cheese.CheeseList
+import com.example.cheas_stoeckli.ui.components.CustomFloatingActionButton
 import com.example.cheas_stoeckli.ui.components.FavoFilterItem
 import com.example.cheas_stoeckli.ui.components.FavoFilterItemInverted
 import com.example.cheas_stoeckli.ui.components.Header
 import com.example.cheas_stoeckli.ui.enums.MilkType
-import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -113,19 +109,12 @@ fun CheeseScreen(
                     viewModel = viewModel
                 )
             }
-            if (appUser.value?.permissionLevel == "1")
-                FloatingActionButton(
+            if (appUser.value?.permissionLevel == "1") {
+                CustomFloatingActionButton(
                     onClick = { showAddDialog.value = true },
-                    containerColor = loginButtonColor,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(horizontal = 16.dp, vertical = 28.dp)
-                ) {
-                    Image(
-                        painter = painterResource(R.drawable.write_square_24),
-                        contentDescription = "Beitrag schreiben"
-                    )
-                }
+                    modifier = Modifier.align(Alignment.BottomEnd)
+                )
+            }
         }
         if (showAddDialog.value) {
             CheeseAddDialog(

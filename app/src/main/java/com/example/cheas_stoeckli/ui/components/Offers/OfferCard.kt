@@ -94,7 +94,7 @@ fun OfferCard(
                     )
                     Spacer(Modifier.height(6.dp))
                 }
-                if (offer.bottomText != "") {
+                if (offer.bottomText.trim().isNotEmpty()) {
                     Text(
                         text = offer.bottomText,
                         fontSize = 15.sp,
