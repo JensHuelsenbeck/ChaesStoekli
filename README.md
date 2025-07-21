@@ -11,20 +11,19 @@ Diese App richtet sich an alle Käseliebhaber in der Schweiz um Affoltern am Alb
 
 <p>
   <img src="./img/chässtöckli_login.png" width="200">
-  <img src="./img/chässtöckli_team.png" width="200">
-  <img src="./img/chässtöckli_raclette.png" width="200">
-  <img src="./img/chässtöckli_papinatür.png" width="200">
+  <img src="./img/readme2.png" width="200">
+  <img src="./img/readme3.png" width="200">
+  <img src="./img/readme4.png" width="200">
 </p>
 
 
 ## Features ✅
 
-- [ ] Informationsfindung über das Käse- und sonstige Sortiment.
-- [ ] Suche per Kategorien(zb Käse aus Ziegen- oder Kuhmilch) oder Name.
-- [ ] Integration von Google Maps zur Wegfindung.
-- [ ] Veranstaltungen und deren Eintragung in lokale Kalenderapps
-- [ ] Favorisierung von Käsesorten
-- [ ] Pushbenachrichtigung bei neuen Events oder einem aktuallisiertem Angebot
+- ✅ Informationsfindung über das Käse- und sonstige Sortiment.
+- ✅ Favorisierung von Käsesorten
+- ✅ Filterung per Kategorien(zb Käse aus Ziegen- oder Kuhmilch) und nach Favoriten
+- ✅ Integration von Google Maps zur Wegfindung.
+
 
 ## Technischer Aufbau 🔧
 
@@ -35,24 +34,31 @@ Diese App richtet sich an alle Käseliebhaber in der Schweiz um Affoltern am Alb
   - `di/` für die  **Dependency Injection** mit Koin 
 
 
-#### Projektaufbau
-
 #### Datenspeicherung
 
 - 🔄 **Firebase Firestore** für alle persistenten Event- ,Nutzer- und Käsedaten (offline-fähig, automatische Synchronisation)
-- 🔐 **Firebase Authentication** für individuelle Nutzer- und Adminaccounts 
+- 🔐 **Firebase Authentication** für die Authentifizierung von Anonymen und Googlenutzern
 - 🖼️ **Firebase Cloud Storage** für Bilder und Medieninhalte von Events
 
 
 #### API Calls
 
-- 📍 **Google Maps  / Google Directions API** für die Routenberechnung zum Laden
+- 📍 Google Directions API für die Routenberechnung zum Laden
+- 📍 Google Static Maps API zum anzeigen einer Karte mit Route
 
 
 #### 3rd-Party Frameworks
 
 - 💎 **Jetpack Compose** für UI
-- ✳️ **Koin** für Dependency Injection
-- 🌐 **Retrofit & OkHttp** für Netzwerk-Anfragen
+- 🔀 **Navigation Compose** für Bildschirm-Navigation
+- ❄️ **Koin** für Dependency Injection
+- 🔄 **Kotlin Coroutines** & **Flow** für Asynchronität und Datenströme
+- 🧠 **ViewModel (Lifecycle)** zur Zustandshaltung
+- 🌐 **Retrofit** & **OkHttp** für Netzwerk-Anfragen
 - 🖼️ **Coil** zum asynchronen Laden von Bildern
+- 🔥 **Firebase** für:
+  - Authentifizierung (Google Sign-In)
+  - Cloud Firestore (Datenhaltung)
+  - Cloud Storage (Bilder)
+- 📦 **Material Icons** für intuitive UI-Symbole
 
