@@ -11,19 +11,20 @@ Diese App richtet sich an alle Käseliebhaber in der Schweiz um Affoltern am Alb
 
 <p>
   <img src="./img/chässtöckli_login.png" width="200">
-  <img src="./img/readme2.png" width="200">
-  <img src="./img/readme3.png" width="200">
-  <img src="./img/readme4.png" width="200">
+  <img src="./img/chässtöckli_team.png" width="200">
+  <img src="./img/chässtöckli_raclette.png" width="200">
+  <img src="./img/chässtöckli_papinatür.png" width="200">
 </p>
 
 
 ## Features ✅
 
 - [ ] Informationsfindung über das Käse- und sonstige Sortiment.
-- [ ] Favorisierung von Käsesorten
-- [ ] Filterung per Kategorien(zb Käse aus Ziegen- oder Kuhmilch) und Favoriten .
+- [ ] Suche per Kategorien(zb Käse aus Ziegen- oder Kuhmilch) oder Name.
 - [ ] Integration von Google Maps zur Wegfindung.
-
+- [ ] Veranstaltungen und deren Eintragung in lokale Kalenderapps
+- [ ] Favorisierung von Käsesorten
+- [ ] Pushbenachrichtigung bei neuen Events oder einem aktuallisiertem Angebot
 
 ## Technischer Aufbau 🔧
 
@@ -36,21 +37,6 @@ Diese App richtet sich an alle Käseliebhaber in der Schweiz um Affoltern am Alb
 
 #### Projektaufbau
 
-Das Projekt folgt einer klaren MVVM-Architektur mit folgender Verzeichnisstruktur:
-
-📦 Cheas_Stoeckli
-┣ 📂 ui              → Composables
-┣ 📂 screens         → Screens
-┣ 📂 viewmodel       → ViewModels für Zustand & Logik
-┣ 📂 data
-┃ ┣ 📂 repository    → Repositories zur Datenverarbeitung
-┃ ┣ 📂 remote        → Zugriff auf Firebase Firestore, Auth, Storage
-┃ ┗ 📂 model         → Datenklassen (z.B. Cheese, News)
-┣ 📂 di              → Dependency Injection via Koin
-┣ 📂 util            → Hilfsfunktionen 
-┣ 📂 navigation      → Routendefinition für Navigation
-
-
 #### Datenspeicherung
 
 - 🔄 **Firebase Firestore** für alle persistenten Event- ,Nutzer- und Käsedaten (offline-fähig, automatische Synchronisation)
@@ -60,21 +46,13 @@ Das Projekt folgt einer klaren MVVM-Architektur mit folgender Verzeichnisstruktu
 
 #### API Calls
 
-- 📍 **Google Directions API** für die Routenberechnung zum Laden
-- 📍 **Google Static Maps API** zum anzeigen einer Karte mit Route
+- 📍 **Google Maps  / Google Directions API** für die Routenberechnung zum Laden
 
 
 #### 3rd-Party Frameworks
 
 - 💎 **Jetpack Compose** für UI
-- 🔀 **Navigation Compose** für Bildschirm-Navigation
-- ❄️ **Koin** für Dependency Injection
-- 🔄 **Kotlin Coroutines** & **Flow** für Asynchronität und Datenströme
-- 🧠 **ViewModel (Lifecycle)** zur Zustandshaltung
-- 🌐 **Retrofit** & **OkHttp** für Netzwerk-Anfragen
+- ✳️ **Koin** für Dependency Injection
+- 🌐 **Retrofit & OkHttp** für Netzwerk-Anfragen
 - 🖼️ **Coil** zum asynchronen Laden von Bildern
-- 🔥 **Firebase** für:
-  - Authentifizierung (Google Sign-In)
-  - Cloud Firestore (Datenhaltung)
-  - Cloud Storage (Bilder)
-- 📦 **Material Icons** für intuitive UI-Symbole
+
