@@ -10,7 +10,7 @@ Diese App richtet sich an alle Käseliebhaber in der Schweiz um Affoltern am Alb
 ## Design 🎨
 
 <p>
-  <img src="./img/chässtöckli_login.png" width="200">
+  <img src="./img/readme1.png" width="200">
   <img src="./img/readme2.png" width="200">
   <img src="./img/readme3.png" width="200">
   <img src="./img/readme4.png" width="200">
