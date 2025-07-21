@@ -51,6 +51,7 @@ class OfferAddViewModel(
                         title = title.value,
                         text = text.value,
                         type = type ?: OfferKind.ALLGEMEIN,
+                        bottomText = bottomText.value,
                         imgDownloadPath = downloadUrl,
                         imgPath = imagePath
                     )
@@ -60,6 +61,7 @@ class OfferAddViewModel(
                         title = title.value,
                         text = text.value,
                         type = type ?: OfferKind.ALLGEMEIN,
+                        bottomText = bottomText.value,
                         imgDownloadPath = "",
                         imgPath = ""
                     )

@@ -13,17 +13,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 
 @Composable
 fun CustomButton(
+    color: Color,
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = loginButtonColor ),
+        colors = ButtonDefaults.buttonColors(containerColor = color ),
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
             .fillMaxWidth(0.6f)

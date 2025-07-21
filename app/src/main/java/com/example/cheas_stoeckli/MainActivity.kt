@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.cheas_stoeckli.data.services.AuthenticationService
-import com.example.cheas_stoeckli.ui.screens.LoginScreen
+import com.example.cheas_stoeckli.screens.LoginScreen
 import com.example.cheas_stoeckli.ui.theme.Cheas_StoeckliTheme
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
 import com.example.cheas_stoeckli.ui.viewModel.SplashScreenViewModel

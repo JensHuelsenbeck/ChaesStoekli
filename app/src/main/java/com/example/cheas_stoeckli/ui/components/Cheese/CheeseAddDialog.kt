@@ -156,10 +156,11 @@ fun CheeseAddDialog(
                                         snackbarHostState.showSnackbar("Erfolgreich gespeichert!")
                                     }
                                 },
+
                             )
                             isDialogOpen.value = false
                         },
-
+                        color = loginButtonColor
                         )
                     Spacer(Modifier.height(20.dp))
                 }
