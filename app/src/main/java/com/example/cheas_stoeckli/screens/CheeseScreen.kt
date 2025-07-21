@@ -1,5 +1,6 @@
-package com.example.cheas_stoeckli.ui.screens
+package com.example.cheas_stoeckli.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -20,29 +23,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.cheas_stoeckli.ui.components.BackButton
+import com.example.cheas_stoeckli.ui.components.Cheese.CheeseAddDialog
+import com.example.cheas_stoeckli.ui.components.Cheese.CheeseEnumItem
+import com.example.cheas_stoeckli.ui.components.Cheese.CheeseList
 import com.example.cheas_stoeckli.ui.components.CustomFloatingActionButton
 import com.example.cheas_stoeckli.ui.components.FavoFilterItem
 import com.example.cheas_stoeckli.ui.components.FavoFilterItemInverted
-import com.example.cheas_stoeckli.ui.components.Fondue.FondueAddDialog
-import com.example.cheas_stoeckli.ui.components.Fondue.FondueList
 import com.example.cheas_stoeckli.ui.components.Header
+import com.example.cheas_stoeckli.ui.enums.MilkType
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
-import com.example.cheas_stoeckli.ui.viewModel.Fondue.FondueViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Cheese.CheeseViewModel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun FondueScreen(
-    popBackStack: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: FondueViewModel = koinViewModel(),
+fun CheeseScreen(
     snackbarHostState: SnackbarHostState,
     snackbarScope: CoroutineScope,
+    viewModel: CheeseViewModel = koinViewModel(),
+    popBackStack: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
-    val fondue = viewModel.filteredFondue.collectAsState()
+    val milkType = viewModel.milkType.collectAsState()
+    val cheese = viewModel.filteredCheese.collectAsState()
     val appUser = viewModel.appUser.collectAsState()
     val showAddDialog = remember { mutableStateOf(false) }
+
     val isFavorite by viewModel.showFavored.collectAsState()
 
     val errorMessage = viewModel.uiMessage
@@ -60,15 +67,15 @@ fun FondueScreen(
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                 ) {
                     BackButton(popBackStack = popBackStack)
-                    Header(text = "Fonduesortiment")
+                    Header(text = "Käsesortiment")
+                    Spacer(Modifier.weight(1f))
 
-                }
+                        }
                 Spacer(Modifier.height(10.dp))
                 Row {
                     FavoFilterItemInverted(
@@ -81,11 +88,24 @@ fun FondueScreen(
                         text = "Favoriten anzeigen",
                         onClick = { viewModel.setShowFavoredToTrue() },
 
-                        )
+                    )
                 }
-                FondueList(
+                Spacer(Modifier.height(8.dp))
+                LazyRow(
+                    Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                ) {
+                    items(MilkType.entries) { entry ->
+                        CheeseEnumItem(
+                            enum = entry,
+                            onClick = { viewModel.setMilkType(entry) },
+                            isSelected = milkType.value == entry
+                        )
+                    }
+                }
+                Spacer(Modifier.height(8.dp))
+                CheeseList(
+                    cheese = cheese.value,
                     user = appUser.value,
-                    fondue = fondue.value,
                     viewModel = viewModel
                 )
             }
@@ -97,17 +117,17 @@ fun FondueScreen(
             }
         }
         if (showAddDialog.value) {
-            FondueAddDialog(
+            CheeseAddDialog(
                 isDialogOpen = showAddDialog,
                 snackbarHostState = snackbarHostState,
                 snackbarScope = snackbarScope
             )
         }
-    }
-    LaunchedEffect(errorMessage) {
-        if (errorMessage.isNotEmpty()) {
-            snackbarHostState.showSnackbar(errorMessage)
-            viewModel.uiMessage = ""
+        LaunchedEffect(errorMessage) {
+            if (errorMessage.isNotEmpty()) {
+                snackbarHostState.showSnackbar(errorMessage)
+                viewModel.uiMessage = ""
+            }
         }
     }
 }

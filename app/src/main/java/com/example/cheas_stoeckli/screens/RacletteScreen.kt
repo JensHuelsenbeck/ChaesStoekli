@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.screens
+package com.example.cheas_stoeckli.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

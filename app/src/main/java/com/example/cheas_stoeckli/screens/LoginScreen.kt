@@ -1,4 +1,4 @@
-package com.example.cheas_stoeckli.ui.screens
+package com.example.cheas_stoeckli.screens
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts

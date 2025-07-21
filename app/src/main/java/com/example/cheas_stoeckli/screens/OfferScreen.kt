@@ -1,6 +1,5 @@
-package com.example.cheas_stoeckli.ui.screens
+package com.example.cheas_stoeckli.screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,47 +17,49 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cheas_stoeckli.ui.components.AddNewsDialog.NewsAddDialog
 import com.example.cheas_stoeckli.ui.components.CustomFloatingActionButton
 import com.example.cheas_stoeckli.ui.components.Header
-import com.example.cheas_stoeckli.ui.components.News.NewsInformation
-import com.example.cheas_stoeckli.ui.components.News.NewsList
+import com.example.cheas_stoeckli.ui.components.Offers.OfferAddDialog
+import com.example.cheas_stoeckli.ui.components.Offers.OfferInformation
+import com.example.cheas_stoeckli.ui.components.Offers.OfferList
+import com.example.cheas_stoeckli.ui.enums.OfferKind
 import com.example.cheas_stoeckli.ui.theme.loginButtonColor
 import com.example.cheas_stoeckli.ui.theme.screenBackgroundPrimary
-import com.example.cheas_stoeckli.ui.viewModel.News.NewsViewModel
+import com.example.cheas_stoeckli.ui.viewModel.Offer.OfferViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
-
 @Composable
-fun NewsScreen(
+fun OfferScreen(
     snackbarHostState: SnackbarHostState,
     snackbarScope: CoroutineScope,
-    viewModel: NewsViewModel = koinViewModel()
+    viewModel: OfferViewModel = koinViewModel(),
+    onClickToDetailedOfferScreen: (OfferKind) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
     val errorMessage = viewModel.uiMessage
+    val offers = viewModel.offers.collectAsState()
     val appUser = viewModel.appUser.collectAsState()
-    val infoDialog = viewModel.InfoDialog.collectAsState()
-    val annoucements = viewModel.announcements.collectAsState()
-    val showAddDialog = remember { mutableStateOf(false) }
-    val showInfoDialog = remember { mutableStateOf(false) }
+    var showAddDialog = remember { mutableStateOf(false) }
+    var showInfoDialog by remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier
             .fillMaxSize(),
         color = screenBackgroundPrimary
     ) {
-        Box() {
+        Box {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -71,10 +72,10 @@ fun NewsScreen(
                         .fillMaxWidth()
                         .padding(vertical = 8.dp, horizontal = 16.dp)
                 ) {
-                    Header(text = "Grüezi Wohl")
+                    Header(text = "s' Angebot")
                     Spacer(Modifier.weight(1f))
                     IconButton(
-                        onClick = { showInfoDialog.value = true }
+                        onClick = { showInfoDialog = true }
                     ) {
                         Box(
                             modifier = Modifier
@@ -91,10 +92,12 @@ fun NewsScreen(
                         }
                     }
                 }
-                NewsList(
-                    news = annoucements.value,
-                    newsViewModel = viewModel,
-                    user = appUser.value
+
+                OfferList(
+                    offers = offers.value,
+                    user = appUser.value,
+                    viewModel = viewModel,
+                    onClickToDetailedOfferScreen = onClickToDetailedOfferScreen
                 )
             }
             if (appUser.value?.permissionLevel == "1") {
@@ -104,33 +107,18 @@ fun NewsScreen(
                 )
             }
         }
-        if (showInfoDialog.value) {
-            NewsInformation(
+        if (showInfoDialog) {
+            OfferInformation(
                 user = appUser.value,
-                onDismiss = {
-                    showInfoDialog.value = false
-                    viewModel.hasSeenInfoDialog(seen = true)
-                }
+                onDismiss = { showInfoDialog = false }
             )
         }
         if (showAddDialog.value) {
-            NewsAddDialog(
+            OfferAddDialog(
                 isDialogOpen = showAddDialog,
                 snackbarHostState = snackbarHostState,
                 snackbarScope = snackbarScope
             )
-        }
-        LaunchedEffect(Unit) {
-            delay(1000L)
-            Log.d(
-                "NewsScreen",
-                "LaunchedEffect gestartet – InfoDialog in ViewModel: ${infoDialog.value}"
-            )
-            if (!infoDialog.value) {
-                Log.d("NewsScreen", "InfoDialog wird angezeigt (showInfoDialog = true)")
-                showInfoDialog.value = true
-
-            }
         }
     }
     LaunchedEffect(errorMessage) {
@@ -140,4 +128,3 @@ fun NewsScreen(
         }
     }
 }
-

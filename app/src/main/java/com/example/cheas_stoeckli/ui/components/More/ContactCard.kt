@@ -1,6 +1,7 @@
 package com.example.cheas_stoeckli.ui.components.More
 
 import android.content.Intent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +21,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import com.example.cheas_stoeckli.ui.theme.buttonHighlight
+import com.example.cheas_stoeckli.ui.theme.buttonPrimary
 import com.example.cheas_stoeckli.ui.theme.cardBackgroundPrimary
 
 @Composable
@@ -52,31 +55,35 @@ fun ContactCard(
             CardText("8910 Affoltern am Albis", Color.Black)
             CardText("+41 44 761 61 94", Color.Black)
             CardText("mail@chaesstoeckli.ch", Color.Black)
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(20.dp))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()) {
-                Row {
-                ContactCardButton(
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW).apply {
-                            data = "geo:0,0?q=$adress".toUri()
-                        }
-                        context.startActivity(intent)
-                    },
-                    text = "Anfahrt",
-                )
-                ContactCardButton(
-                    onClick = {
-                        val intent = Intent(Intent.ACTION_DIAL)
-                        intent.data = "tel:$phoneNumber".toUri()
-                        context.startActivity(intent)
-                    },
-                    text = "Anruf",
-                )
-            }
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    ContactCardButton(
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_VIEW).apply {
+                                data = "geo:0,0?q=$adress".toUri()
+                            }
+                            context.startActivity(intent)
+                        },
+                        text = "Anfahrt",
+                        color = buttonHighlight
+                    )
+                    ContactCardButton(
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_DIAL)
+                            intent.data = "tel:$phoneNumber".toUri()
+                            context.startActivity(intent)
+                        },
+                        text = "Anruf",
+                        color = buttonHighlight
+                    )
+                }
                 Spacer(Modifier.height(4.dp))
-                Row {
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     ContactCardButton(
                         onClick = {
                             val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -85,6 +92,7 @@ fun ContactCard(
                             context.startActivity(intent)
                         },
                         text = "Email",
+                        color = buttonPrimary
                     )
                     ContactCardButton(
                         onClick = {
@@ -94,6 +102,7 @@ fun ContactCard(
                             context.startActivity(intent)
                         },
                         text = "Website",
+                        color = buttonPrimary
                     )
                 }
                 Spacer(Modifier.height(4.dp))
@@ -104,7 +113,8 @@ fun ContactCard(
                         }
                         context.startActivity(intent)
                     },
-                    text = "Bestellen"
+                    text = "Bestellen",
+                    color = buttonPrimary
                 )
             }
         }

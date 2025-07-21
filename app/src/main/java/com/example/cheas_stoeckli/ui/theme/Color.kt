@@ -12,8 +12,12 @@ val Pink40 = Color(0xFF7D5260)
 
 val loginButtonColor = Color(0xFFC49F72)
 
-val screenBackgroundPrimary = Color(0xFF7F674A)
+val screenBackgroundPrimary = Color(0xFFA67C52)
 val cardBackgroundPrimary = Color(0xFFD9D9D9)
 
 val newsEnumColor = Color(0xFFFFCB08)
 val eventTimeAndDate = Color(0xFFC49F72)
+
+val buttonPrimary = Color(0xFFC49F72)
+val buttonHighlight = Color(0xFFE6B400)
+val buttonDanger = Color(0xFFB00020)

@@ -80,7 +80,7 @@ fun OfferCard(
             ) {
                 Text(
                     text = offer.title,
-                    fontSize = 22.sp,
+                    fontSize = 23.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
@@ -89,7 +89,7 @@ fun OfferCard(
                 if (offer.text != "") {
                     Text(
                         text = offer.text,
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
                         color = Color.Black,
                     )
                     Spacer(Modifier.height(6.dp))
@@ -97,7 +97,7 @@ fun OfferCard(
                 if (offer.bottomText.trim().isNotEmpty()) {
                     Text(
                         text = offer.bottomText,
-                        fontSize = 15.sp,
+                        fontSize = 18.sp,
                         color = Color.Black,
                         fontWeight = FontWeight.Bold
                     )
